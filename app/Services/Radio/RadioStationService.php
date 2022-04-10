@@ -17,7 +17,7 @@ use App\DataProviders\Models\RadioStation;
 use App\Http\Requests\StoreRadioStaionRequest;
 
 /**
- * 学生ユーザー用のサービスクラス
+ * ラジオ局用のサービスクラス
  *
  * @package App\Services
  * @version 1.0
