@@ -27,16 +27,6 @@ class RadioStationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * ラジオ局作成
      *
      * @param  StoreRadioStaionRequest  $request
@@ -54,28 +44,6 @@ class RadioStationController extends Controller
                 'message' => 'ラジオ局の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
