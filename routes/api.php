@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('radio_stations', RadioStationController::class, ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+Route::apiResource('radio_stations', RadioStationController::class);
