@@ -61,4 +61,17 @@ class RadioStationService
         $radio_station = $this->radio_station->storeRadioStation($request);
         return $radio_station;
     }
+
+    /**
+     * ラジオ局更新
+     *
+     * @param StoreRadioStaionRequest $request ラジオ局作成リクエストデータ
+     * @param int $radio_station_id ラジオ局ID
+     * @return bool ラジオ局生成データ
+     */
+    public function updateRadioStation(StoreRadioStaionRequest $request, int $radio_station_id): bool
+    {
+        $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
+        return $radio_station;
+    }
 }

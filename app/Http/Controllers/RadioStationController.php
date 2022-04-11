@@ -59,13 +59,22 @@ class RadioStationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param StoreRadioStaionRequest $request
+     * @param int $radio_station_id
      * @return \Illuminate\Http\Response
      */
-    public function update($request, $id)
+    public function update(StoreRadioStaionRequest $request, int $radio_station_id)
     {
-        //
+        $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
+        if ($radio_station) {
+            return response()->json([
+                'message' => 'ラジオ局が更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ局の更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
