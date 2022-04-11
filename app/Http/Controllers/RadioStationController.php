@@ -18,12 +18,22 @@ class RadioStationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ラジオ局一覧取得
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+        $radio_staitons = $this->radio_station->getAllRadioStations();
+        if ($radio_staitons) {
+            return response()->json([
+                'radio_stations' => $radio_staitons
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ局一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
