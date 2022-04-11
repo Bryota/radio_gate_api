@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioStationService;
-use App\Http\Requests\StoreRadioStaionRequest;
+use App\Http\Requests\RadioStationRequest;
 
 class RadioStationController extends Controller
 {
@@ -39,10 +39,10 @@ class RadioStationController extends Controller
     /**
      * ラジオ局作成
      *
-     * @param  StoreRadioStaionRequest  $request
+     * @param  RadioStationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRadioStaionRequest $request)
+    public function store(RadioStationRequest $request)
     {
         $radio_station = $this->radio_station->storeRadioStation($request);
         if ($radio_station) {
@@ -59,11 +59,11 @@ class RadioStationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreRadioStaionRequest $request
+     * @param RadioStationRequest $request
      * @param int $radio_station_id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRadioStaionRequest $request, int $radio_station_id)
+    public function update(RadioStationRequest $request, int $radio_station_id)
     {
         $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
         if ($radio_station) {

@@ -13,7 +13,7 @@
 namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\RadioStation;
-use App\Http\Requests\StoreRadioStaionRequest;
+use App\Http\Requests\RadioStationRequest;
 
 /**
  * ラジオ局リポジトリクラス
@@ -52,10 +52,10 @@ class RadioStationRepository
     /**
      * ラジオ局作成
      *
-     * @param StoreRadioStaionRequest $request ラジオ局作成リクエストデータ
+     * @param RadioStationRequest $request ラジオ局作成リクエストデータ
      * @return RadioStation ラジオ局生成データ
      */
-    public function storeRadioStation(StoreRadioStaionRequest $request): RadioStation
+    public function storeRadioStation(RadioStationRequest $request): RadioStation
     {
         return $this->radio_station::create($request->all());
     }
@@ -63,11 +63,11 @@ class RadioStationRepository
     /**
      * ラジオ局作成
      *
-     * @param StoreRadioStaionRequest $request ラジオ局作成リクエストデータ
+     * @param RadioStationRequest $request ラジオ局作成リクエストデータ
      * @param int $radio_station_id ラジオ局ID
      * @return bool ラジオ局生成データ
      */
-    public function updateRadioStation(StoreRadioStaionRequest $request, int $radio_station_id): bool
+    public function updateRadioStation(RadioStationRequest $request, int $radio_station_id): bool
     {
         $radio_station = $this->radio_station::find($radio_station_id);
         $radio_station->name = $request->name;
