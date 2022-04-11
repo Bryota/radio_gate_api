@@ -40,6 +40,16 @@ class RadioStationRepository
     }
 
     /**
+     * ラジオ局一覧取得
+     * 
+     * @return object ラジオ局一覧
+     */
+    public function getAllRadioStations(): object
+    {
+        return $this->radio_station::get();
+    }
+
+    /**
      * ラジオ局作成
      *
      * @param StoreRadioStaionRequest $request ラジオ局作成リクエストデータ

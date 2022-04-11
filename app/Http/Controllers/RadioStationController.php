@@ -18,22 +18,22 @@ class RadioStationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ラジオ局一覧取得
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $radio_staitons = $this->radio_station->getAllRadioStations();
+        if ($radio_staitons) {
+            return response()->json([
+                'radio_stations' => $radio_staitons
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ局一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
@@ -54,28 +54,6 @@ class RadioStationController extends Controller
                 'message' => 'ラジオ局の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

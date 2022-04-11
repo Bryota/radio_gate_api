@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\DataProviders\Models\RadioStation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RadioStationTest extends TestCase
@@ -57,5 +56,21 @@ class RadioStationTest extends TestCase
             ]);
 
         $this->assertEquals(0, RadioStation::count());
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioStationController@store
+     */
+    public function ラジオ局一覧を取得できる()
+    {
+        $this->postJson('api/radio_stations', ['name' => 'テスト局1']);
+        $this->postJson('api/radio_stations', ['name' => 'テスト局2']);
+
+        $response = $this->getJson('api/radio_stations');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト局1'])
+            ->assertJsonFragment(['name' => 'テスト局2']);
     }
 }
