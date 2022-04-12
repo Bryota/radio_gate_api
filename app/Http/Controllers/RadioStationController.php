@@ -94,7 +94,7 @@ class RadioStationController extends Controller
         } else {
             return response()->json([
                 'message' => 'ラジオ局の削除に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }
