@@ -60,7 +60,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@store
+     * App\Http\Controllers\RadioStationController@index
      */
     public function ラジオ局一覧を取得できる()
     {
@@ -72,5 +72,59 @@ class RadioStationTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト局1'])
             ->assertJsonFragment(['name' => 'テスト局2']);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioStationController@update
+     */
+    public function ラジオ局を更新できる()
+    {
+        $this->postJson('api/radio_stations', ['name' => 'テスト局1']);
+        $radio_station = RadioStation::first();
+
+        $response = $this->putJson('api/radio_stations/' . $radio_station->id, ['name' => 'テスト局1更新']);
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'ラジオ局が更新されました。'
+            ]);
+
+        $radio_station = RadioStation::first();
+        $this->assertEquals('テスト局1更新', $radio_station->name);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioStationController@update
+     */
+    public function ラジオ局を更新に失敗する()
+    {
+        $this->postJson('api/radio_stations', ['name' => 'テスト局1']);
+        $radio_station = RadioStation::first();
+
+        $response1 = $this->putJson('api/radio_stations/' . $radio_station->id, ['name' => '']);
+
+        $response1->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'ラジオ局名を入力してください。'
+                    ]
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/radio_stations/' . $radio_station->id, ['name' => str_repeat('あ', 101)]);
+
+        $response2->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'ラジオ局名は100文字以下で入力してください。'
+                    ]
+                ]
+            ]);
+
+        $radio_station = RadioStation::first();
+        $this->assertEquals('テスト局1', $radio_station->name);
     }
 }

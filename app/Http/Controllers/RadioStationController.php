@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioStationService;
-use App\Http\Requests\StoreRadioStaionRequest;
+use App\Http\Requests\RadioStationRequest;
 
 class RadioStationController extends Controller
 {
@@ -39,10 +39,10 @@ class RadioStationController extends Controller
     /**
      * ラジオ局作成
      *
-     * @param  StoreRadioStaionRequest  $request
+     * @param  RadioStationRequest $request ラジオ局作成リクエストデータ
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRadioStaionRequest $request)
+    public function store(RadioStationRequest $request)
     {
         $radio_station = $this->radio_station->storeRadioStation($request);
         if ($radio_station) {
@@ -57,15 +57,24 @@ class RadioStationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * ラジオ局更新
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param RadioStationRequest $request ラジオ局更新リクエストデータ
+     * @param int $radio_station_id ラジオ局ID
      * @return \Illuminate\Http\Response
      */
-    public function update($request, $id)
+    public function update(RadioStationRequest $request, int $radio_station_id)
     {
-        //
+        $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
+        if ($radio_station) {
+            return response()->json([
+                'message' => 'ラジオ局が更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ局の更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
