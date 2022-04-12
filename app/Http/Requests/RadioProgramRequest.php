@@ -25,6 +25,7 @@ class RadioProgramRequest extends FormRequest
     public function rules()
     {
         return [
+            'radio_station_id' => 'required',
             'name' => 'required|max: 100',
             'email' => 'required|unique:radio_programs'
         ];
