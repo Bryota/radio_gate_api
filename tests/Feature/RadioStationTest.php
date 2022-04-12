@@ -124,6 +124,7 @@ class RadioStationTest extends TestCase
                 ]
             ]);
 
+        $radio_station = RadioStation::first();
         $this->assertEquals('テスト局1', $radio_station->name);
     }
 }
