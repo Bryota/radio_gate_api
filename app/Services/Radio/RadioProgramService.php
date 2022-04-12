@@ -40,6 +40,17 @@ class RadioProgramService
     }
 
     /**
+     * ラジオ番組一覧取得
+     * 
+     * @return object ラジオ番組一覧
+     */
+    public function getAllRadioPrograms(): object
+    {
+        $radio_programs = $this->radio_program->getAllRadioPrograms();
+        return $radio_programs;
+    }
+
+    /**
      * ラジオ番組作成
      *
      * @param RadioProgramRequest $request ラジオ番組作成リクエストデータ

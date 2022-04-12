@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioProgramService;
 use App\Http\Requests\RadioProgramRequest;
+use Illuminate\Http\Request;
 
 class RadioProgramController extends Controller
 {
@@ -15,6 +16,25 @@ class RadioProgramController extends Controller
     public function __construct(RadioProgramService $radio_program)
     {
         $this->radio_program = $radio_program;
+    }
+
+    /**
+     * ラジオ番組一覧取得
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $radio_programs = $this->radio_program->getAllRadioPrograms();
+        if ($radio_programs) {
+            return response()->json([
+                'radio_programs' => $radio_programs
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ局一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
