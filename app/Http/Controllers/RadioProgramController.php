@@ -19,13 +19,15 @@ class RadioProgramController extends Controller
     }
 
     /**
-     * ラジオ番組一覧取得
+     * ラジオ局に紐づいたラジオ番組一覧取得
      *
+     * @param Request $request ラジオ局ID用のgetパラメーター
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $radio_programs = $this->radio_program->getAllRadioPrograms();
+        $radio_station_id = $request->input('radio_station');
+        $radio_programs = $this->radio_program->getAllRadioPrograms($radio_station_id);
         if ($radio_programs) {
             return response()->json([
                 'radio_programs' => $radio_programs

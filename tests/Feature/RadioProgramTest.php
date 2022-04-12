@@ -107,10 +107,16 @@ class RadioProgramTest extends TestCase
         $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
         $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組2', 'email' => 'test2@example.com']);
 
-        $response = $this->getJson('api/radio_programs');
+        $response = $this->getJson('api/radio_programs?radio_station=' . $this->radio_station->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
             ->assertJsonFragment(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
+
+        $response = $this->getJson('api/radio_programs?radio_station=' . 100000);
+
+        $response->assertStatus(200)
+            ->assertJsonMissing(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
+            ->assertJsonMissing(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
     }
 }

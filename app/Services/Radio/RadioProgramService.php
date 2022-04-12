@@ -40,13 +40,14 @@ class RadioProgramService
     }
 
     /**
-     * ラジオ番組一覧取得
+     * ラジオ局に紐づいたラジオ番組一覧取得
      * 
+     * @param int $radio_station_id ラジオ局ID
      * @return object ラジオ番組一覧
      */
-    public function getAllRadioPrograms(): object
+    public function getAllRadioPrograms(int $radio_station_id): object
     {
-        $radio_programs = $this->radio_program->getAllRadioPrograms();
+        $radio_programs = $this->radio_program->getAllRadioPrograms($radio_station_id);
         return $radio_programs;
     }
 
