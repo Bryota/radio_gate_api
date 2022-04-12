@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioProgramService;
 use App\Http\Requests\RadioProgramRequest;
-use Illuminate\Http\Request;
 
 class RadioProgramController extends Controller
 {
