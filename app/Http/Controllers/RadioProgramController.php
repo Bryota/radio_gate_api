@@ -8,32 +8,32 @@ use Illuminate\Http\Request;
 
 class RadioProgramController extends Controller
 {
-    // /**
-    //  * @var RadioStationService $radio_station RadioStationServiceインスタンス
-    //  */
-    // private $radio_station;
+    /**
+     * @var RadioProgramService $radio_program RadioProgramServiceインスタンス
+     */
+    private $radio_program;
 
-    // public function __construct(RadioStationService $radio_station)
-    // {
-    //     $this->radio_station = $radio_station;
-    // }
+    public function __construct(RadioProgramService $radio_program)
+    {
+        $this->radio_program = $radio_program;
+    }
 
     /**
-     * ラジオ局作成
+     * ラジオ番組作成
      *
-     * @param  RadioStationRequest $request ラジオ局作成リクエストデータ
+     * @param  RadioProgramRequest $request ラジオ番組作成リクエストデータ
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RadioProgramRequest $request)
     {
-        $radio_station = $this->radio_station->storeRadioStation($request);
-        if ($radio_station) {
+        $radio_program = $this->radio_program->storeRadioProgram($request);
+        if ($radio_program) {
             return response()->json([
-                'message' => 'ラジオ局が作成されました。'
+                'message' => 'ラジオ番組が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } else {
             return response()->json([
-                'message' => 'ラジオ局の作成に失敗しました。'
+                'message' => 'ラジオ番組の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
