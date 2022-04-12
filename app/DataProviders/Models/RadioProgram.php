@@ -4,9 +4,9 @@ namespace App\DataProviders\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RadioStation extends Model
+class RadioProgram extends Model
 {
     use HasFactory;
 
@@ -16,16 +16,16 @@ class RadioStation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name'
+        'radio_station_id', 'name', 'email'
     ];
 
     /**
-     * ラジオ番組用リレーション
+     * ラジオ局用リレーション
      * 
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function radioPrograms(): HasMany
+    public function radioStation(): BelongsTo
     {
-        return $this->hasMany(RadioProgram::class);
+        return $this->belongsTo(RadioStation::class);
     }
 }

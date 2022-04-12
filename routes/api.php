@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RadioStationController;
+use App\Http\Controllers\RadioProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('radio_stations', RadioStationController::class);
+Route::apiResource('radio_programs', RadioProgramController::class);
