@@ -78,13 +78,22 @@ class RadioStationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * ラジオ局削除（1局のみ）
      *
-     * @param  int  $id
+     * @param int $radio_station_id ラジオ局ID
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $radio_station_id)
     {
-        //
+        $radio_stations_destroy_count = $this->radio_station->deleteRadioStation($radio_station_id);
+        if ($radio_stations_destroy_count == 1) {
+            return response()->json([
+                'message' => 'ラジオ局が削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ局の削除に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 }

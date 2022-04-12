@@ -74,4 +74,16 @@ class RadioStationService
         $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
         return $radio_station;
     }
+
+    /**
+     * ラジオ局削除
+     *
+     * @param int $radio_station_id ラジオ局ID
+     * @return int 削除した件数
+     */
+    public function deleteRadioStation(int $radio_station_id): int
+    {
+        $radio_stations_destroy_count = $this->radio_station->deleteRadioStation($radio_station_id);
+        return $radio_stations_destroy_count;
+    }
 }
