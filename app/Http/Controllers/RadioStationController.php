@@ -86,6 +86,7 @@ class RadioStationController extends Controller
     public function destroy(int $radio_station_id)
     {
         $radio_stations_destroy_count = $this->radio_station->deleteRadioStation($radio_station_id);
+        // TODO: 分岐の条件検討する
         if ($radio_stations_destroy_count == 1) {
             return response()->json([
                 'message' => 'ラジオ局が削除されました。'
