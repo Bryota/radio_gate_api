@@ -65,9 +65,9 @@ class RadioStationService
     /**
      * ラジオ局更新
      *
-     * @param RadioStationRequest $request ラジオ局作成リクエストデータ
+     * @param RadioStationRequest $request ラジオ局更新リクエストデータ
      * @param int $radio_station_id ラジオ局ID
-     * @return bool ラジオ局生成データ
+     * @return bool 更新できたかどうか
      */
     public function updateRadioStation(RadioStationRequest $request, int $radio_station_id): bool
     {

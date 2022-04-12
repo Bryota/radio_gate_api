@@ -39,7 +39,7 @@ class RadioStationController extends Controller
     /**
      * ラジオ局作成
      *
-     * @param  RadioStationRequest  $request
+     * @param  RadioStationRequest $request ラジオ局作成リクエストデータ
      * @return \Illuminate\Http\Response
      */
     public function store(RadioStationRequest $request)
@@ -57,10 +57,10 @@ class RadioStationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * ラジオ局更新
      *
-     * @param RadioStationRequest $request
-     * @param int $radio_station_id
+     * @param RadioStationRequest $request ラジオ局更新リクエストデータ
+     * @param int $radio_station_id ラジオ局ID
      * @return \Illuminate\Http\Response
      */
     public function update(RadioStationRequest $request, int $radio_station_id)
