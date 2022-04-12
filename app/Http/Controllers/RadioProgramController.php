@@ -34,7 +34,7 @@ class RadioProgramController extends Controller
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
             return response()->json([
-                'message' => 'ラジオ局一覧の取得に失敗しました。'
+                'message' => 'ラジオ番組一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
@@ -48,9 +48,15 @@ class RadioProgramController extends Controller
     public function show(int $radio_program_id)
     {
         $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
-        return response()->json([
-            'radio_program' => $radio_program
-        ], 200, [], JSON_UNESCAPED_UNICODE);
+        if ($radio_program) {
+            return response()->json([
+                'radio_program' => $radio_program
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ番組の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
