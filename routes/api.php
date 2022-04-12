@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('radio_stations', RadioStationController::class);
+Route::apiResource('radio_programs', RadioProgramController::class);
