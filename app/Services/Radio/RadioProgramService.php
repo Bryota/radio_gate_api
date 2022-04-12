@@ -32,7 +32,7 @@ class RadioProgramService
     /**
      * コンストラクタ
      *
-     * @param RadioProgramRepository $radio_station RadioProgramRepositoryインスタンス
+     * @param RadioProgramRepository $radio_program RadioProgramRepositoryインスタンス
      */
     public function __construct(RadioProgramRepository $radio_program)
     {
