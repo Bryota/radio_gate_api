@@ -40,6 +40,20 @@ class RadioProgramController extends Controller
     }
 
     /**
+     * 個別のラジオ番組取得
+     * 
+     * @param int $radio_program_id ラジオ番組ID
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $radio_program_id)
+    {
+        $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
+        return response()->json([
+            'radio_program' => $radio_program
+        ], 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * ラジオ番組作成
      *
      * @param  RadioProgramRequest $request ラジオ番組作成リクエストデータ
