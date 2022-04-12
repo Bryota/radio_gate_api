@@ -119,4 +119,24 @@ class RadioProgramTest extends TestCase
             ->assertJsonMissing(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
             ->assertJsonMissing(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioProgramController@show
+     */
+    public function 個別のラジオ番組を取得できる()
+    {
+        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $radio_program = RadioProgram::first();
+
+        $response = $this->getJson('api/radio_programs/' . $radio_program->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'radio_program' => [
+                    'name' => 'テスト番組1',
+                    'email' => 'test1@example.com'
+                ]
+            ]);
+    }
 }

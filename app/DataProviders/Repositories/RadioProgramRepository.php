@@ -51,6 +51,17 @@ class RadioProgramRepository
     }
 
     /**
+     * 個別のラジオ番組取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return RadioProgram ラジオ番組データ
+     */
+    public function getSingleRadioProgram(int $radio_station_id): RadioProgram
+    {
+        return $this->radio_program::find($radio_station_id);
+    }
+
+    /**
      * ラジオ番組作成
      *
      * @param RadioProgramRequest $request ラジオ番組作成リクエストデータ
