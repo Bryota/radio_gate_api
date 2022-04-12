@@ -97,4 +97,26 @@ class RadioProgramTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioProgramController@index
+     */
+    public function ラジオ番組一覧を取得できる()
+    {
+        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組2', 'email' => 'test2@example.com']);
+
+        $response = $this->getJson('api/radio_programs?radio_station=' . $this->radio_station->id);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
+            ->assertJsonFragment(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
+
+        $response = $this->getJson('api/radio_programs?radio_station=' . 100000);
+
+        $response->assertStatus(200)
+            ->assertJsonMissing(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
+            ->assertJsonMissing(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
+    }
 }

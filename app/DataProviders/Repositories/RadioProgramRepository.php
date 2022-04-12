@@ -40,6 +40,17 @@ class RadioProgramRepository
     }
 
     /**
+     * ラジオ局に紐づいたラジオ番組一覧取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return object ラジオ番組一覧
+     */
+    public function getAllRadioPrograms(int $radio_station_id): object
+    {
+        return $this->radio_program::where('radio_station_id', $radio_station_id)->get();
+    }
+
+    /**
      * ラジオ番組作成
      *
      * @param RadioProgramRequest $request ラジオ番組作成リクエストデータ
