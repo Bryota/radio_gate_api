@@ -54,12 +54,12 @@ class RadioProgramService
     /**
      * 個別のラジオ番組取得
      *
-     * @param int $radio_station_id ラジオ局ID
+     * @param int $radio_program_id ラジオ番組ID
      * @return RadioProgram ラジオ番組データ
      */
-    public function getSingleRadioProgram(int $radio_station_id): RadioProgram
+    public function getSingleRadioProgram(int $radio_program_id): RadioProgram
     {
-        $radio_program = $this->radio_program->getSingleRadioProgram($radio_station_id);
+        $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
         return $radio_program;
     }
 
@@ -72,6 +72,19 @@ class RadioProgramService
     public function storeRadioProgram(RadioProgramRequest $request): RadioProgram
     {
         $radio_program = $this->radio_program->storeRadioProgram($request);
+        return $radio_program;
+    }
+
+    /**
+     * ラジオ番組更新
+     *
+     * @param RadioProgramRequest $request ラジオ番組更新リクエストデータ
+     * @param int $radio_program_id ラジオ番組ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateRadioProgram(RadioProgramRequest $request, int $radio_program_id): bool
+    {
+        $radio_program = $this->radio_program->updateRadioProgram($request, $radio_program_id);
         return $radio_program;
     }
 }
