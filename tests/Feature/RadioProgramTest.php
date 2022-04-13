@@ -228,4 +228,23 @@ class RadioProgramTest extends TestCase
         $this->assertEquals('テスト番組1', $radio_program->name);
         $this->assertEquals('test1@example.com', $radio_program->email);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioProgramController@destroy
+     */
+    public function ラジオ局を削除できる()
+    {
+        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $radio_program = RadioProgram::first();
+
+        $response = $this->deleteJson('api/radio_programs/' . $radio_program->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'ラジオ番組が削除されました。'
+            ]);
+
+        $this->assertEquals(0, RadioProgram::count());
+    }
 }
