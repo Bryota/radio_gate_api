@@ -86,4 +86,16 @@ class RadioProgramRepository
         $radio_program->email = $request->email;
         return $radio_program->save();
     }
+
+    /**
+     * ラジオ番組削除
+     *
+     * @param int $radio_program_id ラジオ番組ID
+     * @return int 削除した件数
+     */
+    public function deleteRadioProgram(int $radio_program_id): int
+    {
+        $radio_program = $this->radio_program::find($radio_program_id);
+        return $radio_program->delete();
+    }
 }

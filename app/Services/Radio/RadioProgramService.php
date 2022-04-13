@@ -87,4 +87,16 @@ class RadioProgramService
         $radio_program = $this->radio_program->updateRadioProgram($request, $radio_program_id);
         return $radio_program;
     }
+
+    /**
+     * ラジオ番組削除
+     *
+     * @param int $radio_program_id ラジオ番組ID
+     * @return int 削除した件数
+     */
+    public function deleteRadioProgram(int $radio_program_id): int
+    {
+        $radio_programs_destroy_count = $this->radio_program->deleteRadioProgram($radio_program_id);
+        return $radio_programs_destroy_count;
+    }
 }
