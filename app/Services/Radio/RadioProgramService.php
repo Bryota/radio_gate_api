@@ -54,12 +54,12 @@ class RadioProgramService
     /**
      * 個別のラジオ番組取得
      *
-     * @param int $radio_station_id ラジオ局ID
+     * @param int $radio_program_id ラジオ番組ID
      * @return RadioProgram ラジオ番組データ
      */
-    public function getSingleRadioProgram(int $radio_station_id): RadioProgram
+    public function getSingleRadioProgram(int $radio_program_id): RadioProgram
     {
-        $radio_program = $this->radio_program->getSingleRadioProgram($radio_station_id);
+        $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
         return $radio_program;
     }
 

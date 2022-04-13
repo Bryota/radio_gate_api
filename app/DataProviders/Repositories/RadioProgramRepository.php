@@ -53,12 +53,12 @@ class RadioProgramRepository
     /**
      * 個別のラジオ番組取得
      * 
-     * @param int $radio_station_id ラジオ局ID
+     * @param int $radio_program_id ラジオ番組ID
      * @return RadioProgram ラジオ番組データ
      */
-    public function getSingleRadioProgram(int $radio_station_id): RadioProgram
+    public function getSingleRadioProgram(int $radio_program_id): RadioProgram
     {
-        return $this->radio_program::find($radio_station_id);
+        return $this->radio_program::find($radio_program_id);
     }
 
     /**
