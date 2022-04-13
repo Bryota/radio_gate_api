@@ -62,7 +62,7 @@ class RadioProgramController extends Controller
     /**
      * ラジオ番組作成
      *
-     * @param  RadioProgramRequest $request ラジオ番組作成リクエストデータ
+     * @param RadioProgramRequest $request ラジオ番組作成リクエストデータ
      * @return \Illuminate\Http\Response
      */
     public function store(RadioProgramRequest $request)
@@ -75,6 +75,27 @@ class RadioProgramController extends Controller
         } else {
             return response()->json([
                 'message' => 'ラジオ番組の作成に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
+     * ラジオ番組更新
+     *
+     * @param RadioProgramRequest $request ラジオ番組更新リクエストデータ
+     * @param int $radio_program_id ラジオ番組ID
+     * @return \Illuminate\Http\Response
+     */
+    public function update(RadioProgramRequest $request, int $radio_program_id)
+    {
+        $radio_program = $this->radio_program->updateRadioProgram($request, $radio_program_id);
+        if ($radio_program) {
+            return response()->json([
+                'message' => 'ラジオ番組が更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ番組の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }

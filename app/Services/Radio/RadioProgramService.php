@@ -74,4 +74,17 @@ class RadioProgramService
         $radio_program = $this->radio_program->storeRadioProgram($request);
         return $radio_program;
     }
+
+    /**
+     * ラジオ番組更新
+     *
+     * @param RadioProgramRequest $request ラジオ番組更新リクエストデータ
+     * @param int $radio_program_id ラジオ番組ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateRadioProgram(RadioProgramRequest $request, int $radio_program_id): bool
+    {
+        $radio_program = $this->radio_program->updateRadioProgram($request, $radio_program_id);
+        return $radio_program;
+    }
 }

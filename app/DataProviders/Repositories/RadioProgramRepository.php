@@ -71,4 +71,19 @@ class RadioProgramRepository
     {
         return $this->radio_program::create($request->all());
     }
+
+    /**
+     * ラジオ番組更新
+     *
+     * @param RadioProgramRequest $request ラジオ番組更新リクエストデータ
+     * @param int $radio_program_id ラジオ番組ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateRadioProgram(RadioProgramRequest $request, int $radio_program_id): bool
+    {
+        $radio_program = $this->radio_program::find($radio_program_id);
+        $radio_program->name = $request->name;
+        $radio_program->email = $request->email;
+        return $radio_program->save();
+    }
 }
