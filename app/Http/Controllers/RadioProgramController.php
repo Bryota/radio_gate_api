@@ -99,4 +99,25 @@ class RadioProgramController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * ラジオ番組削除（1番組のみ）
+     *
+     * @param int $radio_program_id ラジオ番組ID
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $radio_program_id)
+    {
+        $radio_programs_destroy_count = $this->radio_program->deleteRadioProgram($radio_program_id);
+        // TODO: 分岐の条件検討する
+        if ($radio_programs_destroy_count == 1) {
+            return response()->json([
+                'message' => 'ラジオ番組が削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'ラジオ番組の削除に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
