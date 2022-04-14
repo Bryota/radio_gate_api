@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Radio\ProgramCornerService;
+use App\Http\Requests\ProgramCornerRequest;
 use Illuminate\Http\Request;
 
 class ProgramCornerController extends Controller
 {
+    /**
+     * @var ProgramCornerService $program_corner ProgramCornerServiceインスタンス
+     */
+    private $program_corner;
+
+    public function __construct(ProgramCornerService $program_corner)
+    {
+        $this->program_corner = $program_corner;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,14 +39,23 @@ class ProgramCornerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 番組コーナー作成
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProgramCornerRequest $request)
     {
-        //
+        $program_corner = $this->program_corner->storeProgramCorner($request);
+        if ($program_corner) {
+            return response()->json([
+                'message' => '番組コーナーが作成されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => '番組コーナーの作成に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**

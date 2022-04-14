@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * 番組コーナー用のデータリポジトリ
+ *
+ * DBから番組コーナーの情報取得・更新、削除の責務を担う
+ *
+ * @author s_ryota sryotapersian@gmail.com
+ * @version 1.0
+ * @copyright 2022 Ryota Segawa
+ */
+
+namespace App\DataProviders\Repositories;
+
+use App\DataProviders\Models\ProgramCorner;
+use App\Http\Requests\ProgramCornerRequest;
+
+/**
+ * 番組コーナーリポジトリクラス
+ *
+ * @package App\DataProviders\Repositories
+ * @version 1.0
+ */
+class ProgramCornerRepository
+{
+    /**
+     * @var ProgramCorner $program_corner ProgramCornerインスタンス
+     */
+    private $program_corner;
+
+    /**
+     * コンストラクタ
+     *
+     * @param ProgramCorner $program_corner ProgramCornerModel
+     * @return void
+     */
+    public function __construct(ProgramCorner $program_corner)
+    {
+        $this->program_corner = $program_corner;
+    }
+
+    /**
+     * 番組コーナー作成
+     *
+     * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
+     * @return ProgramCorner 番組コーナー生成データ
+     */
+    public function storeProgramCorner(ProgramCornerRequest $request): ProgramCorner
+    {
+        return $this->program_corner::create($request->all());
+    }
+}
