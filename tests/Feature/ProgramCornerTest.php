@@ -70,4 +70,26 @@ class ProgramCornerTest extends TestCase
 
         $this->assertEquals(0, ProgramCorner::count());
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ProgramCornerController@index
+     */
+    public function 番組コーナー一覧を取得できる()
+    {
+        $response = $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
+        $response = $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '企画書はラブレター']);
+
+
+        $response = $this->getJson('api/program_corners?radio_program=' . $this->radio_program->id);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => '死んでもやめんじゃねーぞ'])
+            ->assertJsonFragment(['name' => '企画書はラブレター']);
+
+        $response = $this->getJson('api/program_corners?radio_program=' . 100000);
+        $response->assertStatus(200)
+            ->assertJsonMissing(['name' => '死んでもやめんじゃねーぞ'])
+            ->assertJsonMissing(['name' => '企画書はラブレター']);
+    }
 }
