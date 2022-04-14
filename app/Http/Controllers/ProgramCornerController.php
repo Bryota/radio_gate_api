@@ -27,10 +27,10 @@ class ProgramCornerController extends Controller
     public function index(Request $request)
     {
         $radio_program_id = $request->input('radio_program');
-        $program_corners = $this->radio_program->getAllProgramCorners($radio_program_id);
+        $program_corners = $this->program_corner->getAllProgramCorners($radio_program_id);
         if ($program_corners) {
             return response()->json([
-                'progr$program_corners' => $program_corners
+                'program_corners' => $program_corners
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
             return response()->json([
