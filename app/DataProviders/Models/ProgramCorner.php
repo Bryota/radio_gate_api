@@ -16,7 +16,8 @@ class ProgramCorner extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name'
+        'name',
+        'radio_program_id'
     ];
 
     /**
