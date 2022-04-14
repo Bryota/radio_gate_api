@@ -5,6 +5,7 @@ namespace App\DataProviders\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RadioProgram extends Model
 {
@@ -18,6 +19,16 @@ class RadioProgram extends Model
     protected $fillable = [
         'radio_station_id', 'name', 'email'
     ];
+
+    /**
+     * 番組内コーナー用リレーション
+     * 
+     * @return HasMany
+     */
+    public function ProgramCorners(): HasMany
+    {
+        return $this->hasMany(ProgramCorner::class);
+    }
 
     /**
      * ラジオ局用リレーション
