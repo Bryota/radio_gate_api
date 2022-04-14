@@ -40,6 +40,17 @@ class ProgramCornerRepository
     }
 
     /**
+     * ラジオ番組に紐づいた番組コーナー一覧取得
+     * 
+     * @param int $radio_program_id ラジオ番組ID
+     * @return object 番組コーナー一覧
+     */
+    public function getAllProgramCorners(int $radio_program_id): object
+    {
+        return $this->program_corner::where('radio_program_id', $radio_program_id)->get();
+    }
+
+    /**
      * 番組コーナー作成
      *
      * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
