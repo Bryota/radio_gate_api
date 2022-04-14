@@ -19,23 +19,24 @@ class ProgramCornerController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ラジオ番組に紐づいたコーナーの取得
      *
+     * @param Request $request ラジオ番組ID用のgetパラメーター
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $radio_program_id = $request->input('radio_program');
+        $program_corners = $this->program_corner->getAllProgramCorners($radio_program_id);
+        if ($program_corners) {
+            return response()->json([
+                'program_corners' => $program_corners
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => '番組コーナー一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
@@ -56,28 +57,6 @@ class ProgramCornerController extends Controller
                 'message' => '番組コーナーの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
