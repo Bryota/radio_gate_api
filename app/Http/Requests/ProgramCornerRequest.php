@@ -25,7 +25,8 @@ class ProgramCornerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max: 150'
+            'name' => 'required|max: 150',
+            'radio_program_id' => 'required'
         ];
     }
 
