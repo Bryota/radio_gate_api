@@ -111,4 +111,40 @@ class ProgramCornerTest extends TestCase
         $program_corner = ProgramCorner::first();
         $this->assertEquals('東洋一のツッコミ', $program_corner->name);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ProgramCornerController@update
+     */
+    public function 番組コーナーの更新に失敗する()
+    {
+        $response = $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
+        $program_corner = ProgramCorner::first();
+
+        $response1 = $this->putJson('api/program_corners/' . $program_corner->id, ['radio_program_id' => $this->radio_program->id, 'name' => '']);
+
+        $response1->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        '番組コーナー名を入力してください。'
+                    ]
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/program_corners/' . $program_corner->id, ['radio_program_id' => $this->radio_program->id, 'name' => str_repeat('あ', 151)]);
+
+        $response2->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        '番組コーナー名は150文字以下で入力してください。'
+                    ]
+                ]
+            ]);
+
+        $program_corner = ProgramCorner::first();
+
+        $this->assertEquals('死んでもやめんじゃねーぞ', $program_corner->name);
+    }
 }
