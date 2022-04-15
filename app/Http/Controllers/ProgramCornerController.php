@@ -66,7 +66,7 @@ class ProgramCornerController extends Controller
      * @param int $program_corner_id 番組コーナーID
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $program_corner_id)
+    public function update(ProgramCornerRequest $request, $program_corner_id)
     {
         $program_corner = $this->program_corner->updateProgramCorner($request, $program_corner_id);
         if ($program_corner) {

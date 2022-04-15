@@ -92,4 +92,23 @@ class ProgramCornerTest extends TestCase
             ->assertJsonMissing(['name' => '死んでもやめんじゃねーぞ'])
             ->assertJsonMissing(['name' => '企画書はラブレター']);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ProgramCornerController@update
+     */
+    public function 番組コーナーを更新できる()
+    {
+        $response = $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
+        $program_corner = ProgramCorner::first();
+
+        $response = $this->putJson('api/program_corners/' . $program_corner->id, ['radio_program_id' => $this->radio_program->id, 'name' => '東洋一のツッコミ']);
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => '番組コーナーが更新されました。'
+            ]);
+
+        $program_corner = ProgramCorner::first();
+        $this->assertEquals('東洋一のツッコミ', $program_corner->name);
+    }
 }
