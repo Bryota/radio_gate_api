@@ -60,4 +60,18 @@ class ProgramCornerRepository
     {
         return $this->program_corner::create($request->all());
     }
+
+    /**
+     * 番組コーナー更新
+     *
+     * @param ProgramCornerRequest $request 番組コーナー更新リクエストデータ
+     * @param int $program_corner_id 番組コーナーID
+     * @return bool 更新できたかどうか
+     */
+    public function updateProgramCorner(ProgramCornerRequest $request, int $program_corner_id): bool
+    {
+        $program_corner = $this->program_corner::find($program_corner_id);
+        $program_corner->name = $request->name;
+        return $program_corner->save();
+    }
 }
