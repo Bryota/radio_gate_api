@@ -147,4 +147,23 @@ class ProgramCornerTest extends TestCase
 
         $this->assertEquals('死んでもやめんじゃねーぞ', $program_corner->name);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ProgramCornerController@destroy
+     */
+    public function 番組コーナーを削除できる()
+    {
+        $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
+        $program_corner = ProgramCorner::first();
+
+        $response = $this->deleteJson('api/program_corners/' . $program_corner->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => '番組コーナーが削除されました。'
+            ]);
+
+        $this->assertEquals(0, ProgramCorner::count());
+    }
 }
