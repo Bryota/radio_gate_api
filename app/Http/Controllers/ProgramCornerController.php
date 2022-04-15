@@ -60,15 +60,24 @@ class ProgramCornerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 番組コーナ更新
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
+     * @param int $program_corner_id 番組コーナーID
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProgramCornerRequest $request, $program_corner_id)
     {
-        //
+        $program_corner = $this->program_corner->updateProgramCorner($request, $program_corner_id);
+        if ($program_corner) {
+            return response()->json([
+                'message' => '番組コーナーが更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => '番組コーナーの更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
