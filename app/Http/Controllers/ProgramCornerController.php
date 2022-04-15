@@ -81,13 +81,23 @@ class ProgramCornerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 番組コーナー削除（1番組のみ）
      *
-     * @param  int  $id
+     * @param int $program_corner_id 番組コーナーID
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $program_corner_id)
     {
-        //
+        $program_corners_destroy_count = $this->program_corner->deleteProgramCorner($program_corner_id);
+        // TODO: 分岐の条件検討する
+        if ($program_corners_destroy_count == 1) {
+            return response()->json([
+                'message' => '番組コーナーが削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => '番組コーナーの削除に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 }

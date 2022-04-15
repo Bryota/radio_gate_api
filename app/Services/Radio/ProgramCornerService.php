@@ -75,4 +75,16 @@ class ProgramCornerService
         $program_corner = $this->program_corner->updateProgramCorner($request, $program_corner_id);
         return $program_corner;
     }
+
+    /**
+     * 番組コーナー削除
+     *
+     * @param int $program_corner_id 番組コーナーID
+     * @return int 削除した件数
+     */
+    public function deleteProgramCorner(int $program_corner_id): int
+    {
+        $program_corners_destroy_count = $this->program_corner->deleteProgramCorner($program_corner_id);
+        return $program_corners_destroy_count;
+    }
 }

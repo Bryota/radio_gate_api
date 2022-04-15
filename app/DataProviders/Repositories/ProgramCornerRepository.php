@@ -74,4 +74,16 @@ class ProgramCornerRepository
         $program_corner->name = $request->name;
         return $program_corner->save();
     }
+
+    /**
+     * 番組コーナー削除
+     *
+     * @param int $program_corner_id 番組コーナーID
+     * @return int 削除した件数
+     */
+    public function deleteProgramCorner(int $program_corner_id): int
+    {
+        $program_corner = $this->program_corner::find($program_corner_id);
+        return $program_corner->delete();
+    }
 }
