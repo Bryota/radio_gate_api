@@ -60,7 +60,7 @@ class ProgramCornerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 番組コーナ更新
      *
      * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
      * @param int $program_corner_id 番組コーナーID
