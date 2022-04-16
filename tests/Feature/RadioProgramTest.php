@@ -14,6 +14,9 @@ class RadioProgramTest extends TestCase
     public function setup(): void
     {
         parent::setUp();
+
+        $this->loginAsListener();
+
         $this->postJson('api/radio_stations', ['name' => 'テスト局']);
 
         $this->radio_station = RadioStation::first();

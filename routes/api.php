@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\RadioStationController;
 use App\Http\Controllers\RadioProgramController;
 use App\Http\Controllers\ProgramCornerController;
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('radio_stations', RadioStationController::class);
-Route::apiResource('radio_programs', RadioProgramController::class);
-Route::apiResource('program_corners', ProgramCornerController::class);
+Route::post('/register', [RegisterController::class, 'create'])->name('register');
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('radio_stations', RadioStationController::class);
+    Route::apiResource('radio_programs', RadioProgramController::class);
+    Route::apiResource('program_corners', ProgramCornerController::class);
+});
