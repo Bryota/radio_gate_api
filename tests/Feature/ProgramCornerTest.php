@@ -5,9 +5,7 @@ namespace Tests\Feature;
 use App\DataProviders\Models\RadioStation;
 use App\DataProviders\Models\RadioProgram;
 use App\DataProviders\Models\ProgramCorner;
-use App\DataProviders\Models\Listener;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProgramCornerTest extends TestCase
