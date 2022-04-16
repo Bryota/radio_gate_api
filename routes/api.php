@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('radio_stations', RadioStationController::class);
-Route::apiResource('radio_programs', RadioProgramController::class);
-Route::apiResource('program_corners', ProgramCornerController::class);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('radio_stations', RadioStationController::class);
+    Route::apiResource('radio_programs', RadioProgramController::class);
+    Route::apiResource('program_corners', ProgramCornerController::class);
+});
