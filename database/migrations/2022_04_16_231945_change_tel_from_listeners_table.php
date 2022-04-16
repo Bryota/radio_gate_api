@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('listener', function (Blueprint $table) {
+        Schema::table('listeners', function (Blueprint $table) {
             $table->string('tel')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('listener', function (Blueprint $table) {
+        Schema::table('listeners', function (Blueprint $table) {
             $table->integer('tel')->nullable()->change();
         });
     }
