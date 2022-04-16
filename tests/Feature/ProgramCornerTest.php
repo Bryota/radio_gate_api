@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\DataProviders\Models\RadioStation;
 use App\DataProviders\Models\RadioProgram;
 use App\DataProviders\Models\ProgramCorner;
+use App\DataProviders\Models\Listener;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -16,6 +17,9 @@ class ProgramCornerTest extends TestCase
     public function setup(): void
     {
         parent::setUp();
+        $listener = Listener::factory()->create();
+        dd($listener);
+        $this->actingAs($listener);
         $this->postJson('api/radio_stations', ['name' => 'テスト局']);
         $this->radio_station = RadioStation::first();
 
