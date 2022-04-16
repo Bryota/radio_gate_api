@@ -1,9 +1,9 @@
 <?php
 
 /**
- * ラジオ局用のデータリポジトリ
+ * リスナー用のデータリポジトリ
  *
- * DBからラジオ局の情報取得・更新、削除の責務を担う
+ * DBからリスナーの情報取得・更新、削除の責務を担う
  *
  * @author s_ryota sryotapersian@gmail.com
  * @version 1.0
@@ -17,7 +17,7 @@ use App\Http\Requests\ListenerRequest;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * ラジオ局リポジトリクラス
+ * リスナーリポジトリクラス
  *
  * @package App\DataProviders\Repositories
  * @version 1.0

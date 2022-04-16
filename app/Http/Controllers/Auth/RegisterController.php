@@ -9,7 +9,7 @@ use App\Services\Radio\ListenerService;
 class RegisterController extends Controller
 {
     /**
-     * @var ListenerService $program_corner ListenerServiceインスタンス
+     * @var ListenerService $listener ListenerServiceインスタンス
      */
     private $listener;
 
