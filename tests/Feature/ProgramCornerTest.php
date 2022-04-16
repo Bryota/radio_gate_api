@@ -17,9 +17,9 @@ class ProgramCornerTest extends TestCase
     public function setup(): void
     {
         parent::setUp();
-        $listener = Listener::factory()->create();
-        dd($listener);
-        $this->actingAs($listener);
+
+        $this->loginAsListener();
+
         $this->postJson('api/radio_stations', ['name' => 'テスト局']);
         $this->radio_station = RadioStation::first();
 

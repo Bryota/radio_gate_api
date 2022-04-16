@@ -10,6 +10,13 @@ class RadioStationTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loginAsListener();
+    }
+
     /**
      * @test
      * App\Http\Controllers\RadioStationController@store
