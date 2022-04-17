@@ -36,8 +36,8 @@ class MessageTemplateRequest extends FormRequest
         return [
             'name.required' => 'テンプレート名を入力してください。',
             'name.max' => 'テンプレート名は150文字以下で入力してください。',
-            'name.required' => 'テンプレート本文を入力してください。',
-            'name.max' => 'テンプレート本文は1000文字以下で入力してください。',
+            'content.required' => 'テンプレート本文を入力してください。',
+            'content.max' => 'テンプレート本文は1000文字以下で入力してください。',
         ];
     }
 

@@ -25,18 +25,18 @@ use App\Http\Requests\MessageTemplateRequest;
 class MessageTemplateService
 {
     /**
-     * @var MessageTemplateRepository $messageTemplate MessageTemplateRepositoryインスタンス
+     * @var MessageTemplateRepository $message_template MessageTemplateRepositoryインスタンス
      */
-    private $messageTemplate;
+    private $message_template;
 
     /**
      * コンストラクタ
      *
-     * @param MessageTemplateRepository $messageTemplate MessageTemplateRepositoryインスタンス
+     * @param MessageTemplateRepository $message_template MessageTemplateRepositoryインスタンス
      */
-    public function __construct(MessageTemplateRepository $messageTemplate)
+    public function __construct(MessageTemplateRepository $message_template)
     {
-        $this->MessageTemplate = $messageTemplate;
+        $this->message_template = $message_template;
     }
 
     /**
@@ -47,7 +47,7 @@ class MessageTemplateService
      */
     public function storeMessageTemplate(MessageTemplateRequest $request): MessageTemplate
     {
-        $messageTemplate = $this->MessageTemplate->storeMessageTemplate($request);
-        return $messageTemplate;
+        $message_template = $this->message_template->storeMessageTemplate($request);
+        return $message_template;
     }
 }
