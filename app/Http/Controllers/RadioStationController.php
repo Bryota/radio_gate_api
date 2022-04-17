@@ -20,16 +20,16 @@ class RadioStationController extends Controller
     /**
      * ラジオ局一覧取得
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $radio_staitons = $this->radio_station->getAllRadioStations();
-        if ($radio_staitons) {
+        try {
+            $radio_staitons = $this->radio_station->getAllRadioStations();
             return response()->json([
                 'radio_stations' => $radio_staitons
             ], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ局一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -40,16 +40,16 @@ class RadioStationController extends Controller
      * ラジオ局作成
      *
      * @param  RadioStationRequest $request ラジオ局作成リクエストデータ
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(RadioStationRequest $request)
     {
-        $radio_station = $this->radio_station->storeRadioStation($request);
-        if ($radio_station) {
+        try {
+            $this->radio_station->storeRadioStation($request);
             return response()->json([
                 'message' => 'ラジオ局が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ局の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -61,16 +61,16 @@ class RadioStationController extends Controller
      *
      * @param RadioStationRequest $request ラジオ局更新リクエストデータ
      * @param int $radio_station_id ラジオ局ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(RadioStationRequest $request, int $radio_station_id)
     {
-        $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
-        if ($radio_station) {
+        try {
+            $this->radio_station->updateRadioStation($request, $radio_station_id);
             return response()->json([
                 'message' => 'ラジオ局が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ局の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -81,7 +81,7 @@ class RadioStationController extends Controller
      * ラジオ局削除（1局のみ）
      *
      * @param int $radio_station_id ラジオ局ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $radio_station_id)
     {
