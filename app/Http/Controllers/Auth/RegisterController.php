@@ -26,16 +26,16 @@ class RegisterController extends Controller
      */
     public function create(ListenerRequest $request)
     {
-        $listener = $this->listener->CreateListener($request);
 
-        if ($listener) {
+        try {
+            $listener = $this->listener->CreateListener($request);
             $request->session()->regenerate();
 
             return response()->json([
                 'message' => 'アカウントが作成されました。',
                 'listener' => $listener
             ], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $e) {
             return response()->json([
                 'message' => 'アカウントの作成に失敗しました。',
             ], 400, [], JSON_UNESCAPED_UNICODE);
