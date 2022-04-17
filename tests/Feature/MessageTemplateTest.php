@@ -36,4 +36,62 @@ class MessageTemplateTest extends TestCase
         $this->assertEquals($this->listener->id, $message_template->listener_id);
         $this->assertEquals($this->listener->name, $message_template->Listener->name);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@store
+     */
+    public function 投稿テンプレート作成に失敗する（名前関連）()
+    {
+        $response1 = $this->postJson('api/message_templates', ['name' => '', 'content' => 'こんにちは！　いつも楽しく聴いています。', 'listener_id' => $this->listener->id]);
+        $response1->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'テンプレート名を入力してください。'
+                    ]
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/message_templates', ['name' => str_repeat('あ', 151), 'content' => 'こんにちは！　いつも楽しく聴いています。', 'listener_id' => $this->listener->id]);
+        $response2->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'テンプレート名は150文字以下で入力してください。'
+                    ]
+                ]
+            ]);
+
+        $this->assertEquals(0, MessageTemplate::count());
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@store
+     */
+    public function 投稿テンプレート作成に失敗する（本文関連）()
+    {
+        $response1 = $this->postJson('api/message_templates', ['name' => 'テストテンプレート', 'content' => '', 'listener_id' => $this->listener->id]);
+        $response1->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'content' => [
+                        'テンプレート本文を入力してください。'
+                    ]
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/message_templates', ['name' => 'テストテンプレート', 'content' => str_repeat('あ', 1001), 'listener_id' => $this->listener->id]);
+        $response2->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'content' => [
+                        'テンプレート本文は1000文字以下で入力してください。'
+                    ]
+                ]
+            ]);
+
+        $this->assertEquals(0, MessageTemplate::count());
+    }
 }
