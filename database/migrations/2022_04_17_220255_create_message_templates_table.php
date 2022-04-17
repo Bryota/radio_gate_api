@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('templates', function (Blueprint $table) {
+        Schema::create('message_templates', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('listener_id')->unsigned();
             $table->string('name');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('message_templates');
     }
 };

@@ -5,7 +5,7 @@ namespace App\DataProviders\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Template extends Model
+class MessageTemplate extends Model
 {
     use HasFactory;
 
