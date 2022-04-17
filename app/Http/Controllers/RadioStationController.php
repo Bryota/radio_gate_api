@@ -20,7 +20,7 @@ class RadioStationController extends Controller
     /**
      * ラジオ局一覧取得
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -40,7 +40,7 @@ class RadioStationController extends Controller
      * ラジオ局作成
      *
      * @param  RadioStationRequest $request ラジオ局作成リクエストデータ
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(RadioStationRequest $request)
     {
@@ -61,7 +61,7 @@ class RadioStationController extends Controller
      *
      * @param RadioStationRequest $request ラジオ局更新リクエストデータ
      * @param int $radio_station_id ラジオ局ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(RadioStationRequest $request, int $radio_station_id)
     {
@@ -81,7 +81,7 @@ class RadioStationController extends Controller
      * ラジオ局削除（1局のみ）
      *
      * @param int $radio_station_id ラジオ局ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $radio_station_id)
     {

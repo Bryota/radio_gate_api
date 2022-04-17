@@ -22,7 +22,7 @@ class RadioProgramController extends Controller
      * ラジオ局に紐づいたラジオ番組一覧取得
      *
      * @param Request $request ラジオ局ID用のgetパラメーター
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -43,7 +43,7 @@ class RadioProgramController extends Controller
      * 個別のラジオ番組取得
      * 
      * @param int $radio_program_id ラジオ番組ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(int $radio_program_id)
     {
@@ -63,7 +63,7 @@ class RadioProgramController extends Controller
      * ラジオ番組作成
      *
      * @param RadioProgramRequest $request ラジオ番組作成リクエストデータ
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(RadioProgramRequest $request)
     {
@@ -84,7 +84,7 @@ class RadioProgramController extends Controller
      *
      * @param RadioProgramRequest $request ラジオ番組更新リクエストデータ
      * @param int $radio_program_id ラジオ番組ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(RadioProgramRequest $request, int $radio_program_id)
     {
@@ -104,7 +104,7 @@ class RadioProgramController extends Controller
      * ラジオ番組削除（1番組のみ）
      *
      * @param int $radio_program_id ラジオ番組ID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $radio_program_id)
     {

@@ -22,7 +22,7 @@ class ProgramCornerController extends Controller
      * ラジオ番組に紐づいたコーナーの取得
      *
      * @param Request $request ラジオ番組ID用のgetパラメーター
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -43,7 +43,7 @@ class ProgramCornerController extends Controller
      * 番組コーナー作成
      *
      * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ProgramCornerRequest $request)
     {
@@ -64,7 +64,7 @@ class ProgramCornerController extends Controller
      *
      * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
      * @param int $program_corner_id 番組コーナーID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(ProgramCornerRequest $request, $program_corner_id)
     {
@@ -84,7 +84,7 @@ class ProgramCornerController extends Controller
      * 番組コーナー削除（1番組のみ）
      *
      * @param int $program_corner_id 番組コーナーID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $program_corner_id)
     {

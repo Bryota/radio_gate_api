@@ -22,7 +22,7 @@ class RegisterController extends Controller
      * リスナー登録
      *
      * @param ListenerRequest $request リスナー登録用のリクエストデータ
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(ListenerRequest $request)
     {
