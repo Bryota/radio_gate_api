@@ -75,4 +75,18 @@ class MessageTemplateService
         $message_template = $this->message_template->storeMessageTemplate($request);
         return $message_template;
     }
+
+    /**
+     * 投稿テンプレート更新
+     *
+     * @param MessageTemplateRequest $request 投稿テンプレート更新リクエストデータ
+     * @param int $listener_id リスナーID
+     * @param int $message_template_id 投稿テンプレートID
+     * @return bool 更新できたかどうか
+     */
+    public function updateMessageTemplate(MessageTemplateRequest $request, int $listener_id, int $message_template_id): bool
+    {
+        $message_template = $this->message_template->updateMessageTemplate($request, $listener_id, $message_template_id);
+        return $message_template;
+    }
 }
