@@ -77,4 +77,25 @@ class MessageTemplateController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * 投稿テンプレート更新
+     *
+     * @param MessageTemplateRequest $request 投稿テンプレート更新リクエストデータ
+     * @param int $message_template_id 投稿テンプレートID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(MessageTemplateRequest $request, int $message_template_id)
+    {
+        try {
+            $this->message_template->updateMessageTemplate($request, auth()->user()->id, $message_template_id);
+            return response()->json([
+                'message' => '投稿テンプレートが更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '投稿テンプレートの更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }

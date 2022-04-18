@@ -74,4 +74,22 @@ class MessageTemplateRepository
     {
         return $this->message_template::create($request->all());
     }
+
+    /**
+     * 投稿テンプレート更新
+     *
+     * @param MessageTemplateRequest $request 投稿テンプレート更新リクエストデータ
+     * @param int $listener_id リスナーID
+     * @param int $message_template_id 投稿テンプレートID
+     * @return bool 更新できたかどうか
+     */
+    public function updateMessageTemplate(MessageTemplateRequest $request, int $listener_id, int $message_template_id): bool
+    {
+        $message_template = $this->message_template::where('id', $message_template_id)
+            ->where('listener_id', $listener_id)
+            ->first();;
+        $message_template->name = $request->name;
+        $message_template->content = $request->content;
+        return $message_template->save();
+    }
 }

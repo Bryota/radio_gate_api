@@ -133,4 +133,93 @@ class MessageTemplateTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@update
+     */
+    public function 投稿テンプレートを更新できる()
+    {
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート1', 'content' => 'hello', 'listener_id' => $this->listener->id]);
+        $message_template = MessageTemplate::first();
+
+        $response = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => 'テストテンプレート更新', 'content' => 'hello update']);
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => '投稿テンプレートが更新されました。'
+            ]);
+
+        $message_template = MessageTemplate::first();
+        $this->assertEquals('テストテンプレート更新', $message_template->name);
+        $this->assertEquals('hello update', $message_template->content);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@update
+     */
+    public function 投稿テンプレート更新に失敗する（名前関連）()
+    {
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート1', 'content' => 'hello', 'listener_id' => $this->listener->id]);
+        $message_template = MessageTemplate::first();
+
+        $response1 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => '', 'content' => 'hello update']);
+        $response1->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'テンプレート名を入力してください。'
+                    ]
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => str_repeat('あ', 151), 'content' => 'hello update']);
+        $response2->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'テンプレート名は150文字以下で入力してください。'
+                    ]
+                ]
+            ]);
+
+        $message_template = MessageTemplate::first();
+        $this->assertEquals('テストテンプレート1', $message_template->name);
+        $this->assertEquals('hello', $message_template->content);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@update
+     */
+    public function 投稿テンプレート更新に失敗する（コンテンツ関連）()
+    {
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート1', 'content' => 'hello', 'listener_id' => $this->listener->id]);
+        $message_template = MessageTemplate::first();
+
+        $response1 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => 'テストテンプレート1', 'content' => '']);
+        $response1->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'content' => [
+                        'テンプレート本文を入力してください。'
+                    ]
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => 'テストテンプレート1', 'content' => str_repeat('あ', 1001)]);
+        $response2->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'content' => [
+                        'テンプレート本文は1000文字以下で入力してください。'
+                    ]
+                ]
+            ]);
+
+
+        $message_template = MessageTemplate::first();
+        $this->assertEquals('テストテンプレート1', $message_template->name);
+        $this->assertEquals('hello', $message_template->content);
+    }
 }
