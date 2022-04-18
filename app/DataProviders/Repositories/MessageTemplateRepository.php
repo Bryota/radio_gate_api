@@ -100,7 +100,7 @@ class MessageTemplateRepository
      * @param int $message_template_id 投稿テンプレートID
      * @return int 削除した件数
      */
-    public function deleteProgramCorner(int $listener_id, int $message_template_id): int
+    public function deleteMessageTemplate(int $listener_id, int $message_template_id): int
     {
         $message_template = $this->message_template::where('id', $message_template_id)
             ->where('listener_id', $listener_id)
