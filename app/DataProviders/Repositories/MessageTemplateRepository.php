@@ -58,7 +58,7 @@ class MessageTemplateRepository
      */
     public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
     {
-        return $this->radio_program::where('id', $message_template_id)
+        return $this->message_template::where('id', $message_template_id)
             ->where('listener_id', $listener_id)
             ->first();
     }
