@@ -98,4 +98,24 @@ class MessageTemplateController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * 投稿テンプレート削除（1つのみ）
+     *
+     * @param int $message_template_id 投稿テンプレートID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $message_template_id)
+    {
+        try {
+            $this->message_template->deleteMessageTemplate(auth()->user()->id, $message_template_id);
+            return response()->json([
+                'message' => '投稿テンプレートが削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '投稿テンプレートの削除に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }

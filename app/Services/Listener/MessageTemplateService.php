@@ -89,4 +89,17 @@ class MessageTemplateService
         $message_template = $this->message_template->updateMessageTemplate($request, $listener_id, $message_template_id);
         return $message_template;
     }
+
+    /**
+     * 投稿テンプレート削除
+     *
+     * @param int $listener_id リスナーID
+     * @param int $message_template_id  投稿テンプレートID
+     * @return bool 削除できたかどうか
+     */
+    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
+    {
+        $is_deleted = $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
+        return $is_deleted;
+    }
 }

@@ -222,4 +222,23 @@ class MessageTemplateTest extends TestCase
         $this->assertEquals('テストテンプレート1', $message_template->name);
         $this->assertEquals('hello', $message_template->content);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@destory
+     */
+    public function 投稿テンプレートを削除できる()
+    {
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート1', 'content' => 'hello', 'listener_id' => $this->listener->id]);
+        $message_template = MessageTemplate::first();
+
+        $response = $this->deleteJson('api/message_templates/' . $message_template->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => '投稿テンプレートが削除されました。'
+            ]);
+
+        $this->assertEquals(0, MessageTemplate::count());
+    }
 }
