@@ -40,6 +40,17 @@ class MessageTemplateRepository
     }
 
     /**
+     * リスナーに紐づいた投稿テンプレート一覧の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return object 投稿テンプレート一覧
+     */
+    public function getAllMessageTemplates(int $listener_id): object
+    {
+        return $this->message_template::where('listener_id', $listener_id)->get();
+    }
+
+    /**
      * 投稿テンプレート作成
      *
      * @param MessageTemplateRequest $request 投稿テンプレート作成リクエストデータ
