@@ -52,6 +52,18 @@ class MessageTemplateService
     }
 
     /**
+     * リスナーに紐づいた投稿テンプレート個別の取得
+     *
+     * @param int $message_template_id 投稿テンプレートID
+     * @return MessageTemplate 投稿テンプレートデータ
+     */
+    public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
+    {
+        $message_template = $this->message_template->getSingleMessageTemplate($listener_id, $message_template_id);
+        return $message_template;
+    }
+
+    /**
      * 投稿テンプレート作成
      * 
      * @param MessageTemplateRequest $request 投稿テンプレート登録用のリクエストデータ

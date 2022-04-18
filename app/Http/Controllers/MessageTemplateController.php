@@ -18,7 +18,6 @@ class MessageTemplateController extends Controller
         $this->message_template = $message_template;
     }
 
-
     /**
      * リスナーに紐づいた投稿テンプレート一覧の取得
      *
@@ -34,6 +33,27 @@ class MessageTemplateController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => '投稿テンプレート一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+
+    /**
+     * リスナーに紐づいた投稿テンプレート個別の取得
+     * 
+     * @param int $message_template_id 投稿テンプレートID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $message_template_id)
+    {
+        try {
+            $message_template = $this->message_template->getSingleMessageTemplate(auth()->user()->id, $message_template_id);
+            return response()->json([
+                'message_template' => $message_template
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '投稿テンプレート個別の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }

@@ -51,6 +51,19 @@ class MessageTemplateRepository
     }
 
     /**
+     * リスナーに紐づいた投稿テンプレート個別の取得
+     * 
+     * @param int $message_template_id 投稿テンプレートID
+     * @return MessageTemplate 投稿テンプレートデータ
+     */
+    public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
+    {
+        return $this->radio_program::where('id', $message_template_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+    }
+
+    /**
      * 投稿テンプレート作成
      *
      * @param MessageTemplateRequest $request 投稿テンプレート作成リクエストデータ
