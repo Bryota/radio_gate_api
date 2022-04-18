@@ -107,13 +107,12 @@ class MessageTemplateController extends Controller
      */
     public function destroy(int $message_template_id)
     {
-        $message_templates_destroy_count = $this->message_template->deleteMessageTemplate(auth()->user()->id, $message_template_id);
-        // TODO: 分岐の条件検討する
-        if ($message_templates_destroy_count == 1) {
+        try {
+            $this->message_template->deleteMessageTemplate(auth()->user()->id, $message_template_id);
             return response()->json([
                 'message' => '投稿テンプレートが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => '投稿テンプレートの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

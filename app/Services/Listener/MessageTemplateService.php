@@ -95,9 +95,9 @@ class MessageTemplateService
      *
      * @param int $listener_id リスナーID
      * @param int $message_template_id  投稿テンプレートID
-     * @return int 削除した件数
+     * @return bool 削除できたかどうか
      */
-    public function deleteMessageTemplate(int $listener_id, int $message_template_id): int
+    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
     {
         $message_templates_destroy_count = $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
         return $message_templates_destroy_count;

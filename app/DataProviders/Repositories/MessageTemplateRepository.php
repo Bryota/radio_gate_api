@@ -98,9 +98,9 @@ class MessageTemplateRepository
      *
      * @param int $listener_id リスナーID
      * @param int $message_template_id 投稿テンプレートID
-     * @return int 削除した件数
+     * @return bool 削除できたかどうか
      */
-    public function deleteMessageTemplate(int $listener_id, int $message_template_id): int
+    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
     {
         $message_template = $this->message_template::where('id', $message_template_id)
             ->where('listener_id', $listener_id)
