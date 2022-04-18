@@ -53,6 +53,7 @@ class MessageTemplateRepository
     /**
      * リスナーに紐づいた投稿テンプレート個別の取得
      * 
+     * @param int $listener_id リスナーID
      * @param int $message_template_id 投稿テンプレートID
      * @return MessageTemplate 投稿テンプレートデータ
      */

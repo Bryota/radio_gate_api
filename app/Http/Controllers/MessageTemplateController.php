@@ -37,7 +37,6 @@ class MessageTemplateController extends Controller
         }
     }
 
-
     /**
      * リスナーに紐づいた投稿テンプレート個別の取得
      * 
