@@ -94,4 +94,22 @@ class MessageTemplateTest extends TestCase
 
         $this->assertEquals(0, MessageTemplate::count());
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@index
+     */
+    public function 投稿テンプレート一覧を取得できる()
+    {
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート1', 'content' => 'hello', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート2', 'content' => 'こんにちは', 'listener_id' => $this->listener->id]);
+
+        $response = $this->getJson('api/message_templates');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テストテンプレート1'])
+            ->assertJsonFragment(['name' => 'テストテンプレート2'])
+            ->assertJsonFragment(['content' => 'hello'])
+            ->assertJsonFragment(['content' => 'こんにちは']);
+    }
 }
