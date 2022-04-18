@@ -18,6 +18,26 @@ class MessageTemplateController extends Controller
         $this->message_template = $message_template;
     }
 
+
+    /**
+     * リスナーに紐づいた投稿テンプレート一覧の取得
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        try {
+            $message_templates = $this->message_template->getAllMessageTemplates(auth()->user()->id);
+            return response()->json([
+                'message_templates' => $message_templates
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '投稿テンプレート一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
     /**
      * 投稿テンプレート作成
      *

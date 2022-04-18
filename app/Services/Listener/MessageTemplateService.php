@@ -40,6 +40,18 @@ class MessageTemplateService
     }
 
     /**
+     * リスナーに紐づいた投稿テンプレート一覧の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return object 投稿テンプレート一覧
+     */
+    public function getAllMessageTemplates(int $listener_id): object
+    {
+        $message_templates = $this->message_template->getAllMessageTemplates($listener_id);
+        return $message_templates;
+    }
+
+    /**
      * 投稿テンプレート作成
      * 
      * @param MessageTemplateRequest $request 投稿テンプレート登録用のリクエストデータ
