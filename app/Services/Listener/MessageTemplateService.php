@@ -99,7 +99,7 @@ class MessageTemplateService
      */
     public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
     {
-        $message_templates_destroy_count = $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
-        return $message_templates_destroy_count;
+        $is_deleted = $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
+        return $is_deleted;
     }
 }
