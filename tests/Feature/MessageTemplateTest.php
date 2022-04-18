@@ -112,4 +112,25 @@ class MessageTemplateTest extends TestCase
             ->assertJsonFragment(['content' => 'hello'])
             ->assertJsonFragment(['content' => 'こんにちは']);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\MessageTemplateController@show
+     */
+    public function 個別の投稿テンプレートを取得できる()
+    {
+        $this->postJson('api/message_templates', ['name' => 'テストテンプレート1', 'content' => 'hello', 'listener_id' => $this->listener->id]);
+        $message_template = MessageTemplate::first();
+
+        $response = $this->getJson('api/message_templates/' . $message_template->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message_template' => [
+                    'name' => 'テストテンプレート1',
+                    'content' => 'hello',
+                    'listener_id' => $this->listener->id
+                ]
+            ]);
+    }
 }
