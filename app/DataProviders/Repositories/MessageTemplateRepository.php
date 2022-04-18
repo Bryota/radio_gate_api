@@ -87,9 +87,24 @@ class MessageTemplateRepository
     {
         $message_template = $this->message_template::where('id', $message_template_id)
             ->where('listener_id', $listener_id)
-            ->first();;
+            ->first();
         $message_template->name = $request->name;
         $message_template->content = $request->content;
         return $message_template->save();
+    }
+
+    /**
+     * 投稿テンプレート削除
+     *
+     * @param int $listener_id リスナーID
+     * @param int $message_template_id 投稿テンプレートID
+     * @return int 削除した件数
+     */
+    public function deleteProgramCorner(int $listener_id, int $message_template_id): int
+    {
+        $message_template = $this->message_template::where('id', $message_template_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+        return $message_template->delete();
     }
 }
