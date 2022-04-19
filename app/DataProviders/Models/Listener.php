@@ -61,4 +61,14 @@ class Listener extends Authenticatable
     {
         return $this->hasMany(MessageTemplate::class);
     }
+
+    /**
+     * マイ番組用リレーション
+     * 
+     * @return HasMany
+     */
+    public function ListenerMyPrograms(): HasMany
+    {
+        return $this->hasMany(ListenerMyProgram::class);
+    }
 }
