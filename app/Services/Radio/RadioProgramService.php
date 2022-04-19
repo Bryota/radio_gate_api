@@ -92,9 +92,9 @@ class RadioProgramService
      * ラジオ番組削除
      *
      * @param int $radio_program_id ラジオ番組ID
-     * @return int 削除した件数
+     * @return bool 削除したかどうか
      */
-    public function deleteRadioProgram(int $radio_program_id): int
+    public function deleteRadioProgram(int $radio_program_id): bool
     {
         $radio_programs_destroy_count = $this->radio_program->deleteRadioProgram($radio_program_id);
         return $radio_programs_destroy_count;

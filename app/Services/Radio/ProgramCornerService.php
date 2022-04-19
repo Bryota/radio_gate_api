@@ -80,9 +80,9 @@ class ProgramCornerService
      * 番組コーナー削除
      *
      * @param int $program_corner_id 番組コーナーID
-     * @return int 削除した件数
+     * @return bool 削除したかどうか
      */
-    public function deleteProgramCorner(int $program_corner_id): int
+    public function deleteProgramCorner(int $program_corner_id): bool
     {
         $program_corners_destroy_count = $this->program_corner->deleteProgramCorner($program_corner_id);
         return $program_corners_destroy_count;

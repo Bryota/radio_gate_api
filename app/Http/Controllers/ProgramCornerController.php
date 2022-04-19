@@ -88,13 +88,12 @@ class ProgramCornerController extends Controller
      */
     public function destroy(int $program_corner_id)
     {
-        $program_corners_destroy_count = $this->program_corner->deleteProgramCorner($program_corner_id);
-        // TODO: 分岐の条件検討する
-        if ($program_corners_destroy_count == 1) {
+        try {
+            $this->program_corner->deleteProgramCorner($program_corner_id);
             return response()->json([
                 'message' => '番組コーナーが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => '番組コーナーの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

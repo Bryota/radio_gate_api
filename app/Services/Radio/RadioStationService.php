@@ -79,9 +79,9 @@ class RadioStationService
      * ラジオ局削除
      *
      * @param int $radio_station_id ラジオ局ID
-     * @return int 削除した件数
+     * @return bool 削除したかどうか
      */
-    public function deleteRadioStation(int $radio_station_id): int
+    public function deleteRadioStation(int $radio_station_id): bool
     {
         $radio_stations_destroy_count = $this->radio_station->deleteRadioStation($radio_station_id);
         return $radio_stations_destroy_count;
