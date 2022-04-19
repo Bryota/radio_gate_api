@@ -87,4 +87,23 @@ class ListenerMyProgramTest extends TestCase
 
         $this->assertEquals(1, ListenerMyProgram::count());
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMyProgramController@index
+     */
+    public function マイ番組一覧を取得できる()
+    {
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組2', 'email' => 'test2@example.com']);
+
+
+        $response = $this->getJson('api/listener_my_programs');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['program_name' => 'テストマイ番組1'])
+            ->assertJsonFragment(['program_name' => 'テストマイ番組2'])
+            ->assertJsonFragment(['email' => 'test1@example.com'])
+            ->assertJsonFragment(['email' => 'test2@example.com']);
+    }
 }
