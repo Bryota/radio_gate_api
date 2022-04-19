@@ -44,7 +44,7 @@ class ListenerMyProgramTest extends TestCase
     public function マイ番組作成に失敗する（名前関連）()
     {
         $response1 = $this->postJson('api/listener_my_programs', ['program_name' => '', 'email' => 'test@example.com']);
-        $response1->assertStatus(400)
+        $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'program_name' => [
                     '番組名を入力してください。'
@@ -52,7 +52,7 @@ class ListenerMyProgramTest extends TestCase
             ]);
 
         $response2 = $this->postJson('api/listener_my_programs', ['program_name' => str_repeat('あ', 151), 'content' => 'こんにちは！　いつも楽しく聴いています。', 'listener_id' => $this->listener->id]);
-        $response2->assertStatus(400)
+        $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'program_name' => [
                     '番組名は150文字以下で入力してください。'
@@ -69,7 +69,7 @@ class ListenerMyProgramTest extends TestCase
     public function マイ番組作成に失敗する（メールアドレス関連）()
     {
         $response1 = $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => '']);
-        $response1->assertStatus(400)
+        $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
                     '番組メールアドレスを入力してください。'
@@ -78,7 +78,7 @@ class ListenerMyProgramTest extends TestCase
 
         $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $response2 = $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => 'test@example.com']);
-        $response2->assertStatus(400)
+        $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
                     '番組メールアドレスは既に保存されています。'

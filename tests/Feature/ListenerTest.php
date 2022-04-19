@@ -74,7 +74,7 @@ class ListenerTest extends TestCase
             'email' => '',
             'password' => 'password123'
         ]);
-        $response->assertStatus(400)
+        $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
                     'メールアドレスを入力してください。'
@@ -85,7 +85,7 @@ class ListenerTest extends TestCase
             'email' => 'testtest',
             'password' => 'password123'
         ]);
-        $response->assertStatus(400)
+        $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
                     'メールアドレスは正しい形式で入力してください。'
@@ -100,7 +100,7 @@ class ListenerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password123'
         ]);
-        $response->assertStatus(400)
+        $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
                     'このメールアドレスは既に使用されています。'
@@ -120,7 +120,7 @@ class ListenerTest extends TestCase
             'email' => 'test@example.com',
             'password' => ''
         ]);
-        $response->assertStatus(400)
+        $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'password' => [
                     'パスワードを入力してください。'
@@ -141,7 +141,7 @@ class ListenerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password123'
         ]);
-        $response->assertStatus(400)
+        $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'post_code' => [
                     '郵便番号は数字で入力してください。'

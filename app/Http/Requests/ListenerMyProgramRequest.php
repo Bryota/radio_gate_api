@@ -44,9 +44,9 @@ class ListenerMyProgramRequest extends FormRequest
     protected function failedValidation($validator)
     {
         $response = response()->json([
-            'status' => 400,
+            'status' => 422,
             'errors' => $validator->errors(),
-        ], 400);
+        ], 422);
 
         throw new HttpResponseException($response);
     }
