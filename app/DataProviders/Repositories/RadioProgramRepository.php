@@ -91,9 +91,9 @@ class RadioProgramRepository
      * ラジオ番組削除
      *
      * @param int $radio_program_id ラジオ番組ID
-     * @return int 削除した件数
+     * @return bool 削除できたかどうか
      */
-    public function deleteRadioProgram(int $radio_program_id): int
+    public function deleteRadioProgram(int $radio_program_id): bool
     {
         $radio_program = $this->radio_program::find($radio_program_id);
         return $radio_program->delete();

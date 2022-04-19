@@ -79,9 +79,9 @@ class ProgramCornerRepository
      * 番組コーナー削除
      *
      * @param int $program_corner_id 番組コーナーID
-     * @return int 削除した件数
+     * @return bool 削除できたかどうか
      */
-    public function deleteProgramCorner(int $program_corner_id): int
+    public function deleteProgramCorner(int $program_corner_id): bool
     {
         $program_corner = $this->program_corner::find($program_corner_id);
         return $program_corner->delete();

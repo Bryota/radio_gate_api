@@ -108,13 +108,12 @@ class RadioProgramController extends Controller
      */
     public function destroy(int $radio_program_id)
     {
-        $radio_programs_destroy_count = $this->radio_program->deleteRadioProgram($radio_program_id);
-        // TODO: 分岐の条件検討する
-        if ($radio_programs_destroy_count == 1) {
+        try {
+            $this->radio_program->deleteRadioProgram($radio_program_id);
             return response()->json([
                 'message' => 'ラジオ番組が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ番組の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
