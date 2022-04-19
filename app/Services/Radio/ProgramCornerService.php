@@ -80,7 +80,7 @@ class ProgramCornerService
      * 番組コーナー削除
      *
      * @param int $program_corner_id 番組コーナーID
-     * @return bool 削除したかどうか
+     * @return bool 削除できたかどうか
      */
     public function deleteProgramCorner(int $program_corner_id): bool
     {

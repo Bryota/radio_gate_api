@@ -91,7 +91,7 @@ class RadioProgramRepository
      * ラジオ番組削除
      *
      * @param int $radio_program_id ラジオ番組ID
-     * @return bool 削除したかどうか
+     * @return bool 削除できたかどうか
      */
     public function deleteRadioProgram(int $radio_program_id): bool
     {

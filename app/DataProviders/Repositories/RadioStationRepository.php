@@ -78,7 +78,7 @@ class RadioStationRepository
      * ラジオ局削除
      *
      * @param int $radio_station_id ラジオ局ID
-     * @return bool 削除したかどうか
+     * @return bool 削除できたかどうか
      */
     public function deleteRadioStation(int $radio_station_id): bool
     {
