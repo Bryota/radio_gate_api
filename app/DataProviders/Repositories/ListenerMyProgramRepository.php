@@ -51,6 +51,20 @@ class ListenerMyProgramRepository
     }
 
     /**
+     * リスナーに紐づいたマイ番組個別の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id マイ番組ID
+     * @return ListenerMyProgram マイ番組データ
+     */
+    public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram
+    {
+        return $this->listener_my_program::where('id', $listener_my_program_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+    }
+
+    /**
      * マイ番組作成
      *
      * @param ListenerMyProgramRequest $request マイ番組作成リクエストデータ
