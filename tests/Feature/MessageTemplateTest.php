@@ -45,21 +45,17 @@ class MessageTemplateTest extends TestCase
     {
         $response1 = $this->postJson('api/message_templates', ['name' => '', 'content' => 'こんにちは！　いつも楽しく聴いています。', 'listener_id' => $this->listener->id]);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'テンプレート名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'テンプレート名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->postJson('api/message_templates', ['name' => str_repeat('あ', 151), 'content' => 'こんにちは！　いつも楽しく聴いています。', 'listener_id' => $this->listener->id]);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'テンプレート名は150文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'テンプレート名は150文字以下で入力してください。'
                 ]
             ]);
 
@@ -74,21 +70,17 @@ class MessageTemplateTest extends TestCase
     {
         $response1 = $this->postJson('api/message_templates', ['name' => 'テストテンプレート', 'content' => '', 'listener_id' => $this->listener->id]);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'content' => [
-                        'テンプレート本文を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'content' => [
+                    'テンプレート本文を入力してください。'
                 ]
             ]);
 
         $response2 = $this->postJson('api/message_templates', ['name' => 'テストテンプレート', 'content' => str_repeat('あ', 1001), 'listener_id' => $this->listener->id]);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'content' => [
-                        'テンプレート本文は1000文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'content' => [
+                    'テンプレート本文は1000文字以下で入力してください。'
                 ]
             ]);
 
@@ -165,21 +157,17 @@ class MessageTemplateTest extends TestCase
 
         $response1 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => '', 'content' => 'hello update']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'テンプレート名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'テンプレート名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => str_repeat('あ', 151), 'content' => 'hello update']);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'テンプレート名は150文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'テンプレート名は150文字以下で入力してください。'
                 ]
             ]);
 
@@ -199,21 +187,17 @@ class MessageTemplateTest extends TestCase
 
         $response1 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => 'テストテンプレート1', 'content' => '']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'content' => [
-                        'テンプレート本文を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'content' => [
+                    'テンプレート本文を入力してください。'
                 ]
             ]);
 
         $response2 = $this->putJson('api/message_templates/' . $message_template->id, ['listener_id' => $this->listener->id, 'name' => 'テストテンプレート1', 'content' => str_repeat('あ', 1001)]);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'content' => [
-                        'テンプレート本文は1000文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'content' => [
+                    'テンプレート本文は1000文字以下で入力してください。'
                 ]
             ]);
 

@@ -43,22 +43,18 @@ class RadioStationTest extends TestCase
         $response1 = $this->postJson('api/radio_stations', ['name' => '']);
 
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ局名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ局名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->postJson('api/radio_stations', ['name' => str_repeat('あ', 101)]);
 
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ局名は100文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ局名は100文字以下で入力してください。'
                 ]
             ]);
 
@@ -112,22 +108,18 @@ class RadioStationTest extends TestCase
         $response1 = $this->putJson('api/radio_stations/' . $radio_station->id, ['name' => '']);
 
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ局名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ局名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->putJson('api/radio_stations/' . $radio_station->id, ['name' => str_repeat('あ', 101)]);
 
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ局名は100文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ局名は100文字以下で入力してください。'
                 ]
             ]);
 

@@ -50,21 +50,17 @@ class RadioProgramTest extends TestCase
     {
         $response1 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => '', 'email' => 'test@example.com']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ番組名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ番組名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => str_repeat('あ', 101), 'email' => 'test@example.com']);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ番組名は100文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ番組名は100文字以下で入力してください。'
                 ]
             ]);
 
@@ -79,11 +75,9 @@ class RadioProgramTest extends TestCase
     {
         $response1 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => '']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'メールアドレスを入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスを入力してください。'
                 ]
             ]);
 
@@ -92,11 +86,9 @@ class RadioProgramTest extends TestCase
         $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
         $response2 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'メールアドレスが既に使われています。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスが既に使われています。'
                 ]
             ]);
     }
@@ -174,21 +166,17 @@ class RadioProgramTest extends TestCase
 
         $response1 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => '', 'email' => 'testupdate@example.com']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ番組名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ番組名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => str_repeat('あ', 101), 'email' => 'testupdate@example.com']);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'name' => [
-                        'ラジオ番組名は100文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'ラジオ番組名は100文字以下で入力してください。'
                 ]
             ]);
 
@@ -209,21 +197,17 @@ class RadioProgramTest extends TestCase
 
         $response1 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => '']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'メールアドレスを入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスを入力してください。'
                 ]
             ]);
 
         $response2 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => 'test2@example.com']);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'メールアドレスが既に使われています。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスが既に使われています。'
                 ]
             ]);
 
