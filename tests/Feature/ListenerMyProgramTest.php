@@ -45,21 +45,17 @@ class ListenerMyProgramTest extends TestCase
     {
         $response1 = $this->postJson('api/listener_my_programs', ['program_name' => '', 'email' => 'test@example.com']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'program_name' => [
-                        '番組名を入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'program_name' => [
+                    '番組名を入力してください。'
                 ]
             ]);
 
         $response2 = $this->postJson('api/listener_my_programs', ['program_name' => str_repeat('あ', 151), 'content' => 'こんにちは！　いつも楽しく聴いています。', 'listener_id' => $this->listener->id]);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'program_name' => [
-                        '番組名は150文字以下で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'program_name' => [
+                    '番組名は150文字以下で入力してください。'
                 ]
             ]);
 
@@ -74,22 +70,18 @@ class ListenerMyProgramTest extends TestCase
     {
         $response1 = $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => '']);
         $response1->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        '番組メールアドレスを入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    '番組メールアドレスを入力してください。'
                 ]
             ]);
 
         $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $response2 = $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $response2->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        '番組メールアドレスは既に保存されています。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    '番組メールアドレスは既に保存されています。'
                 ]
             ]);
 
