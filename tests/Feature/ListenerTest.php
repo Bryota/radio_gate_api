@@ -75,11 +75,9 @@ class ListenerTest extends TestCase
             'password' => 'password123'
         ]);
         $response->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'メールアドレスを入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスを入力してください。'
                 ]
             ]);
 
@@ -88,11 +86,9 @@ class ListenerTest extends TestCase
             'password' => 'password123'
         ]);
         $response->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'メールアドレスは正しい形式で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスは正しい形式で入力してください。'
                 ]
             ]);
 
@@ -105,11 +101,9 @@ class ListenerTest extends TestCase
             'password' => 'password123'
         ]);
         $response->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'email' => [
-                        'このメールアドレスは既に使用されています。'
-                    ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'このメールアドレスは既に使用されています。'
                 ]
             ]);
 
@@ -127,11 +121,9 @@ class ListenerTest extends TestCase
             'password' => ''
         ]);
         $response->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'password' => [
-                        'パスワードを入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'password' => [
+                    'パスワードを入力してください。'
                 ]
             ]);
 
@@ -150,11 +142,9 @@ class ListenerTest extends TestCase
             'password' => 'password123'
         ]);
         $response->assertStatus(400)
-            ->assertJson([
-                'errors' => [
-                    'post_code' => [
-                        '郵便番号は数字で入力してください。'
-                    ]
+            ->assertJsonValidationErrors([
+                'post_code' => [
+                    '郵便番号は数字で入力してください。'
                 ]
             ]);
 
