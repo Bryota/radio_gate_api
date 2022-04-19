@@ -40,6 +40,17 @@ class ListenerMyProgramRepository
     }
 
     /**
+     * リスナーに紐づいたマイ番組一覧の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return object マイ番組一覧
+     */
+    public function getAllListenerMyPrograms(int $listener_id): object
+    {
+        return $this->listener_my_program::where('listener_id', $listener_id)->get();
+    }
+
+    /**
      * マイ番組作成
      *
      * @param ListenerMyProgramRequest $request マイ番組作成リクエストデータ

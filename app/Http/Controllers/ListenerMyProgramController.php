@@ -18,6 +18,25 @@ class ListenerMyProgramController extends Controller
     }
 
     /**
+     * リスナーに紐づいたマイ番組一覧の取得
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        try {
+            $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms(auth()->user()->id);
+            return response()->json([
+                'listener_my_programs' => $listener_my_programs
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'マイ番組一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * マイ番組作成
      *
      * @param ListenerMyProgramRequest $request マイ番組作成リクエストデータ
