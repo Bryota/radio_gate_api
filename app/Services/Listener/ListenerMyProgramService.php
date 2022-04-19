@@ -52,6 +52,19 @@ class ListenerMyProgramService
     }
 
     /**
+     * リスナーに紐づいたマイ番組個別の取得
+     *
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id マイ番組ID
+     * @return ListenerMyProgram マイ番組データ
+     */
+    public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram
+    {
+        $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id);
+        return $listener_my_program;
+    }
+
+    /**
      * マイ番組作成
      * 
      * @param int $listener_id リスナーID

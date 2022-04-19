@@ -106,4 +106,25 @@ class ListenerMyProgramTest extends TestCase
             ->assertJsonFragment(['email' => 'test1@example.com'])
             ->assertJsonFragment(['email' => 'test2@example.com']);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMyProgramController@show
+     */
+    public function 個別の投稿テンプレートを取得できる()
+    {
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
+        $listener_my_program = ListenerMyProgram::first();
+
+        $response = $this->getJson('api/listener_my_programs/' . $listener_my_program->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'listener_my_program' => [
+                    'program_name' => 'テストマイ番組1',
+                    'email' => 'test1@example.com',
+                    'listener_id' => $this->listener->id
+                ]
+            ]);
+    }
 }
