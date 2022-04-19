@@ -67,7 +67,7 @@ class Listener extends Authenticatable
      * 
      * @return HasMany
      */
-    public function ListenerMyProgram(): HasMany
+    public function ListenerMyPrograms(): HasMany
     {
         return $this->hasMany(ListenerMyProgram::class);
     }
