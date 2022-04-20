@@ -127,4 +127,85 @@ class ListenerMyProgramTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMyProgramController@update
+     */
+    public function マイ番組を更新できる()
+    {
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
+        $listener_my_program = ListenerMyProgram::first();
+
+        $response = $this->putJson('api/listener_my_programs/' . $listener_my_program->id, ['listener_id' => $this->listener->id, 'program_name' => 'テストマイ番組更新', 'email' => 'testupdate@example.com']);
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'マイ番組が更新されました。'
+            ]);
+
+        $listener_my_program = ListenerMyProgram::first();
+        $this->assertEquals('テストマイ番組更新', $listener_my_program->program_name);
+        $this->assertEquals('testupdate@example.com', $listener_my_program->email);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMyProgramController@update
+     */
+    public function マイ番組更新に失敗する（名前関連）()
+    {
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
+        $listener_my_program = ListenerMyProgram::first();
+
+        $response1 = $this->putJson('api/listener_my_programs/' . $listener_my_program->id, ['listener_id' => $this->listener->id, 'program_name' => '', 'email' => 'testupdate@example.com']);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'program_name' => [
+                    '番組名を入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/listener_my_programs/' . $listener_my_program->id, ['listener_id' => $this->listener->id, 'program_name' => str_repeat('あ', 151), 'email' => 'testupdate@example.com']);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'program_name' => [
+                    '番組名は150文字以下で入力してください。'
+                ]
+            ]);
+
+        $listener_my_program = ListenerMyProgram::first();
+        $this->assertEquals('テストマイ番組1', $listener_my_program->program_name);
+        $this->assertEquals('test1@example.com', $listener_my_program->email);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMyProgramController@update
+     */
+    public function マイ番組更新に失敗する（メールアドレス関連）()
+    {
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test2@example.com']);
+        $listener_my_program = ListenerMyProgram::first();
+
+        $response1 = $this->putJson('api/listener_my_programs/' . $listener_my_program->id, ['listener_id' => $this->listener->id, 'program_name' => 'テストマイ番組1', 'email' => '']);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    '番組メールアドレスを入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/listener_my_programs/' . $listener_my_program->id, ['listener_id' => $this->listener->id, 'program_name' => 'テストマイ番組1', 'email' => 'test2@example.com']);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    '番組メールアドレスは既に保存されています。'
+                ]
+            ]);
+
+        $listener_my_program = ListenerMyProgram::first();
+        $this->assertEquals('テストマイ番組1', $listener_my_program->program_name);
+        $this->assertEquals('test1@example.com', $listener_my_program->email);
+    }
 }

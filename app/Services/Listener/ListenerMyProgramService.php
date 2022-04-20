@@ -76,4 +76,18 @@ class ListenerMyProgramService
         $listener_my_program = $this->listener_my_program->storeListenerMyProgram($request, $listener_id);
         return $listener_my_program;
     }
+
+    /**
+     * マイ番組更新
+     *
+     * @param ListenerMyProgramRequest $request マイ番組更新リクエストデータ
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id マイ番組ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id, int $listener_my_program_id): bool
+    {
+        $listener_my_program = $this->listener_my_program->updateListenerMyProgram($request, $listener_id, $listener_my_program_id);
+        return $listener_my_program;
+    }
 }
