@@ -96,4 +96,19 @@ class ListenerMyProgramRepository
         $listener_my_program->email = $request->email;
         return $listener_my_program->save();
     }
+
+    /**
+     * マイ番組削除
+     *
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id マイ番組ID
+     * @return bool 削除できたかどうか
+     */
+    public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool
+    {
+        $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+        return $listener_my_program->delete();
+    }
 }

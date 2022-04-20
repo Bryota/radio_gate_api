@@ -208,4 +208,23 @@ class ListenerMyProgramTest extends TestCase
         $this->assertEquals('テストマイ番組1', $listener_my_program->program_name);
         $this->assertEquals('test1@example.com', $listener_my_program->email);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMyProgramController@destory
+     */
+    public function マイ番組を削除できる()
+    {
+        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
+        $listener_my_program = ListenerMyProgram::first();
+
+        $response = $this->deleteJson('api/listener_my_programs/' . $listener_my_program->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'マイ番組が削除されました。'
+            ]);
+
+        $this->assertEquals(0, ListenerMyProgram::count());
+    }
 }
