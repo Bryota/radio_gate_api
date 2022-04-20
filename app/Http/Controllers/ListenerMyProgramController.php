@@ -96,4 +96,24 @@ class ListenerMyProgramController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * マイ番組削除（1つのみ）
+     *
+     * @param int $listener_my_program_id マイ番組ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $listener_my_program_id)
+    {
+        try {
+            $this->listener_my_program->deleteListenerMyProgram(auth()->user()->id, $listener_my_program_id);
+            return response()->json([
+                'message' => 'マイ番組が削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'マイ番組の削除に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }

@@ -90,4 +90,17 @@ class ListenerMyProgramService
         $listener_my_program = $this->listener_my_program->updateListenerMyProgram($request, $listener_id, $listener_my_program_id);
         return $listener_my_program;
     }
+
+    /**
+     * マイ番組削除
+     *
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id  マイ番組ID
+     * @return bool 削除できたかどうか
+     */
+    public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool
+    {
+        $is_deleted = $this->listener_my_program->deleteListenerMyProgram($listener_id, $listener_my_program_id);
+        return $is_deleted;
+    }
 }
