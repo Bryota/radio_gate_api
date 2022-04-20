@@ -78,4 +78,22 @@ class ListenerMyProgramRepository
             'listener_id' => $listener_id
         ]);
     }
+
+    /**
+     * マイ番組更新
+     *
+     * @param ListenerMyProgramRequest $request マイ番組更新リクエストデータ
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id マイ番組ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id, int $listener_my_program_id): bool
+    {
+        $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+        $listener_my_program->program_name = $request->program_name;
+        $listener_my_program->email = $request->email;
+        return $listener_my_program->save();
+    }
 }

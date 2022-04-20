@@ -75,4 +75,25 @@ class ListenerMyProgramController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * マイ番組更新
+     *
+     * @param ListenerMyProgramRequest $request マイ番組更新リクエストデータ
+     * @param int $listener_my_program_id マイ番組ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(ListenerMyProgramRequest $request, int $listener_my_program_id)
+    {
+        try {
+            $this->listener_my_program->updateListenerMyProgram($request, auth()->user()->id, $listener_my_program_id);
+            return response()->json([
+                'message' => 'マイ番組が更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'マイ番組の更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
