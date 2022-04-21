@@ -75,4 +75,16 @@ class MyProgramCornerService
         $my_program_corner = $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
         return $my_program_corner;
     }
+
+    /**
+     * マイ番組コーナー削除
+     *
+     * @param int $my_program_corner_id マイ番組コーナーID
+     * @return bool 削除できたかどうか
+     */
+    public function deleteMyProgramCorner(int $my_program_corner_id): bool
+    {
+        $is_deleted = $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id);
+        return $is_deleted;
+    }
 }
