@@ -21,7 +21,7 @@ class MyProgramCornerController extends Controller
     /**
      * マイ番組に紐づいたコーナーの取得
      *
-     * @param Request $request マイ番組ID用のgetパラメーター
+     * @param Request $request getパラメーター
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
