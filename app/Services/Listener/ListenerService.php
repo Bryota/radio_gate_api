@@ -10,7 +10,7 @@
  * @copyright 2022 Ryota Segawa
  */
 
-namespace App\Services\Radio;
+namespace App\Services\Listener;
 
 use App\DataProviders\Models\Listener;
 use App\DataProviders\Repositories\ListenerRepository;
