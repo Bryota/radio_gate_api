@@ -71,4 +71,31 @@ class MyProgramCornerController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * マイ番組コーナ更新
+     *
+     * @param MyProgramCornerRequest $request マイ番組コーナー作成リクエストデータ
+     * @param int $my_program_corner_id マイ番組コーナーID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(MyProgramCornerRequest $request, $my_program_corner_id)
+    {
+        if ($request->listener_id !== auth()->user()->id) {
+            return response()->json([
+                'message' => 'ログインし直してください。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        try {
+            $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
+            return response()->json([
+                'message' => 'マイ番組コーナーが更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'マイ番組コーナーの更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
