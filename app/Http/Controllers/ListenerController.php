@@ -17,7 +17,7 @@ class ListenerController extends Controller
     }
 
     /**
-     * ユーザー情報取得
+     * リスナー情報取得
      *
      * @return \Illuminate\Http\JsonResponse
      */

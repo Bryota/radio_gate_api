@@ -153,7 +153,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@show
+     * App\Http\Controllers\ListenerController@show
      */
     public function リスナー情報を取得できる()
     {
