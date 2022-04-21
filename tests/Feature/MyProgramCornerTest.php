@@ -185,10 +185,15 @@ class MyProgramCornerTest extends TestCase
         $program_corner = MyProgramCorner::first();
 
         $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener=' . $this->listener->id);
-
         $response->assertStatus(200)
             ->assertJson([
                 'message' => 'マイ番組コーナーが削除されました。'
+            ]);
+
+        $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener=100000');
+        $response->assertStatus(409)
+            ->assertJson([
+                'message' => 'ログインし直してください。'
             ]);
 
         $this->assertEquals(0, MyProgramCorner::count());
