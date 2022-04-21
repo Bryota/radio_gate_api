@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/listener', [ListenerController::class, 'show']);
     Route::apiResource('listeners', ListenerController::class);
     Route::apiResource('radio_stations', RadioStationController::class);
     Route::apiResource('radio_programs', RadioProgramController::class);
