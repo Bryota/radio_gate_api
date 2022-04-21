@@ -4,6 +4,7 @@ namespace App\DataProviders\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ListenerMyProgram extends Model
@@ -20,6 +21,16 @@ class ListenerMyProgram extends Model
         'email',
         'listener_id'
     ];
+
+    /**
+     * マイ番組コーナー用リレーション
+     * 
+     * @return HasMany
+     */
+    public function MyProgramCorners(): HasMany
+    {
+        return $this->hasMany(MyProgramCorner::class);
+    }
 
     /**
      * リスナー用リレーション
