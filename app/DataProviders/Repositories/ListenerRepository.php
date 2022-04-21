@@ -64,4 +64,16 @@ class ListenerRepository
         ]);
         return $listener;
     }
+
+    /**
+     * リスナー情報取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return Listener リスナーデータ
+     */
+    public function getSingleListener(int $listener_id): Listener
+    {
+        return $this->listener::where('id', $listener_id)
+            ->first();
+    }
 }

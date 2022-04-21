@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ListenerRequest;
-use App\Services\Radio\ListenerService;
+use App\Services\Listener\ListenerService;
 
 class RegisterController extends Controller
 {

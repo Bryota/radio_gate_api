@@ -10,7 +10,7 @@
  * @copyright 2022 Ryota Segawa
  */
 
-namespace App\Services\Radio;
+namespace App\Services\Listener;
 
 use App\DataProviders\Models\Listener;
 use App\DataProviders\Repositories\ListenerRepository;
@@ -48,6 +48,18 @@ class ListenerService
     public function CreateListener(ListenerRequest $request): Listener
     {
         $listener = $this->listener->CreateListener($request);
+        return $listener;
+    }
+
+    /**
+     * リスナー情報取得
+     *
+     * @param int $listener_id リスナーID
+     * @return Listener リスナーデータ
+     */
+    public function getSingleListener(int $listener_id): Listener
+    {
+        $listener = $this->listener->getSingleListener($listener_id);
         return $listener;
     }
 }
