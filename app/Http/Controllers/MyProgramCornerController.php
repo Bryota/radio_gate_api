@@ -27,7 +27,7 @@ class MyProgramCornerController extends Controller
     public function index(Request $request)
     {
         $listener_my_program_id = $request->input('listener_my_program');
-        $listener_id = $request->input('listener');
+        $listener_id = (int) $request->input('listener');
         if ($listener_id !== auth()->user()->id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
