@@ -26,7 +26,7 @@ class MyProgramCornerRequest extends FormRequest
     {
         return [
             'listener_my_program_id' => 'required',
-            'corner_name' => 'required|max: 100',
+            'name' => 'required|max: 100',
             'listener_id' => 'required'
         ];
     }
@@ -34,8 +34,8 @@ class MyProgramCornerRequest extends FormRequest
     public function messages()
     {
         return [
-            'corner_name.required' => 'ラジオ番組名を入力してください。',
-            'corner_name.max' => 'ラジオ番組名は100文字以下で入力してください。',
+            'name.required' => 'ラジオ番組名を入力してください。',
+            'name.max' => 'ラジオ番組名は100文字以下で入力してください。',
         ];
     }
 

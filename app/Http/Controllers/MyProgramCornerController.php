@@ -24,11 +24,12 @@ class MyProgramCornerController extends Controller
      */
     public function store(MyProgramCornerRequest $request)
     {
-        if ($request->listener_id === auth()->user()->id) {
+        if ($request->listener_id !== auth()->user()->id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
+
         try {
             $this->my_program_corner->storeMyProgramCorner($request);
             return response()->json([

@@ -16,7 +16,7 @@ class MyProgramCorner extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'corner_name',
+        'name',
         'listener_my_program_id'
     ];
 

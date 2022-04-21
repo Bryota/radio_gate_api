@@ -48,8 +48,8 @@ class MyProgramCornerRepository
     public function storeMyProgramCorner(MyProgramCornerRequest $request): MyProgramCorner
     {
         return $this->my_program_corner::create([
-            'corner_name' => $request->corner_name,
-            'listener_program_id' => $request->listener_program_id
+            'name' => $request->name,
+            'listener_my_program_id' => $request->listener_my_program_id
         ]);
     }
 }
