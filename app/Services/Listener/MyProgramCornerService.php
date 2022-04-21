@@ -40,6 +40,18 @@ class MyProgramCornerService
     }
 
     /**
+     * マイ番組に紐づいたコーナー一覧取得
+     * 
+     * @param int $listener_my_program_id マイ番組ID
+     * @return object コーナー一覧
+     */
+    public function getAllMyProgramCorners(int $listener_my_program_id): object
+    {
+        $my_program_corners = $this->my_program_corner->getAllMyProgramCorners($listener_my_program_id);
+        return $my_program_corners;
+    }
+
+    /**
      * マイ番組コーナー作成
      * 
      * @param MyProgramCornerRequest $request マイ番組コーナー登録用のリクエストデータ
