@@ -50,4 +50,16 @@ class ListenerService
         $listener = $this->listener->CreateListener($request);
         return $listener;
     }
+
+    /**
+     * リスナー情報取得
+     *
+     * @param int $listener_id リスナーID
+     * @return Listener リスナーデータ
+     */
+    public function getSingleListener(int $listener_id): Listener
+    {
+        $listener = $this->listener->getSingleListener($listener_id);
+        return $listener;
+    }
 }
