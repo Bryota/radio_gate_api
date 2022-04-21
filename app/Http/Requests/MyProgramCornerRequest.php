@@ -34,8 +34,8 @@ class MyProgramCornerRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'ラジオ番組名を入力してください。',
-            'name.max' => 'ラジオ番組名は100文字以下で入力してください。',
+            'name.required' => 'マイ番組コーナー名を入力してください。',
+            'name.max' => 'マイ番組コーナー名は100文字以下で入力してください。',
         ];
     }
 
