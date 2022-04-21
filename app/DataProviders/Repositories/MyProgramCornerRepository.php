@@ -63,4 +63,18 @@ class MyProgramCornerRepository
             'listener_my_program_id' => $request->listener_my_program_id
         ]);
     }
+
+    /**
+     * マイ番組コーナー更新
+     *
+     * @param MyProgramCornerRequest $request マイ番組コーナー更新リクエストデータ
+     * @param int $my_program_corner_id マイ番組コーナーID
+     * @return bool 更新できたかどうか
+     */
+    public function updateMyProgramCorner(MyProgramCornerRequest $request, int $my_program_corner_id): bool
+    {
+        $my_program_corner = $this->my_program_corner::find($my_program_corner_id);
+        $my_program_corner->name = $request->name;
+        return $my_program_corner->save();
+    }
 }

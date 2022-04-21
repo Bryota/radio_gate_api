@@ -62,4 +62,17 @@ class MyProgramCornerService
         $my_program_corner = $this->my_program_corner->storeMyProgramCorner($request);
         return $my_program_corner;
     }
+
+    /**
+     * マイ番組コーナー更新
+     *
+     * @param MyProgramCornerRequest $request マイ番組コーナー更新リクエストデータ
+     * @param int $my_program_corner_id マイ番組コーナーID
+     * @return bool 更新できたかどうか
+     */
+    public function updateMyProgramCorner(MyProgramCornerRequest $request, int $my_program_corner_id): bool
+    {
+        $my_program_corner = $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
+        return $my_program_corner;
+    }
 }
