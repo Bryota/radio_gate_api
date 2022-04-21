@@ -174,4 +174,23 @@ class MyProgramCornerTest extends TestCase
         $my_program_corner = MyProgramCorner::first();
         $this->assertEquals('BBSリクエスト', $my_program_corner->name);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\MyProgramCornerController@destroy
+     */
+    public function 番組コーナーを削除できる()
+    {
+        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $program_corner = MyProgramCorner::first();
+
+        $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener=' . $this->listener->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'マイ番組コーナーが削除されました。'
+            ]);
+
+        $this->assertEquals(0, MyProgramCorner::count());
+    }
 }
