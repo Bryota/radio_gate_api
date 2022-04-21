@@ -7,6 +7,7 @@ use App\Http\Controllers\RadioProgramController;
 use App\Http\Controllers\ProgramCornerController;
 use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\ListenerMyProgramController;
+use App\Http\Controllers\MyProgramCornerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('program_corners', ProgramCornerController::class);
     Route::apiResource('message_templates', MessageTemplateController::class);
     Route::apiResource('listener_my_programs', ListenerMyProgramController::class);
+    Route::apiResource('my_program_corners', MyProgramCornerController::class);
 });
