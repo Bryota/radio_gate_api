@@ -73,7 +73,7 @@ class ListenerRepository
      */
     public function getSingleListener(int $listener_id): Listener
     {
-        return $this->listener::where('listener_id', $listener_id)
+        return $this->listener::where('id', $listener_id)
             ->first();
     }
 }
