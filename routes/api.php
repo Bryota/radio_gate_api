@@ -8,6 +8,7 @@ use App\Http\Controllers\ProgramCornerController;
 use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\ListenerMyProgramController;
 use App\Http\Controllers\MyProgramCornerController;
+use App\Http\Controllers\ListenerMessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,4 +32,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('message_templates', MessageTemplateController::class);
     Route::apiResource('listener_my_programs', ListenerMyProgramController::class);
     Route::apiResource('my_program_corners', MyProgramCornerController::class);
+    Route::apiResource('listener_messages', ListenerMessageController::class);
 });
