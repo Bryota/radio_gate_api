@@ -20,10 +20,10 @@ return new class extends Migration
             $table->foreignId('listener_my_program_id')->nullable()->nullOnDelete()->constrained('listener_my_programs');
             $table->foreignId('my_program_corner_id')->nullable()->nullOnDelete()->constrained('my_program_corners');
             $table->foreignId('listener_id')->nullOnDelete('cascade')->constrained('listeners');
-            $table->string('subject');
+            $table->string('subject')->nullable();
             $table->string('content');
-            $table->string('radio_name');
-            $table->datetime('posted_at');
+            $table->string('radio_name')->nullable();
+            $table->datetime('posted_at')->nullable();
             $table->timestamps();
         });
     }
