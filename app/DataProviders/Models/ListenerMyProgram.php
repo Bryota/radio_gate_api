@@ -33,6 +33,16 @@ class ListenerMyProgram extends Model
     }
 
     /**
+     * 投稿メッセージ用リレーション
+     * 
+     * @return HasMany
+     */
+    public function ListenerMessages(): HasMany
+    {
+        return $this->hasMany(ListenerMessage::class);
+    }
+
+    /**
      * リスナー用リレーション
      * 
      * @return BelongsTo
