@@ -65,9 +65,9 @@ class ListenerMessageRequest extends FormRequest
             'content.required' => '本文を入力してください。',
             'radio_program_id.required' => '番組を選択してください。',
             'listener_my_program_id.required' => '番組を選択してください。',
-            'program_corner_id.required' => 'コーナーを選択してください。',
-            'my_program_corner_id.required' => 'コーナーを選択してください。',
-            'subject.required' => '件名を入力してください。'
+            'program_corner_id.required' => 'コーナーを選択するか件名を入力してください。',
+            'my_program_corner_id.required' => 'コーナーを選択するか件名を入力してください。',
+            'subject.required' => 'コーナーを選択するか件名を入力してください。'
         ];
     }
 
