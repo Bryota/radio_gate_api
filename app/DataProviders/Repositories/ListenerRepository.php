@@ -108,4 +108,15 @@ class ListenerRepository
             'posted_at' => Carbon::now()
         ]);
     }
+
+    /**
+     * リスナーに紐づいた投稿一覧の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return object 投稿一覧
+     */
+    public function getAllListenerMessages(int $listener_id): object
+    {
+        return $this->listener_message::where('listener_id', $listener_id)->get();
+    }
 }

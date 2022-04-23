@@ -171,4 +171,16 @@ class ListenerService
             $content
         ));
     }
+
+    /**
+     * リスナーに紐づいた投稿一覧の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return object 投稿一覧
+     */
+    public function getAllListenerMessages(int $listener_id): object
+    {
+        $listener_messages = $this->listener->getAllListenerMessages($listener_id);
+        return $listener_messages;
+    }
 }
