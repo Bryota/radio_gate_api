@@ -110,6 +110,25 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\MyProgramCornerController@show
+     */
+    public function 個別のマイラジオ番組を取得できる()
+    {
+        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $my_program_corner = MyProgramCorner::first();
+
+        $response = $this->getJson('api/my_program_corners/' . $my_program_corner->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'my_program_corner' => [
+                    'name' => 'BBSリクエスト',
+                ]
+            ]);
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\MyProgramCornerController@update
      */
     public function 番組コーナーを更新できる()

@@ -52,6 +52,19 @@ class MyProgramCornerService
     }
 
     /**
+     * 個別のマイ番組コーナー取得
+     *
+     * @param int $my_program_corner_id マイ番組コーナーID
+     * @return MyProgramCorner マイ番組コーナーデータ
+     */
+    public function getSingleMyProgramCorner(int $my_program_corner_id): MyProgramCorner
+    {
+        $my_program_corner = $this->my_program_corner->getSingleMyProgramCorner($my_program_corner_id);
+        return $my_program_corner;
+    }
+
+
+    /**
      * マイ番組コーナー作成
      * 
      * @param MyProgramCornerRequest $request マイ番組コーナー登録用のリクエストデータ
