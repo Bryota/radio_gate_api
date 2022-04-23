@@ -8,7 +8,9 @@ use App\DataProviders\Models\RadioProgram;
 use App\DataProviders\Models\ProgramCorner;
 use App\DataProviders\Models\ListenerMyProgram;
 use App\DataProviders\Models\MyProgramCorner;
+use App\Mail\ListenerMessageMail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ListenerMessageTest extends TestCase
@@ -40,6 +42,8 @@ class ListenerMessageTest extends TestCase
      */
     public function ラジオ番組にメッセージが投稿できる（コーナー指定）()
     {
+        Mail::fake();
+
         $response = $this->postJson('api/listener_messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
@@ -59,6 +63,12 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
         $this->assertEquals('テスト番組', $listener_message->RadioProgram->name);
         $this->assertEquals('死んでもやめんじゃねーぞ', $listener_message->ProgramCorner->name);
+
+        Mail::assertSent(function (ListenerMessageMail $mail) {
+            $mail->build();
+            return $mail->hasTo($this->radio_program->email) &&
+                $mail->subject == $this->program_corner->name;
+        });
     }
 
     /**
@@ -67,6 +77,8 @@ class ListenerMessageTest extends TestCase
      */
     public function ラジオ番組にメッセージが投稿できる（コーナー指定なし）()
     {
+        Mail::fake();
+
         $response = $this->postJson('api/listener_messages', [
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
@@ -86,6 +98,12 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals($this->listener->id, $listener_message->listener_id);
         $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
         $this->assertEquals('テスト番組', $listener_message->RadioProgram->name);
+
+        Mail::assertSent(function (ListenerMessageMail $mail) {
+            $mail->build();
+            return $mail->hasTo($this->radio_program->email) &&
+                $mail->subject == 'ふつおた';
+        });
     }
 
     /**
@@ -94,6 +112,8 @@ class ListenerMessageTest extends TestCase
      */
     public function マイラジオ番組にメッセージが投稿できる（コーナー指定）()
     {
+        Mail::fake();
+
         $response = $this->postJson('api/listener_messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'my_program_corner_id' => $this->my_program_corner->id,
@@ -114,6 +134,12 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
         $this->assertEquals('テストマイ番組', $listener_message->ListenerMyProgram->program_name);
         $this->assertEquals('BBSリクエスト', $listener_message->MyProgramCorner->name);
+
+        Mail::assertSent(function (ListenerMessageMail $mail) {
+            $mail->build();
+            return $mail->hasTo($this->listener_my_program->email) &&
+                $mail->subject == $this->my_program_corner->name;
+        });
     }
 
     /**
@@ -122,6 +148,8 @@ class ListenerMessageTest extends TestCase
      */
     public function マイラジオ番組にメッセージが投稿できる（コーナー指定なし）()
     {
+        Mail::fake();
+
         $response = $this->postJson('api/listener_messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
@@ -139,6 +167,12 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals($this->listener->id, $listener_message->listener_id);
         $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
         $this->assertEquals('テストマイ番組', $listener_message->ListenerMyProgram->program_name);
+
+        Mail::assertSent(function (ListenerMessageMail $mail) {
+            $mail->build();
+            return $mail->hasTo($this->listener_my_program->email) &&
+                $mail->subject == 'ふつおた';
+        });
     }
 
     /**
@@ -147,6 +181,8 @@ class ListenerMessageTest extends TestCase
      */
     public function ラジオ番組へのメッセージ投稿に失敗する（番組関連）()
     {
+        Mail::fake();
+
         $response = $this->postJson('api/listener_messages', [
             'my_program_corner_id' => $this->my_program_corner->id,
             'listener_id' => $this->listener->id,
@@ -161,6 +197,8 @@ class ListenerMessageTest extends TestCase
             ]);
 
         $this->assertEquals(0, ListenerMessage::count());
+
+        Mail::assertNotSent(ListenerMessageMail::class);
     }
 
     /**
@@ -169,6 +207,8 @@ class ListenerMessageTest extends TestCase
      */
     public function ラジオ番組へのメッセージ投稿に失敗する（コーナー関連）()
     {
+        Mail::fake();
+
         $response1 = $this->postJson('api/listener_messages', [
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
@@ -196,6 +236,8 @@ class ListenerMessageTest extends TestCase
             ]);
 
         $this->assertEquals(0, ListenerMessage::count());
+
+        Mail::assertNotSent(ListenerMessageMail::class);
     }
 
     /**
@@ -204,6 +246,8 @@ class ListenerMessageTest extends TestCase
      */
     public function ラジオ番組へのメッセージ投稿に失敗する（本文関連）()
     {
+        Mail::fake();
+
         $response1 = $this->postJson('api/listener_messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
@@ -257,5 +301,41 @@ class ListenerMessageTest extends TestCase
             ]);
 
         $this->assertEquals(0, ListenerMessage::count());
+
+        Mail::assertNotSent(ListenerMessageMail::class);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMessageController@store
+     */
+    public function 投稿メッセージの本文チェック()
+    {
+        $mailable = new ListenerMessageMail(
+            '死んでもやめんじゃねーぞ',
+            'テストユーザー',
+            'てすとゆーざー',
+            'ハイキングベアー',
+            1111111,
+            '東京都',
+            '新宿区',
+            '000-0',
+            '000-0000-0000',
+            'test@example.com',
+            'こんにちは、これはテストです'
+        );
+
+        $mailable->assertSeeInOrderInHtml([
+            '東京都',
+            'ハイキングベアー',
+            'こんにちは、これはテストです',
+            1111111,
+            '新宿区',
+            '000-0',
+            'テストユーザー',
+            'てすとゆーざー',
+            '000-0000-0000',
+            'test@example.com',
+        ]);
     }
 }
