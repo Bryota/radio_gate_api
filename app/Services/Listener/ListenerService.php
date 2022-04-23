@@ -198,6 +198,17 @@ class ListenerService
         return $listener_message;
     }
 
+    /**
+     * リスナーに紐づいた一保存してある投稿一覧の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @return object 投稿一覧
+     */
+    public function getAllListenerSavedMessages(int $listener_id): object
+    {
+        $listener_messages = $this->listener->getAllListenerSavedMessages($listener_id);
+        return $listener_messages;
+    }
 
     /**
      * 投稿メッセージをDBに一時保存
