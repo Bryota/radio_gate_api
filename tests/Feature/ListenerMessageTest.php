@@ -338,4 +338,35 @@ class ListenerMessageTest extends TestCase
             'test@example.com',
         ]);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMessageController@index
+     */
+    public function 投稿一覧を取得できる()
+    {
+        Mail::fake();
+        $this->postJson('api/listener_messages', [
+            'radio_program_id' => $this->radio_program->id,
+            'program_corner_id' => $this->program_corner->id,
+            'listener_id' => $this->listener->id,
+            'content' => 'こんにちは。こんばんは。',
+        ]);
+        $this->postJson('api/listener_messages', [
+            'listener_my_program_id' => $this->listener_my_program->id,
+            'listener_id' => $this->listener->id,
+            'subject' => 'ふつおた',
+            'content' => 'こんにちは。',
+            'radio_name' => 'ハイキングベアー'
+        ]);
+
+
+        $response = $this->getJson('api/listener_messages');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['content' => 'こんにちは。こんばんは。'])
+            ->assertJsonFragment(['subject' => 'ふつおた'])
+            ->assertJsonFragment(['content' => 'こんにちは。'])
+            ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
+    }
 }
