@@ -25,17 +25,37 @@ class ListenerMessageRequest extends FormRequest
     public function rules()
     {
         if ($this->input('radio_program_id')) {
-            return [
-                'listener_id' => 'required',
-                'content' => 'required',
-                'radio_program_id' => 'required'
-            ];
+            if ($this->input('program_corner_id')) {
+                return [
+                    'listener_id' => 'required',
+                    'content' => 'required',
+                    'radio_program_id' => 'required',
+                    'program_corner_id' => 'required'
+                ];
+            } else {
+                return [
+                    'listener_id' => 'required',
+                    'content' => 'required',
+                    'radio_program_id' => 'required',
+                    'subject' => 'required'
+                ];
+            }
         } else {
-            return [
-                'listener_id' => 'required',
-                'content' => 'required',
-                'listener_my_program_id' => 'required',
-            ];
+            if ($this->input('my_program_corner_id')) {
+                return [
+                    'listener_id' => 'required',
+                    'content' => 'required',
+                    'listener_my_program_id' => 'required',
+                    'my_program_corner_id' => 'required'
+                ];
+            } else {
+                return [
+                    'listener_id' => 'required',
+                    'content' => 'required',
+                    'listener_my_program_id' => 'required',
+                    'subject' => 'required'
+                ];
+            }
         }
     }
 
@@ -43,8 +63,11 @@ class ListenerMessageRequest extends FormRequest
     {
         return [
             'content.required' => '本文を入力してください。',
-            'radio_program_id.required' => '番組を入力してください。',
-            'listener_my_program_id.required' => '番組を入力してください。',
+            'radio_program_id.required' => '番組を選択してください。',
+            'listener_my_program_id.required' => '番組を選択してください。',
+            'program_corner_id.required' => 'コーナーを選択してください。',
+            'my_program_corner_id.required' => 'コーナーを選択してください。',
+            'subject.required' => '件名を入力してください。'
         ];
     }
 
