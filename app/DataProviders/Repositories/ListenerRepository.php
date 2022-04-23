@@ -112,7 +112,7 @@ class ListenerRepository
     /**
      * 投稿メッセージ保存
      * 
-     * @param ListenerMessageRequest $request メッセージ投稿用のリクエストデータ
+     * @param ListenerMessageRequest $request メッセージ保存用のリクエストデータ
      * @param int $listener_id リスナーID
      * @return void
      */
