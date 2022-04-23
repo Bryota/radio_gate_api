@@ -36,20 +36,20 @@ class ListenerService
      */
     private $radio_program;
 
-    // /**
-    //  * @var ProgramCornerRepository $program_corner ProgramCornerRepositoryインスタンス
-    //  */
-    // private $program_corner;
+    /**
+     * @var ProgramCornerRepository $program_corner ProgramCornerRepositoryインスタンス
+     */
+    private $program_corner;
 
     /**
      * @var ListenerMyProgramRepository $listener_my_program ListenerMyProgramRepositoryインスタンス
      */
     private $listener_my_program;
 
-    // /**
-    //  * @var MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
-    //  */
-    // private $my_program_corner;
+    /**
+     * @var MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
+     */
+    private $my_program_corner;
 
     /**
      * @var ListenerRepository $listener ListenerRepositoryインスタンス
@@ -57,34 +57,26 @@ class ListenerService
     private $listener;
 
     /**
-     * @var ListenerMessageMail $listener_message_mail ListenerMessageMailインスタンス
-     */
-    private $listener_message_mail;
-
-    /**
      * コンストラクタ
      *
      * @param RadioProgramRepository $radio_program RadioProgramRepositoryインスタンス
-    //  * @param ProgramCornerRepository $program_corner ProgramCornerRepositoryインスタンス
+     * @param ProgramCornerRepository $program_corner ProgramCornerRepositoryインスタンス
      * @param ListenerMyProgramRepository $listener_my_program ListenerMyProgramRepositoryインスタンス
-    //  * @param MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
+     * @param MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
      * @param ListenerRepository $listener ListenerRepositoryインスタンス
-     * @param ListenerMessageMail $listener_message_mail ListenerMessageMailインスタンス
      */
     public function __construct(
         RadioProgramRepository $radio_program,
-        // ProgramCornerRepository $program_corner,
+        ProgramCornerRepository $program_corner,
         ListenerMyProgramRepository $listener_my_program,
-        // MyProgramCornerRepository $my_program_corner,
+        MyProgramCornerRepository $my_program_corner,
         ListenerRepository $listener,
-        ListenerMessageMail $listener_message_mail
     ) {
         $this->radio_program = $radio_program;
-        // $this->program_corner = $program_corner;
+        $this->program_corner = $program_corner;
         $this->listener_my_program = $listener_my_program;
-        // $this->my_program_corner = $my_program_corner;
+        $this->my_program_corner = $my_program_corner;
         $this->listener = $listener;
-        $this->listener_message_mail = $listener_message_mail;
     }
 
     /**
@@ -132,12 +124,51 @@ class ListenerService
      */
     public function sendEmailToRadioProgram(ListenerMessageRequest $request, int $listener_id)
     {
-        $programData = [];
+        // TODO: 別メソッドに分けてもいいかも
         if ($request->radio_program_id) {
-            $programData['email'] = $this->radio_program->getSingleRadioProgram($request->radio_program_id)->email;
+            $radio_email = $this->radio_program->getSingleRadioProgram($request->radio_program_id)->email;
         } else {
-            $programData['email'] = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $request->listener_my_program_id)->email;
+            $radio_email = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $request->listener_my_program_id)->email;
         }
-        Mail::to('test@example.com')->send($this->listener_message_mail);
+        if ($request->program_corner_id) {
+            $corner = $this->program_corner->getSingleProgramCorner($request->program_corner_id)->name;
+        } else if ($request->my_program_corner_id) {
+            $corner = $this->my_program_corner->getSingleMyProgramCorner($request->my_program_corner_id)->name;
+        } else {
+            $corner = $request->subject;
+        }
+
+        $listener = $this->listener->getSingleListener($listener_id);
+        $full_name = $listener->last_name ? "%{$request->last_name}　%{$request->first_name}" : null;
+        $full_name_kana = $listener->last_name_kana ? "%{$request->last_name_kana}　%{$request->first_name_kana}" : null;
+        $post_code = $listener->post_code ? $listener->post_code : null;
+        $prefecture = $listener->prefecture ? $listener->prefecture : null;
+        $city = $listener->city ? $listener->city : null;
+        $house_number = $listener->house_number ? $listener->house_number : null;
+        $tel = $listener->tel ? $listener->tel : null;
+        $email = $listener->email;
+        $content = $request->content;
+        if ($request->radio_name) {
+            $radio_name = $request->radio_name;
+        } else if ($listener->radio_name) {
+            $radio_name = $listener->radio_name;
+        } else {
+            $radio_name = null;
+        }
+
+        // TODO: ListenerMessageMailはコンストラクタでDIしたい
+        Mail::to($radio_email)->send(new ListenerMessageMail(
+            $corner,
+            $full_name,
+            $full_name_kana,
+            $radio_name,
+            $post_code,
+            $prefecture,
+            $city,
+            $house_number,
+            $tel,
+            $email,
+            $content
+        ));
     }
 }

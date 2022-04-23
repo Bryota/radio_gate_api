@@ -27,7 +27,7 @@ class ListenerMessageController extends Controller
     {
         try {
             $this->listener->storeListenerMyProgram($request, auth()->user()->id);
-            // $this->listener->sendEmailToRadioProgram($request, auth()->user()->id);
+            $this->listener->sendEmailToRadioProgram($request, auth()->user()->id);
             return response()->json([
                 'message' => 'メッセージが投稿されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);

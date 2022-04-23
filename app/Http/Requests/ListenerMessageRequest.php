@@ -27,14 +27,12 @@ class ListenerMessageRequest extends FormRequest
         if ($this->input('radio_program_id')) {
             if ($this->input('program_corner_id')) {
                 return [
-                    'listener_id' => 'required',
                     'content' => 'required',
                     'radio_program_id' => 'required',
                     'program_corner_id' => 'required'
                 ];
             } else {
                 return [
-                    'listener_id' => 'required',
                     'content' => 'required',
                     'radio_program_id' => 'required',
                     'subject' => 'required'
@@ -43,14 +41,12 @@ class ListenerMessageRequest extends FormRequest
         } else {
             if ($this->input('my_program_corner_id')) {
                 return [
-                    'listener_id' => 'required',
                     'content' => 'required',
                     'listener_my_program_id' => 'required',
                     'my_program_corner_id' => 'required'
                 ];
             } else {
                 return [
-                    'listener_id' => 'required',
                     'content' => 'required',
                     'listener_my_program_id' => 'required',
                     'subject' => 'required'
