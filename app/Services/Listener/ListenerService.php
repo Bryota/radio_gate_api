@@ -15,6 +15,7 @@ namespace App\Services\Listener;
 use App\DataProviders\Models\Listener;
 use App\DataProviders\Repositories\ListenerRepository;
 use App\Http\Requests\ListenerRequest;
+use App\Http\Requests\ListenerMessageRequest;
 
 /**
  * リスナー用のサービスクラス
@@ -61,5 +62,28 @@ class ListenerService
     {
         $listener = $this->listener->getSingleListener($listener_id);
         return $listener;
+    }
+
+    /**
+     * 投稿メッセージをDBに保存
+     * 
+     * @param ListenerMessageRequest $request メッセージ投稿用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function storeListenerMyProgram(ListenerMessageRequest $request, int $listener_id)
+    {
+        $this->listener->storeListenerMyProgram($request, $listener_id);
+    }
+
+    /**
+     * 投稿メッセージを投稿
+     * 
+     * @param ListenerMessageRequest $request メッセージ投稿用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function sendEmailToRadioProgram(ListenerMessageRequest $request, int $listener_id)
+    {
     }
 }
