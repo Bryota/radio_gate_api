@@ -32,5 +32,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('message_templates', MessageTemplateController::class);
     Route::apiResource('listener_my_programs', ListenerMyProgramController::class);
     Route::apiResource('my_program_corners', MyProgramCornerController::class);
-    Route::apiResource('listener_messages', ListenerMessageController::class);
 });
+Route::apiResource('listener_messages', ListenerMessageController::class);
