@@ -33,4 +33,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('listener_my_programs', ListenerMyProgramController::class);
     Route::apiResource('my_program_corners', MyProgramCornerController::class);
     Route::apiResource('listener_messages', ListenerMessageController::class);
+    Route::post('/listener_messages/save', [ListenerMessageController::class, 'save']);
 });

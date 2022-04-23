@@ -394,4 +394,32 @@ class ListenerMessageTest extends TestCase
             ->assertJsonFragment(['subject' => 'ふつおた'])
             ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMessageController@save
+     */
+    public function 投稿を保存できる()
+    {
+        $response = $this->postJson('api/listener_messages/save', [
+            'radio_program_id' => $this->radio_program->id,
+            'program_corner_id' => $this->program_corner->id,
+            'listener_id' => $this->listener->id,
+            'content' => 'こんにちは。こんばんは。',
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'メッセージが保存されました。'
+            ]);
+
+        $listener_message = ListenerMessage::first();
+        $this->assertEquals($this->radio_program->id, $listener_message->radio_program_id);
+        $this->assertEquals($this->program_corner->id, $listener_message->program_corner_id);
+        $this->assertEquals($this->listener->id, $listener_message->listener_id);
+        $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
+        $this->assertEquals('テスト番組', $listener_message->RadioProgram->name);
+        $this->assertEquals('死んでもやめんじゃねーぞ', $listener_message->ProgramCorner->name);
+        $this->assertEquals(null, $listener_message->posted_at);
+    }
 }
