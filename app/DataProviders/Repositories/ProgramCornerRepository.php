@@ -51,6 +51,17 @@ class ProgramCornerRepository
     }
 
     /**
+     * 個別の番組コーナー取得
+     * 
+     * @param int $program_corner_id 番組コーナーID
+     * @return ProgramCorner 番組コーナーデータ
+     */
+    public function getSingleProgramCorner(int $program_corner_id): ProgramCorner
+    {
+        return $this->program_corner::find($program_corner_id);
+    }
+
+    /**
      * 番組コーナー作成
      *
      * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
