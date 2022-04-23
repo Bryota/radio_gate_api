@@ -369,4 +369,29 @@ class ListenerMessageTest extends TestCase
             ->assertJsonFragment(['content' => 'こんにちは。'])
             ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMessageController@show
+     */
+    public function 個別の投稿テンプレートを取得できる()
+    {
+        Mail::fake();
+        $this->postJson('api/listener_messages', [
+            'radio_program_id' => $this->radio_program->id,
+            'listener_id' => $this->listener->id,
+            'subject' => 'ふつおた',
+            'radio_name' => 'ハイキングベアー',
+            'content' => 'こんにちは。こんばんは。',
+        ]);
+        $listener_message = ListenerMessage::first();
+
+
+        $response = $this->getJson('api/listener_messages/' . $listener_message->id);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['content' => 'こんにちは。こんばんは。'])
+            ->assertJsonFragment(['subject' => 'ふつおた'])
+            ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
+    }
 }
