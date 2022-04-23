@@ -422,4 +422,45 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals('死んでもやめんじゃねーぞ', $listener_message->ProgramCorner->name);
         $this->assertEquals(null, $listener_message->posted_at);
     }
+
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerMessageController@savedMessage
+     */
+    public function 一時保存してある投稿一覧を取得できる()
+    {
+        Mail::fake();
+        $this->postJson('api/listener_messages', [
+            'radio_program_id' => $this->radio_program->id,
+            'program_corner_id' => $this->program_corner->id,
+            'listener_id' => $this->listener->id,
+            'content' => 'こんにちは。こんばんは。',
+        ]);
+        $this->postJson('api/listener_messages/save', [
+            'listener_my_program_id' => $this->listener_my_program->id,
+            'listener_id' => $this->listener->id,
+            'subject' => 'ふつおた1',
+            'content' => 'こんにちは1',
+            'radio_name' => 'ハイキングベアー'
+        ]);
+        $this->postJson('api/listener_messages/save', [
+            'listener_my_program_id' => $this->listener_my_program->id,
+            'listener_id' => $this->listener->id,
+            'subject' => 'ふつおた2',
+            'content' => 'こんにちは2',
+            'radio_name' => 'ハイキングベアー'
+        ]);
+
+
+        $response = $this->getJson('api/saved_messages');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['content' => 'こんにちは1'])
+            ->assertJsonFragment(['content' => 'こんにちは2'])
+            ->assertJsonFragment(['subject' => 'ふつおた1'])
+            ->assertJsonFragment(['subject' => 'ふつおた2'])
+            ->assertJsonFragment(['radio_name' => 'ハイキングベアー'])
+            ->assertJsonMissing(['content' => 'こんにちは。こんばんは。']);
+    }
 }
