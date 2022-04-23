@@ -14,6 +14,7 @@ namespace App\Services\Listener;
 
 use Illuminate\Support\Facades\Mail;
 use App\DataProviders\Models\Listener;
+use App\DataProviders\Models\ListenerMessage;
 use App\DataProviders\Repositories\RadioProgramRepository;
 use App\DataProviders\Repositories\ProgramCornerRepository;
 use App\DataProviders\Repositories\ListenerMyProgramRepository;
@@ -182,5 +183,18 @@ class ListenerService
     {
         $listener_messages = $this->listener->getAllListenerMessages($listener_id);
         return $listener_messages;
+    }
+
+    /**
+     * リスナーに紐づいた投稿個別の取得
+     *
+     * @param int $listener_id リスナーID
+     * @param int $listener_message_id 投稿ID
+     * @return ListenerMessage 投稿データ
+     */
+    public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage
+    {
+        $listener_message = $this->listener->getSingleListenerMessage($listener_id, $listener_message_id);
+        return $listener_message;
     }
 }

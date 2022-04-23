@@ -37,6 +37,26 @@ class ListenerMessageController extends Controller
     }
 
     /**
+     * リスナーに紐づいた投稿個別の取得
+     * 
+     * @param int $listener_message_id 投稿ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $listener_message_id)
+    {
+        try {
+            $listener_message = $this->listener->getSingleListenerMessage(auth()->user()->id, $listener_message_id);
+            return response()->json([
+                'listener_message' => $listener_message
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '投稿の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * メッセージ投稿
      * 
      * @param ListenerMessageRequest $request メッセージ投稿用のリクエストデータ

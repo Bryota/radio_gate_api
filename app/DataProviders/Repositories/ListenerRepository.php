@@ -119,4 +119,18 @@ class ListenerRepository
     {
         return $this->listener_message::where('listener_id', $listener_id)->get();
     }
+
+    /**
+     * リスナーに紐づいた投稿個別の取得
+     * 
+     * @param int $listener_id リスナーID
+     * @param int $listener_message_id 投稿ID
+     * @return ListenerMessage 投稿データ
+     */
+    public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage
+    {
+        return $this->listener_message::where('id', $listener_message_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+    }
 }
