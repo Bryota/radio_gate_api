@@ -31,7 +31,7 @@ class ListenerFactory extends Factory
             'city' => $this->faker->city,
             'house_number' => $this->faker->streetAddress,
             'tel' => $this->faker->phoneNumber,
-            'email' => $this->faker->email,
+            'email' => $this->faker->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('password123')
         ];

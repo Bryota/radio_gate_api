@@ -31,6 +31,16 @@ class RadioProgram extends Model
     }
 
     /**
+     * 投稿メッセージ用リレーション
+     * 
+     * @return HasMany
+     */
+    public function ListenerMessages(): HasMany
+    {
+        return $this->hasMany(ListenerMessage::class);
+    }
+
+    /**
      * ラジオ局用リレーション
      * 
      * @return BelongsTo
