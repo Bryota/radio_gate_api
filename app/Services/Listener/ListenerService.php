@@ -197,4 +197,17 @@ class ListenerService
         $listener_message = $this->listener->getSingleListenerMessage($listener_id, $listener_message_id);
         return $listener_message;
     }
+
+
+    /**
+     * 投稿メッセージをDBに一時保存
+     * 
+     * @param ListenerMessageRequest $request メッセージ保存用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function saveListenerMyProgram(ListenerMessageRequest $request, int $listener_id)
+    {
+        $this->listener->saveListenerMyProgram($request, $listener_id);
+    }
 }

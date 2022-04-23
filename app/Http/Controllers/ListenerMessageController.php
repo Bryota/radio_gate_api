@@ -76,4 +76,24 @@ class ListenerMessageController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * メッセージ一時保存
+     * 
+     * @param ListenerMessageRequest $request メッセージ保存用のリクエストデータ
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function save(ListenerMessageRequest $request)
+    {
+        try {
+            $this->listener->saveListenerMyProgram($request, auth()->user()->id);
+            return response()->json([
+                'message' => 'メッセージが保存されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'メッセージの保存に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }

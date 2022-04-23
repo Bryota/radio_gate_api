@@ -110,6 +110,27 @@ class ListenerRepository
     }
 
     /**
+     * 投稿メッセージ保存
+     * 
+     * @param ListenerMessageRequest $request メッセージ投稿用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function saveListenerMyProgram(ListenerMessageRequest $request, int $listener_id)
+    {
+        $this->listener_message::create([
+            'radio_program_id' => $request->radio_program_id ? $request->radio_program_id : null,
+            'program_corner_id' => $request->program_corner_id ? $request->program_corner_id : null,
+            'listener_my_program_id' => $request->listener_my_program_id ? $request->listener_my_program_id : null,
+            'my_program_corner_id' => $request->my_program_corner_id ? $request->my_program_corner_id : null,
+            'listener_id' => $listener_id,
+            'subject' => $request->subject ? $request->subject : null,
+            'content' => $request->content,
+            'radio_name' => $request->radio_name ? $request->radio_name : null,
+        ]);
+    }
+
+    /**
      * リスナーに紐づいた投稿一覧の取得
      * 
      * @param int $listener_id リスナーID
