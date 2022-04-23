@@ -47,6 +47,26 @@ class MyProgramCornerController extends Controller
     }
 
     /**
+     * 個別のマイ番組コーナー取得
+     * 
+     * @param int $my_program_corner_id マイ番組コーナーID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $my_program_corner_id)
+    {
+        try {
+            $my_program_corner = $this->my_program_corner->getSingleMyProgramCorner($my_program_corner_id);
+            return response()->json([
+                'my_program_corner' => $my_program_corner
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'マイ番組コーナーの取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * マイ番組コーナー作成
      *
      * @param MyProgramCornerRequest $request マイ番組コーナー作成リクエストデータ
