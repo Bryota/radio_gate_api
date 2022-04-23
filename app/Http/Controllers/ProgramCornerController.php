@@ -40,6 +40,26 @@ class ProgramCornerController extends Controller
     }
 
     /**
+     * 個別の番組コーナー取得
+     * 
+     * @param int $program_corner_id 番組コーナーID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $program_corner_id)
+    {
+        try {
+            $program_corner = $this->program_corner->getSingleProgramCorner($program_corner_id);
+            return response()->json([
+                'program_corner' => $program_corner
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '番組コーナーの取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * 番組コーナー作成
      *
      * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
