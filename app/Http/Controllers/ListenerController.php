@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ListenerRequest;
 use App\Services\Listener\ListenerService;
 
 class ListenerController extends Controller
@@ -31,6 +32,26 @@ class ListenerController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'リスナーデータの取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
+     * リスナー情報更新
+     *
+     * @param ListenerRequest $request リスナー登録用のリクエストデータ
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(ListenerRequest $request)
+    {
+        try {
+            $this->listener->UpdateListener($request, auth()->user()->id);
+            return response()->json([
+                'message' => 'リスナーデータの更新に成功しました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'リスナーデータの更新に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }

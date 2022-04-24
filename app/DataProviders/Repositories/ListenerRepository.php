@@ -76,6 +76,19 @@ class ListenerRepository
     }
 
     /**
+     * リスナー更新
+     * 
+     * @param ListenerRequest $request リスナー更新用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function UpdateListener(ListenerRequest $request, int $listener_id): void
+    {
+        $this->listener::where('id', $listener_id)
+            ->update($request->all());
+    }
+
+    /**
      * リスナー情報取得
      * 
      * @param int $listener_id リスナーID

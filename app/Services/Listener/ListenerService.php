@@ -93,6 +93,19 @@ class ListenerService
     }
 
     /**
+     * リスナー更新
+     * 
+     * @param ListenerRequest $request リスナー更新用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function UpdateListener(ListenerRequest $request, $listener_id): void
+    {
+        $request->offsetUnset('password');
+        $this->listener->UpdateListener($request, $listener_id);
+    }
+
+    /**
      * リスナー情報取得
      *
      * @param int $listener_id リスナーID
