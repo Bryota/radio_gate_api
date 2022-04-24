@@ -151,6 +151,33 @@ class ListenerTest extends TestCase
         $this->assertEquals(0, Listener::count());
     }
 
+
+    /**
+     * @test
+     * App\Http\Controllers\Auth\ListenerController@update
+     */
+    public function リスナー情報を更新できる()
+    {
+        $listener = $this->loginAsListener();
+
+        $response = $this->putJson('api/listener', [
+            'radio_name' => 'エアーポップ',
+            'prefecture' => '東京都',
+            'email' => 'testupdate@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'リスナーデータの更新に成功しました。'
+            ]);
+
+        $update_listener = Listener::first();
+        $this->assertEquals('エアーポップ', $update_listener->radio_name);
+        $this->assertEquals('東京都', $update_listener->prefecture);
+        $this->assertEquals($listener->email, $update_listener->email);
+    }
+
     /**
      * @test
      * App\Http\Controllers\Auth\loginController@login

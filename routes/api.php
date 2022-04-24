@@ -29,6 +29,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listener', [ListenerController::class, 'show']);
+    Route::put('/listener', [ListenerController::class, 'update']);
     Route::apiResource('radio_stations', RadioStationController::class);
     Route::apiResource('radio_programs', RadioProgramController::class);
     Route::apiResource('program_corners', ProgramCornerController::class);
