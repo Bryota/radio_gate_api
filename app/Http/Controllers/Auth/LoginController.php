@@ -14,7 +14,7 @@ class LoginController extends Controller
      * @param LoginRequest $request リスナーログインリクエストデータ
      * @return \Illuminate\Http\JsonResponse
      */
-    public function authenticate(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $credentials = [
             'email' => $request->email,
