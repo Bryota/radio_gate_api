@@ -18,6 +18,25 @@ class ListenerController extends Controller
     }
 
     /**
+     * リスナー一覧取得
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        try {
+            $listeners = $this->listener->getAllListeners();
+            return response()->json([
+                'listeners' => $listeners
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'リスナー一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * リスナー情報取得
      *
      * @return \Illuminate\Http\JsonResponse
