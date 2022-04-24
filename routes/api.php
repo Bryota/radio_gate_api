@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ListenerController;
 use App\Http\Controllers\RadioStationController;
 use App\Http\Controllers\RadioProgramController;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listener', [ListenerController::class, 'show']);

@@ -153,6 +153,109 @@ class ListenerTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\Auth\loginController@login
+     */
+    public function ログインできる()
+    {
+        $this->postJson('api/register', [
+            'radio_name' => 'ハイキングベアー',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response = $this->postJson('api/login', [
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'listener_info' => [
+                    'radio_name' => 'ハイキングベアー',
+                    'email' => 'test@example.com'
+                ]
+            ]);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Auth\loginController@login
+     */
+    public function ログインに失敗する（バリデーション関連）()
+    {
+        $this->postJson('api/register', [
+            'radio_name' => 'ハイキングベアー',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response1 = $this->postJson('api/login', [
+            'email' => '',
+            'password' => 'password123'
+        ]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスを入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/login', [
+            'email' => 'test',
+            'password' => 'password123'
+        ]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスは正しい形式で入力してください。'
+                ]
+            ]);
+
+        $response3 = $this->postJson('api/login', [
+            'email' => 'test@example.com',
+            'password' => ''
+        ]);
+        $response3->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'password' => [
+                    'パスワードを入力してください。'
+                ]
+            ]);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Auth\loginController@login
+     */
+    public function ログインに失敗する（認証関連）()
+    {
+        $this->postJson('api/register', [
+            'radio_name' => 'ハイキングベアー',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response1 = $this->postJson('api/login', [
+            'email' => 'testfail@example.com',
+            'password' => 'password123'
+        ]);
+        $response1->assertStatus(500)
+            ->assertJson([
+                'message' => 'ログインに失敗しました。メールアドレスまたはパスワードが間違えていないかご確認ください。'
+            ]);
+
+        $response2 = $this->postJson('api/login', [
+            'email' => 'test@example.com',
+            'password' => 'password123456'
+        ]);
+        $response2->assertStatus(500)
+            ->assertJson([
+                'message' => 'ログインに失敗しました。メールアドレスまたはパスワードが間違えていないかご確認ください。'
+            ]);
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\ListenerController@show
      */
     public function リスナー情報を取得できる()
