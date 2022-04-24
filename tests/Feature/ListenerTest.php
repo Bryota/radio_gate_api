@@ -151,7 +151,6 @@ class ListenerTest extends TestCase
         $this->assertEquals(0, Listener::count());
     }
 
-
     /**
      * @test
      * App\Http\Controllers\Auth\ListenerController@update
@@ -302,9 +301,9 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerController@show
+     * App\Http\Controllers\ListenerController@index
      */
-    public function リスナー情報を取得できる()
+    public function リスナー一覧を取得できる()
     {
         $listener = $this->loginAsListener();
 
@@ -326,5 +325,37 @@ class ListenerTest extends TestCase
                     'email' => $listener->email,
                 ]
             ]);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\ListenerController@show
+     */
+    public function リスナー情報を取得できる()
+    {
+        $listener = $this->loginAsListener();
+        $this->postJson('api/register', [
+            'last_name' => 'テスト',
+            'first_name' => '太郎',
+            'last_name_kana' => 'てすと',
+            'first_name_kana' => 'たろう',
+            'radio_name' => 'ハイキングベアー',
+            'post_code' => '1111111',
+            'prefecture' => '東京都',
+            'city' => '新宿区',
+            'house_number' => '00-000000-000000',
+            'tel' => '00-000-0000',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response = $this->getJson('api/listeners');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['email' => 'test@example.com'])
+            ->assertJsonFragment(['email' => $listener->email])
+            ->assertJsonFragment(['last_name' => 'テスト'])
+            ->assertJsonFragment(['last_name' => $listener->last_name])
+            ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
     }
 }
