@@ -90,6 +90,16 @@ class ListenerRepository
     }
 
     /**
+     * リスナー一覧取得
+     * 
+     * @return object リスナー一覧データ
+     */
+    public function getAllListeners(): object
+    {
+        return $this->listener::get();
+    }
+
+    /**
      * リスナー情報取得
      * 
      * @param int $listener_id リスナーID

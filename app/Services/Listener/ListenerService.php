@@ -109,6 +109,17 @@ class ListenerService
     }
 
     /**
+     * リスナー一覧取得
+     *
+     * @return object リスナー一覧 データ
+     */
+    public function getAllListeners(): object
+    {
+        $listeners = $this->listener->getAllListeners();
+        return $listeners;
+    }
+
+    /**
      * リスナー情報取得
      *
      * @param int $listener_id リスナーID
