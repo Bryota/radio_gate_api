@@ -256,6 +256,25 @@ class ListenerTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\Auth\loginController@logout
+     */
+    public function ログアウトに成功する()
+    {
+        $this->postJson('api/register', [
+            'radio_name' => 'ハイキングベアー',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response = $this->postJson('api/logout', []);
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'ログアウトに成功しました。'
+            ]);
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\ListenerController@show
      */
     public function リスナー情報を取得できる()
