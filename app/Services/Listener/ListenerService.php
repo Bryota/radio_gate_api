@@ -101,7 +101,9 @@ class ListenerService
      */
     public function UpdateListener(ListenerRequest $request, $listener_id): void
     {
+        $request->offsetUnset('email');
         $request->offsetUnset('password');
+
         $this->listener->UpdateListener($request, $listener_id);
     }
 

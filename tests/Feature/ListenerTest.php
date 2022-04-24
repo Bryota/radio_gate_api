@@ -151,6 +151,42 @@ class ListenerTest extends TestCase
         $this->assertEquals(0, Listener::count());
     }
 
+
+    /**
+     * @test
+     * App\Http\Controllers\Auth\ListenerController@update
+     */
+    public function リスナー情報を更新できる()
+    {
+        $this->postJson('api/register', [
+            'last_name' => 'テスト',
+            'first_name' => '太郎',
+            'last_name_kana' => 'てすと',
+            'first_name_kana' => 'たろう',
+            'radio_name' => 'ハイキングベアー',
+            'post_code' => '1111111',
+            'prefecture' => '東京都',
+            'city' => '新宿区',
+            'house_number' => '00-000000-000000',
+            'tel' => '00-000-0000',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $listener = Listener::first();
+        $this->assertEquals('テスト', $listener->last_name);
+        $this->assertEquals('太郎', $listener->first_name);
+        $this->assertEquals('てすと', $listener->last_name_kana);
+        $this->assertEquals('たろう', $listener->first_name_kana);
+        $this->assertEquals('ハイキングベアー', $listener->radio_name);
+        $this->assertEquals('1111111', $listener->post_code);
+        $this->assertEquals('東京都', $listener->prefecture);
+        $this->assertEquals('新宿区', $listener->city);
+        $this->assertEquals('00-000000-000000', $listener->house_number);
+        $this->assertEquals('00-000-0000', $listener->tel);
+        $this->assertEquals('test@example.com', $listener->email);
+    }
+
     /**
      * @test
      * App\Http\Controllers\Auth\loginController@login
