@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -31,5 +32,24 @@ class LoginController extends Controller
         return response()->json([
             'message' => 'ログインに失敗しました。メールアドレスまたはパスワードが間違えていないかご確認ください。'
         ], 500, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * リスナーログアウト
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json([
+            'message' => 'ログアウトに成功しました。'
+        ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 }
