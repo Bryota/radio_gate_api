@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ListenerRequest;
 use App\Services\Listener\ListenerService;
+use Illuminate\Http\Request;
 
 class ListenerController extends Controller
 {
@@ -39,16 +40,16 @@ class ListenerController extends Controller
     /**
      * リスナー情報更新
      *
-     * @param ListenerRequest $request リスナー登録用のリクエストデータ
+     * @param \Illuminate\Http\Request $request リスナー登録用のリクエストデータ
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ListenerRequest $request)
+    public function update(Request $request)
     {
         try {
             $this->listener->UpdateListener($request, auth()->user()->id);
             return response()->json([
                 'message' => 'リスナーデータの更新に成功しました。'
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'リスナーデータの更新に失敗しました。'

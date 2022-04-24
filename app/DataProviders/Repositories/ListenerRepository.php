@@ -17,6 +17,7 @@ use App\DataProviders\Models\ListenerMessage;
 use App\Http\Requests\ListenerRequest;
 use App\Http\Requests\ListenerMessageRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -78,11 +79,11 @@ class ListenerRepository
     /**
      * リスナー更新
      * 
-     * @param ListenerRequest $request リスナー更新用のリクエストデータ
+     * @param \Illuminate\Http\Request $request リスナー更新用のリクエストデータ
      * @param int $listener_id リスナーID
      * @return void
      */
-    public function UpdateListener(ListenerRequest $request, int $listener_id): void
+    public function UpdateListener(Request $request, int $listener_id): void
     {
         $this->listener::where('id', $listener_id)
             ->update($request->all());

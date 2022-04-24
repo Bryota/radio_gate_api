@@ -23,6 +23,7 @@ use App\DataProviders\Repositories\ListenerRepository;
 use App\Http\Requests\ListenerRequest;
 use App\Http\Requests\ListenerMessageRequest;
 use App\Mail\ListenerMessageMail;
+use Illuminate\Http\Request;
 
 /**
  * リスナー用のサービスクラス
@@ -95,11 +96,11 @@ class ListenerService
     /**
      * リスナー更新
      * 
-     * @param ListenerRequest $request リスナー更新用のリクエストデータ
+     * @param \Illuminate\Http\Request $request リスナー更新用のリクエストデータ
      * @param int $listener_id リスナーID
      * @return void
      */
-    public function UpdateListener(ListenerRequest $request, $listener_id): void
+    public function UpdateListener(Request $request, $listener_id): void
     {
         $request->offsetUnset('email');
         $request->offsetUnset('password');
