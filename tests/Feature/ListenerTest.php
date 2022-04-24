@@ -4,7 +4,8 @@ namespace Tests\Feature;
 
 use App\DataProviders\Models\Listener;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ListenerTest extends TestCase
@@ -357,5 +358,72 @@ class ListenerTest extends TestCase
             ->assertJsonFragment(['last_name' => 'テスト'])
             ->assertJsonFragment(['last_name' => $listener->last_name])
             ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\ForgotPasswordController@sendResetLinkEmail
+     */
+    public function パスワード再設定用のメールを送信できる()
+    {
+        Notification::fake();
+        Mail::fake();
+
+        $this->postJson('api/register', [
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response = $this->postJson('api/forgot_password', [
+            'email' => 'test@example.com'
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'messege' => 'パスワード再設定用のメールを送信しました。'
+            ]);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\ForgotPasswordController@sendResetLinkEmail
+     */
+    public function パスワード再設定用のメール送信に失敗する()
+    {
+        Notification::fake();
+        Mail::fake();
+
+        $this->postJson('api/register', [
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        $response1 = $this->postJson('api/forgot_password', [
+            'email' => ''
+        ]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスを入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/forgot_password', [
+            'email' => 'test'
+        ]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスは正しい形式で入力してください。'
+                ]
+            ]);
+
+        $response3 = $this->postJson('api/forgot_password', [
+            'email' => 'test2@example.com'
+        ]);
+        $response3->assertStatus(500)
+            ->assertJson([
+                'messege' => 'パスワード再設定用のメールの送信に失敗しました。'
+            ]);
     }
 }

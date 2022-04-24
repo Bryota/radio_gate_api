@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ListenerController;
 use App\Http\Controllers\RadioStationController;
 use App\Http\Controllers\RadioProgramController;
@@ -26,7 +27,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
+// TODO: パスワード再設定用の画面は別で設定する
+Route::get('/test', function () {
+    return 'test';
+})->name('password.reset');
+Route::post('/forgot_password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listeners', [ListenerController::class, 'index']);
     Route::get('/listener', [ListenerController::class, 'show']);
