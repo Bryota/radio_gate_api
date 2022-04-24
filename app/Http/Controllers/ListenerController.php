@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ListenerRequest;
 use App\Services\Listener\ListenerService;
 use Illuminate\Http\Request;
 
@@ -40,7 +39,7 @@ class ListenerController extends Controller
     /**
      * リスナー情報更新
      *
-     * @param \Illuminate\Http\Request $request リスナー登録用のリクエストデータ
+     * @param \Illuminate\Http\Request $request リスナー更新用のリクエストデータ
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
