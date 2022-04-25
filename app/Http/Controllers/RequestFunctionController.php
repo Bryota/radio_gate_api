@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Listener\RequestFunctionService;
 use App\Http\Requests\RequestFunctionRequest;
+use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 
 class RequestFunctionController extends Controller
 {
@@ -72,6 +73,31 @@ class RequestFunctionController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'リクエスト機能の作成に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
+     * リクエスト機能リスナー投稿
+     * 
+     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投稿用のリクエストデータ
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request)
+    {
+        if ($this->request_function->isSubmittedListener($request->request_function_id, auth()->user()->id)) {
+            return response()->json([
+                'message' => 'この機能には既に投稿してあります。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        };
+        try {
+            $this->request_function->submitListenerPoint($request, auth()->user()->id);
+            return response()->json([
+                'message' => '投票が完了しました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => '投票に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }

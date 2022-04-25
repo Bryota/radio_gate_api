@@ -15,6 +15,7 @@ namespace App\Services\Listener;
 use App\DataProviders\Models\RequestFunction;
 use App\DataProviders\Repositories\RequestFunctionRepository;
 use App\Http\Requests\RequestFunctionRequest;
+use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 
 /**
  * リクエスト機能用のサービスクラス
@@ -72,5 +73,29 @@ class RequestFunctionService
     {
         $request_function = $this->request_function->storeRequestFunction($request);
         return $request_function;
+    }
+
+    /**
+     * リクエスト機能リスナー投稿
+     * 
+     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投稿用のリクエストデータ
+     * @param int $listener_id リスナーIDx
+     * @return void
+     */
+    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $listener_id)
+    {
+        $this->request_function->submitListenerPoint($request, $listener_id);
+    }
+
+    /**
+     * 投稿した機能かどうか
+     * 
+     * @param int $request_function_id リクエスト機能ID
+     * @param int $listener_id リスナーID
+     * @return bool
+     */
+    public function isSubmittedListener(int $request_function_id, int $listener_id): bool
+    {
+        return $this->request_function->isSubmittedListener($request_function_id, $listener_id);
     }
 }
