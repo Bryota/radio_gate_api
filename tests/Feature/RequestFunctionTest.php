@@ -97,4 +97,22 @@ class RequestFunctionTest extends TestCase
             ->assertJsonMissing(['detail' => str_repeat('いい機能ですね', 100)])
             ->assertJsonMissing(['detail' => str_repeat('本当にいい機能ですね', 100)]);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@show
+     */
+    public function 個別のリクエスト機能を取得できる()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+
+        $request_function = RequestFunction::first();
+
+        $response = $this->getJson('api/request_functions/' . $request_function->id);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト機能1'])
+            ->assertJsonFragment(['detail' => str_repeat('いい機能ですね', 100)])
+            ->assertJsonFragment(['listener_id' => $this->listener->id]);
+    }
 }
