@@ -46,7 +46,7 @@ class RequestFunctionRepository
      */
     public function getAllRequestFunctions(): object
     {
-        return $this->request_function::get(['id', 'name']);
+        return $this->request_function::get(['id', 'name', 'point']);
     }
 
     /**
