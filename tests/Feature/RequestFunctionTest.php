@@ -67,7 +67,7 @@ class RequestFunctionTest extends TestCase
      * @test
      * App\Http\Controllers\RequestFunctionController@store
      */
-    public function 投稿テンプレート作成に失敗する（本文関連）()
+    public function リクエスト機能作成に失敗する（本文関連）()
     {
         $response1 = $this->postJson('api/request_functions', ['name' => 'テスト機能', 'detail' => '', 'listener_id' => $this->listener->id]);
         $response1->assertStatus(422)
@@ -78,5 +78,23 @@ class RequestFunctionTest extends TestCase
             ]);
 
         $this->assertEquals(0, RequestFunction::count());
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@index
+     */
+    public function リクエスト機能一覧を取得できる()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $this->postJson('api/request_functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'listener_id' => $this->listener->id]);
+
+        $response = $this->getJson('api/request_functions');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト機能1'])
+            ->assertJsonFragment(['name' => 'テスト機能2'])
+            ->assertJsonMissing(['detail' => str_repeat('いい機能ですね', 100)])
+            ->assertJsonMissing(['detail' => str_repeat('本当にいい機能ですね', 100)]);
     }
 }

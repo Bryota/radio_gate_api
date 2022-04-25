@@ -40,6 +40,17 @@ class RequestFunctionRepository
     }
 
     /**
+     * リクエスト機能一覧の取得
+     * 
+     * @return object リクエスト機能一覧
+     */
+    public function getAllRequestFunctions(): object
+    {
+        return $this->request_function::get(['id', 'name']);
+    }
+
+
+    /**
      * リクエスト機能作成
      *
      * @param RequestFunctionRequest $request リクエスト機能作成リクエストデータ
