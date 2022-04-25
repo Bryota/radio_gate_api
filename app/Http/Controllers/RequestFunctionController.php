@@ -27,7 +27,7 @@ class RequestFunctionController extends Controller
         try {
             $request_functions = $this->request_function->getAllRequestFunctions();
             return response()->json([
-                'request$request_functions' => $request_functions
+                'request_functions' => $request_functions
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
