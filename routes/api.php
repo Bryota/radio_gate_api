@@ -11,6 +11,7 @@ use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\ListenerMyProgramController;
 use App\Http\Controllers\MyProgramCornerController;
 use App\Http\Controllers\ListenerMessageController;
+use App\Http\Controllers\RequestFunctionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,4 +46,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('listener_messages', ListenerMessageController::class);
     Route::post('/listener_messages/save', [ListenerMessageController::class, 'save']);
     Route::get('/saved_messages', [ListenerMessageController::class, 'savedMessages']);
+    Route::apiResource('request_functions', RequestFunctionController::class);
 });
