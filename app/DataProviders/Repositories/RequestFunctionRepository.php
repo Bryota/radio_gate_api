@@ -49,6 +49,17 @@ class RequestFunctionRepository
         return $this->request_function::get(['id', 'name']);
     }
 
+    /**
+     * リクエスト機能個別の取得
+     * 
+     * @param int $request_function_id リクエスト機能ID
+     * @return RequestFunction リクエスト機能データ
+     */
+    public function getSingleRequestFunction(int $request_function_id): RequestFunction
+    {
+        return $this->request_function::where('id', $request_function_id)
+            ->first();
+    }
 
     /**
      * リクエスト機能作成

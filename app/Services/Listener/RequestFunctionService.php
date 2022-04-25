@@ -51,6 +51,18 @@ class RequestFunctionService
     }
 
     /**
+     * リクエスト機能個別の取得
+     *
+     * @param int $request_function_id リクエスト機能ID
+     * @return RequestFunction リクエスト機能データ
+     */
+    public function getSingleRequestFunction(int $request_function_id): RequestFunction
+    {
+        $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
+        return $request_function;
+    }
+
+    /**
      * リクエスト機能作成
      * 
      * @param RequestFunctionRequest $request リクエスト機能登録用のリクエストデータ

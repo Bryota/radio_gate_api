@@ -37,6 +37,26 @@ class RequestFunctionController extends Controller
     }
 
     /**
+     * リクエスト機能個別の取得
+     * 
+     * @param int $request_function_id リクエスト機能ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $request_function_id)
+    {
+        try {
+            $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
+            return response()->json([
+                'request_function' => $request_function
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'リクエスト機能の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * リクエスト機能作成
      *
      * @param RequestFunctionRequest $request リクエスト機能登録用のリクエストデータ
