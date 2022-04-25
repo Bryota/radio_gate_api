@@ -84,7 +84,7 @@ class RequestFunctionRepository
      * リクエスト機能リスナー投稿
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投稿用のリクエストデータ
-     * @param int $listener_id リスナーIDx
+     * @param int $listener_id リスナーID
      * @return void
      */
     public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $listener_id)
