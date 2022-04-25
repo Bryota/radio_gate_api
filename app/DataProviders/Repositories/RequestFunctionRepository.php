@@ -13,7 +13,9 @@
 namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\RequestFunction;
+use App\DataProviders\Models\RequestFunctionListenerSubmit;
 use App\Http\Requests\RequestFunctionRequest;
+use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 
 /**
  * リクエスト機能リポジトリクラス
@@ -29,14 +31,20 @@ class RequestFunctionRepository
     private $request_function;
 
     /**
+     * @var RequestFunctionListenerSubmit $request_function_listener_submit RequestFunctionListenerSubmitインスタンス
+     */
+    private $request_function_listener_submit;
+
+    /**
      * コンストラクタ
      *
      * @param RequestFunction $request_function RequestFunctionModel
      * @return void
      */
-    public function __construct(RequestFunction $request_function)
+    public function __construct(RequestFunction $request_function, RequestFunctionListenerSubmit $request_function_listener_submit)
     {
         $this->request_function = $request_function;
+        $this->request_function_listener_submit = $request_function_listener_submit;
     }
 
     /**
@@ -70,5 +78,38 @@ class RequestFunctionRepository
     public function storeRequestFunction(RequestFunctionRequest $request): RequestFunction
     {
         return $this->request_function::create($request->all());
+    }
+
+    /**
+     * リクエスト機能リスナー投票
+     * 
+     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $listener_id)
+    {
+        $this->request_function_listener_submit::create([
+            'listener_id' => $listener_id,
+            'request_function_id' => $request->request_function_id,
+            'point' => (int)$request->point
+        ]);
+        $request_function = $this->getSingleRequestFunction($request->request_function_id);
+        $request_function->point = $request_function->point + (int)$request->point;
+        $request_function->save();
+    }
+
+    /**
+     * 投票した機能かどうか
+     * 
+     * @param int $request_function_id リクエスト機能ID
+     * @param int $listener_id リスナーID
+     * @return bool
+     */
+    public function isSubmittedListener(int $request_function_id, int $listener_id): bool
+    {
+        return $this->request_function_listener_submit::where('request_function_id', $request_function_id)
+            ->where('listener_id', $listener_id)
+            ->exists();
     }
 }

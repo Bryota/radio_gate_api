@@ -115,4 +115,76 @@ class RequestFunctionTest extends TestCase
             ->assertJsonFragment(['detail' => str_repeat('いい機能ですね', 100)])
             ->assertJsonFragment(['listener_id' => $this->listener->id]);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@submitListenerPoint
+     */
+    public function リスナーがリクエスト機能に投票できる()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals(0, $request_function->point);
+
+        $response = $this->postJson('api/request_functions/submit_point', ['listener_id' => $this->listener->id, 'request_function_id' => $request_function->id, 'point' => 1]);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => '投票が完了しました。'
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals(1, $request_function->point);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@submitListenerPoint
+     */
+    public function リスナーがリクエスト機能の投稿に失敗する（ポイント関連）()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals(0, $request_function->point);
+
+        $response = $this->postJson('api/request_functions/submit_point', ['listener_id' => $this->listener->id, 'request_function_id' => $request_function->id, 'point' => '']);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'point' => [
+                    'ポイントを入力してください。'
+                ]
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals(0, $request_function->point);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@submitListenerPoint
+     */
+    public function リスナーがリクエスト機能の投稿に失敗する（リスナー関連）()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals(0, $request_function->point);
+
+        $this->postJson('api/request_functions/submit_point', ['listener_id' => $this->listener->id, 'request_function_id' => $request_function->id, 'point' => 3]);
+        $request_function = RequestFunction::first();
+        $this->assertEquals(3, $request_function->point);
+
+        $response = $this->postJson('api/request_functions/submit_point', ['listener_id' => $this->listener->id, 'request_function_id' => $request_function->id, 'point' => 1]);
+
+        $response->assertStatus(409)
+            ->assertJson([
+                'message' => 'この機能には既に投票してあります。'
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals(3, $request_function->point);
+    }
 }

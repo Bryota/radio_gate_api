@@ -47,4 +47,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/listener_messages/save', [ListenerMessageController::class, 'save']);
     Route::get('/saved_messages', [ListenerMessageController::class, 'savedMessages']);
     Route::apiResource('request_functions', RequestFunctionController::class);
+    Route::post('/request_functions/submit_point', [RequestFunctionController::class, 'submitListenerPoint']);
 });

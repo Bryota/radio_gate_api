@@ -81,4 +81,14 @@ class Listener extends Authenticatable
     {
         return $this->hasMany(RequestFunction::class);
     }
+
+    /**
+     * リスナーリクエスト機能投稿用リレーション
+     * 
+     * @return hasMany
+     */
+    public function RequestFunctionListenerSubmits(): hasMany
+    {
+        return $this->hasMany(RequestFunctionListenerSubmit::class);
+    }
 }

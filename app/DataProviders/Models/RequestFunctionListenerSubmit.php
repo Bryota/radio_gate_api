@@ -4,10 +4,9 @@ namespace App\DataProviders\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RequestFunction extends Model
+class RequestFunctionListenerSubmit extends Model
 {
     use HasFactory;
 
@@ -18,20 +17,9 @@ class RequestFunction extends Model
      */
     protected $fillable = [
         'listener_id',
-        'name',
-        'detail',
+        'request_function_id',
         'point',
     ];
-
-    /**
-     * リスナーリクエスト機能投稿用リレーション
-     * 
-     * @return HasMany
-     */
-    public function RequestFunctionListenerSubmits(): HasMany
-    {
-        return $this->HasMany(RequestFunctionListenerSubmit::class);
-    }
 
     /**
      * リスナー用リレーション
@@ -41,5 +29,15 @@ class RequestFunction extends Model
     public function listener(): BelongsTo
     {
         return $this->belongsTo(Listener::class);
+    }
+
+    /**
+     * リクエスト機能用リレーション
+     * 
+     * @return BelongsTo
+     */
+    public function RequestFunction(): BelongsTo
+    {
+        return $this->belongsTo(RequestFunction::class);
     }
 }
