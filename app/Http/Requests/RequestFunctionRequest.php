@@ -36,7 +36,7 @@ class RequestFunctionRequest extends FormRequest
         return [
             'name.required' => '機能名を入力してください。',
             'name.max' => '機能名は150文字以下で入力してください。',
-            'content.required' => '機能詳細を入力してください。',
+            'detail.required' => '機能詳細を入力してください。',
         ];
     }
 
