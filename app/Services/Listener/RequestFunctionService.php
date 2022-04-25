@@ -76,9 +76,9 @@ class RequestFunctionService
     }
 
     /**
-     * リクエスト機能リスナー投稿
+     * リクエスト機能リスナー投票
      * 
-     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投稿用のリクエストデータ
+     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
      * @param int $listener_id リスナーIDx
      * @return void
      */
@@ -88,7 +88,7 @@ class RequestFunctionService
     }
 
     /**
-     * 投稿した機能かどうか
+     * 投票した機能かどうか
      * 
      * @param int $request_function_id リクエスト機能ID
      * @param int $listener_id リスナーID

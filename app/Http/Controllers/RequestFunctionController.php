@@ -78,16 +78,16 @@ class RequestFunctionController extends Controller
     }
 
     /**
-     * リクエスト機能リスナー投稿
+     * リクエスト機能リスナー投票
      * 
-     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投稿用のリクエストデータ
+     * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
      * @return \Illuminate\Http\JsonResponse
      */
     public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request)
     {
         if ($this->request_function->isSubmittedListener($request->request_function_id, auth()->user()->id)) {
             return response()->json([
-                'message' => 'この機能には既に投稿してあります。'
+                'message' => 'この機能には既に投票してあります。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         };
         try {
