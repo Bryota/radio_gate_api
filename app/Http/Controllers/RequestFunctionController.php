@@ -18,6 +18,25 @@ class RequestFunctionController extends Controller
     }
 
     /**
+     * リクエスト機能一覧の取得
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        try {
+            $request_functions = $this->request_function->getAllRequestFunctions();
+            return response()->json([
+                'request$request_functions' => $request_functions
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'リクエスト機能一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * リクエスト機能作成
      *
      * @param RequestFunctionRequest $request リクエスト機能登録用のリクエストデータ
