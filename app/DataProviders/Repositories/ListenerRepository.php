@@ -69,6 +69,8 @@ class ListenerRepository
             'prefecture' => $request->prefecture,
             'city' => $request->city,
             'house_number' => $request->house_number,
+            'building' => $request->building,
+            'room_number' => $request->room_number,
             'tel' => $request->tel,
             'email' => $request->email,
             'password' => Hash::make($request->password)

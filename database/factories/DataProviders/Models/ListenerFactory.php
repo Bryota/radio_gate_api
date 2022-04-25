@@ -30,6 +30,8 @@ class ListenerFactory extends Factory
             'prefecture' => $this->faker->prefecture,
             'city' => $this->faker->city,
             'house_number' => $this->faker->streetAddress,
+            'building' => $this->faker->text,
+            'room_number' => $this->faker->text,
             'tel' => $this->faker->phoneNumber,
             'email' => $this->faker->safeEmail(),
             'email_verified_at' => now(),

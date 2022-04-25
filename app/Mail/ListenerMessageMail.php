@@ -52,6 +52,16 @@ class ListenerMessageMail extends Mailable
     private $house_number;
 
     /**
+     * @var string|null $building 建物
+     */
+    private $building;
+
+    /**
+     * @var string|null $room_number 部屋番号
+     */
+    private $room_number;
+
+    /**
      * @var string|null $tel 電話番号
      */
     private $tel;
@@ -77,6 +87,8 @@ class ListenerMessageMail extends Mailable
      * @param string|null $prefecture 都道府県
      * @param string|null $city 市区町村
      * @param string|null $house_number 住所
+     * @param string|null $building 建物
+     * @param string|null $room_number 部屋番号
      * @param string|null $tel 電話番号
      * @param string|null $email メールアドレス
      * @param string|null $content 本文
@@ -91,6 +103,8 @@ class ListenerMessageMail extends Mailable
         string|null $prefecture,
         string|null $city,
         string|null $house_number,
+        string|null $building,
+        string|null $room_number,
         string|null $tel,
         string|null $email,
         string|null $content
@@ -103,6 +117,8 @@ class ListenerMessageMail extends Mailable
         $this->prefecture = $prefecture;
         $this->city = $city;
         $this->house_number = $house_number;
+        $this->building = $building;
+        $this->room_number = $room_number;
         $this->tel = $tel;
         $this->email = $email;
         $this->content = $content;
@@ -126,6 +142,8 @@ class ListenerMessageMail extends Mailable
                 'prefecture' => $this->prefecture,
                 'city' => $this->city,
                 'house_number' => $this->house_number,
+                'building' => $this->building,
+                'room_number' => $this->room_number,
                 'tel' => $this->tel,
                 'email' => $this->email,
                 'content' => $this->content,

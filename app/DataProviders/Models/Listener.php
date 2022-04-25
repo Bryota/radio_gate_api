@@ -28,6 +28,8 @@ class Listener extends Authenticatable
         'prefecture',
         'city',
         'house_number',
+        'building',
+        'room_number',
         'tel',
         'email',
         'password',
