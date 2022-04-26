@@ -14,7 +14,7 @@ class PasswordResetRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
