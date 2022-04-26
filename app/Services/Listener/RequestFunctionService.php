@@ -76,6 +76,20 @@ class RequestFunctionService
     }
 
     /**
+     * リクエスト機能更新
+     *
+     * @param RequestFunctionRequest $request リクエスト機能更新リクエストデータ
+     * @param int $listener_id リスナーID
+     * @param int $request_function_id リクエスト機能ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateRequestFunction(RequestFunctionRequest $request, int $listener_id, int $request_function_id): bool
+    {
+        $request_function = $this->request_function->updateRequestFunction($request, $listener_id, $request_function_id);
+        return $request_function;
+    }
+
+    /**
      * リクエスト機能リスナー投票
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ

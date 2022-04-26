@@ -78,6 +78,28 @@ class RequestFunctionController extends Controller
     }
 
     /**
+     * リクエスト機能更新
+     *
+     * @param RequestFunctionRequest $request リクエスト機能更新リクエストデータ
+     * @param int $request_function_id リクエスト機能ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(RequestFunctionRequest $request, int $request_function_id)
+    {
+        try {
+            $this->request_function->updateRequestFunction($request, auth()->user()->id, $request_function_id);
+            return response()->json([
+                'message' => 'リクエスト機能が更新されました。'
+            ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'リクエスト機能の更新に失敗しました。'
+            ], 409, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+
+    /**
      * リクエスト機能リスナー投票
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ

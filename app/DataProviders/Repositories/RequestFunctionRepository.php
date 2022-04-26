@@ -81,6 +81,25 @@ class RequestFunctionRepository
     }
 
     /**
+     * リクエスト機能更新
+     *
+     * @param RequestFunctionRequest $request リクエスト機能更新リクエストデータ
+     * @param int $listener_id リスナーID
+     * @param int $request_function_id リクエスト機能ID
+     * @return bool 更新できたかどうか
+     */
+    public function updateRequestFunction(RequestFunctionRequest $request, int $listener_id, int $request_function_id): bool
+    {
+        $request_function = $this->request_function::where('id', $request_function_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+        $request_function->name = $request->name;
+        $request_function->detail = $request->detail;
+        return $request_function->save();
+    }
+
+
+    /**
      * リクエスト機能リスナー投票
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
