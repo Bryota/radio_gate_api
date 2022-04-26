@@ -131,4 +131,19 @@ class RequestFunctionRepository
             ->where('listener_id', $listener_id)
             ->exists();
     }
+
+    /**
+     * リクエスト機能削除
+     *
+     * @param int $listener_id リスナーID
+     * @param int $request_function_id リクエスト機能ID
+     * @return bool 削除できたかどうか
+     */
+    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool
+    {
+        $request_function = $this->request_function::where('id', $request_function_id)
+            ->where('listener_id', $listener_id)
+            ->first();
+        return $request_function->delete();
+    }
 }

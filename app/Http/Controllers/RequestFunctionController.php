@@ -123,4 +123,24 @@ class RequestFunctionController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * リクエスト機能削除（1つのみ）
+     *
+     * @param int $request_function_id リクエスト機能ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $request_function_id)
+    {
+        try {
+            $this->request_function->deleteRequestFunction(auth()->user()->id, $request_function_id);
+            return response()->json([
+                'message' => 'リクエスト機能が削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'リクエスト機能の削除に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
