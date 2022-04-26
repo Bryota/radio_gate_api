@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\ListenerController;
 use App\Http\Controllers\RadioStationController;
 use App\Http\Controllers\RadioProgramController;
@@ -33,6 +34,7 @@ Route::get('/test', function () {
     return 'test';
 })->name('password.reset');
 Route::post('/forgot_password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('password/reset/{token}', [PasswordResetController::class, 'resetPassword']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listeners', [ListenerController::class, 'index']);
     Route::get('/listener', [ListenerController::class, 'show']);

@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\DataProviders\Models\Listener;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -435,5 +437,93 @@ class ListenerTest extends TestCase
             ->assertJson([
                 'messege' => 'パスワード再設定用のメールの送信に失敗しました。'
             ]);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\PasswordResetController@resetPassword
+     */
+    public function パスワードを更新できる()
+    {
+        Notification::fake();
+
+        $listener = Listener::factory()->create();
+        $token = $this->passwordRequest($listener);
+        $this->assertTrue(Hash::check('password123', $listener->password));
+
+        $new_password = 'password1234567';
+        $params = [
+            'email' => $listener->email,
+            'token' => $token,
+            'password' => $new_password,
+            'password_confirmation' => $new_password
+        ];
+
+        $response = $this->post('api/password/reset/' . $token, $params);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'messege' => 'パスワード変更に成功しました。'
+            ]);
+
+        $listener = Listener::first();
+        $this->assertTrue(Hash::check($new_password, $listener->password));
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\PasswordResetController@resetPassword
+     */
+    public function パスワード更新に失敗する()
+    {
+        Notification::fake();
+
+        $listener = Listener::factory()->create();
+        $token = $this->passwordRequest($listener);
+        $this->assertTrue(Hash::check('password123', $listener->password));
+
+        $new_password = 'password1234567';
+        $params = [
+            'email' => $listener->email,
+            'token' => 'sampletoken',
+            'password' => $new_password,
+            'password_confirmation' => $new_password
+        ];
+        $response = $this->post('api/password/reset/' . $token, $params);
+
+        $response->assertStatus(500)
+            ->assertJson([
+                'messege' => 'パスワード変更に失敗しました。'
+            ]);
+
+        $listener = Listener::first();
+        $this->assertFalse(Hash::check($new_password, $listener->password));
+    }
+
+    /**
+     * トークンを取得
+     * 
+     * @param Listener $listener リスナーインスタンス
+     * @return string $token トークン
+     */
+    private function passwordRequest(Listener $listener)
+    {
+        // パスワードリセットをリクエスト（トークンを作成・取得するため）
+        $this->post('api/forgot_password', [
+            'email' => $listener->email
+        ]);
+
+        // トークンを取得する
+        $token = '';
+
+        Notification::assertSentTo(
+            $listener,
+            ResetPassword::class,
+            function ($notification, $channels) use ($listener, &$token) {
+                $token = $notification->token;
+                return true;
+            }
+        );
+        return $token;
     }
 }
