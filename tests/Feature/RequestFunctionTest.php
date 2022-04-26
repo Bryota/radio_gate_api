@@ -259,4 +259,23 @@ class RequestFunctionTest extends TestCase
         $request_function = RequestFunction::first();
         $this->assertEquals(3, $request_function->point);
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@destory
+     */
+    public function リクエスト機能を削除できる()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $request_function = RequestFunction::first();
+
+        $response = $this->deleteJson('api/request_functions/' . $request_function->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'リクエスト機能が削除されました。'
+            ]);
+
+        $this->assertEquals(0, RequestFunction::count());
+    }
 }
