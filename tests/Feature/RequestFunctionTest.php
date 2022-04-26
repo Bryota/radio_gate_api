@@ -118,6 +118,78 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\RequestFunctionController@update
+     */
+    public function リクエスト機能を更新できる()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $request_function = RequestFunction::first();
+
+        $response = $this->putJson('api/request_functions/' . $request_function->id, ['listener_id' => $this->listener->id, 'name' => 'テスト機能1更新', 'detail' => str_repeat('いい機能ですね更新', 100)]);
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'リクエスト機能が更新されました。'
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals('テスト機能1更新', $request_function->name);
+        $this->assertEquals(str_repeat('いい機能ですね更新', 100), $request_function->detail);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@store
+     */
+    public function リクエスト機能の更新に失敗する（名前関連）()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $request_function = RequestFunction::first();
+
+        $response1 = $this->putJson('api/request_functions/' . $request_function->id, ['listener_id' => $this->listener->id, 'name' => '', 'detail' => str_repeat('いい機能ですね更新', 100)]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'name' => [
+                    '機能名を入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->putJson('api/request_functions/' . $request_function->id, ['listener_id' => $this->listener->id, 'name' => str_repeat('あ', 151), 'detail' => str_repeat('いい機能ですね更新', 100)]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'name' => [
+                    '機能名は150文字以下で入力してください。'
+                ]
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals('テスト機能1', $request_function->name);
+        $this->assertEquals(str_repeat('いい機能ですね', 100), $request_function->detail);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\RequestFunctionController@store
+     */
+    public function リクエスト機能更新に失敗する（本文関連）()
+    {
+        $this->postJson('api/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $request_function = RequestFunction::first();
+
+        $response1 = $this->putJson('api/request_functions/' . $request_function->id, ['listener_id' => $this->listener->id, 'name' => 'テスト機能1', 'detail' => '']);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'detail' => [
+                    '機能詳細を入力してください。'
+                ]
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals('テスト機能1', $request_function->name);
+        $this->assertEquals(str_repeat('いい機能ですね', 100), $request_function->detail);
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\RequestFunctionController@submitListenerPoint
      */
     public function リスナーがリクエスト機能に投票できる()
