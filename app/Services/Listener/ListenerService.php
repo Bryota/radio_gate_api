@@ -173,6 +173,8 @@ class ListenerService
         $prefecture = $listener->prefecture ? $listener->prefecture : null;
         $city = $listener->city ? $listener->city : null;
         $house_number = $listener->house_number ? $listener->house_number : null;
+        $building = $listener->building ? $listener->building : null;
+        $room_number = $listener->room_number ? $listener->room_number : null;
         $tel = $listener->tel ? $listener->tel : null;
         $email = $listener->email;
         $content = $request->content;
@@ -194,6 +196,8 @@ class ListenerService
             $prefecture,
             $city,
             $house_number,
+            $building,
+            $room_number,
             $tel,
             $email,
             $content

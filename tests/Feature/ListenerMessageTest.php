@@ -320,6 +320,8 @@ class ListenerMessageTest extends TestCase
             '東京都',
             '新宿区',
             '000-0',
+            '建物',
+            '100',
             '000-0000-0000',
             'test@example.com',
             'こんにちは、これはテストです'
@@ -332,6 +334,8 @@ class ListenerMessageTest extends TestCase
             1111111,
             '新宿区',
             '000-0',
+            '建物',
+            '100',
             'テストユーザー',
             'てすとゆーざー',
             '000-0000-0000',

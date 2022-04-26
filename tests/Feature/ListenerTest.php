@@ -28,6 +28,8 @@ class ListenerTest extends TestCase
             'prefecture' => '東京都',
             'city' => '新宿区',
             'house_number' => '00-000000-000000',
+            'building' => '建物',
+            'room_number' => '100',
             'tel' => '00-000-0000',
             'email' => 'test@example.com',
             'password' => 'password123'
@@ -46,6 +48,8 @@ class ListenerTest extends TestCase
                     'prefecture' => '東京都',
                     'city' => '新宿区',
                     'house_number' => '00-000000-000000',
+                    'building' => '建物',
+                    'room_number' => '100',
                     'tel' => '00-000-0000',
                     'email' => 'test@example.com',
                 ]
@@ -61,6 +65,8 @@ class ListenerTest extends TestCase
         $this->assertEquals('東京都', $listener->prefecture);
         $this->assertEquals('新宿区', $listener->city);
         $this->assertEquals('00-000000-000000', $listener->house_number);
+        $this->assertEquals('建物', $listener->building);
+        $this->assertEquals('100', $listener->room_number);
         $this->assertEquals('00-000-0000', $listener->tel);
         $this->assertEquals('test@example.com', $listener->email);
     }
@@ -322,6 +328,8 @@ class ListenerTest extends TestCase
                     'prefecture' => $listener->prefecture,
                     'city' => $listener->city,
                     'house_number' => $listener->house_number,
+                    'building' => $listener->building,
+                    'room_number' => $listener->room_number,
                     'tel' => $listener->tel,
                     'email' => $listener->email,
                 ]
@@ -345,6 +353,8 @@ class ListenerTest extends TestCase
             'prefecture' => '東京都',
             'city' => '新宿区',
             'house_number' => '00-000000-000000',
+            'building' => '建物',
+            'room_number' => '100',
             'tel' => '00-000-0000',
             'email' => 'test@example.com',
             'password' => 'password123'

@@ -34,6 +34,8 @@ class ListenerRequest extends FormRequest
             'prefecture' => 'max: 150',
             'city' => 'max: 150',
             'house_number' => 'max: 255',
+            'building' => 'max: 255',
+            'room_number' => 'max: 255',
             'tel' => 'max: 100',
             'email' => 'required|email|unique:listeners',
             // TODO: パスワードの制限検討
