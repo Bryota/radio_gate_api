@@ -68,11 +68,18 @@ class MessageTemplateRepository
      * 投稿テンプレート作成
      *
      * @param MessageTemplateRequest $request 投稿テンプレート作成リクエストデータ
+     * @param int $listener_id リスナーID
      * @return MessageTemplate 投稿テンプレート生成データ
      */
-    public function storeMessageTemplate(MessageTemplateRequest $request): MessageTemplate
+    public function storeMessageTemplate(MessageTemplateRequest $request, int $listener_id): MessageTemplate
     {
-        return $this->message_template::create($request->all());
+        return $this->message_template::create(
+            [
+                'name' => $request->name,
+                'content' => $request->content,
+                'listener_id' => $listener_id
+            ]
+        );
     }
 
     /**

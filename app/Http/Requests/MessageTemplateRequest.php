@@ -27,7 +27,6 @@ class MessageTemplateRequest extends FormRequest
         return [
             'name' => 'required|max: 150',
             'content' => 'required|max: 1000',
-            'listener_id' => 'required'
         ];
     }
 

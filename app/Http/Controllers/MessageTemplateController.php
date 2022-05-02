@@ -66,8 +66,7 @@ class MessageTemplateController extends Controller
     public function store(MessageTemplateRequest $request)
     {
         try {
-            // TODO: リスナーIDの渡し方検討
-            $this->message_template->storeMessageTemplate($request);
+            $this->message_template->storeMessageTemplate($request, auth()->user()->id);
             return response()->json([
                 'message' => '投稿テンプレートが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
