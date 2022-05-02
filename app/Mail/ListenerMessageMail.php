@@ -14,67 +14,67 @@ class ListenerMessageMail extends Mailable
     /**
      * @var string|null $corner コーナー（件名）
      */
-    private $corner;
+    private ?string $corner;
 
     /**
      * @var string|null $full_name 本名
      */
-    private $full_name;
+    private ?string $full_name;
 
     /**
      * @var string|null $full_name_kana 本名かな
      */
-    private $full_name_kana;
+    private ?string $full_name_kana;
 
     /**
      * @var string|null $radio_name ラジオネーム
      */
-    private $radio_name;
+    private ?string $radio_name;
 
     /**
      * @var int|null $post_code 郵便番号
      */
-    private $post_code;
+    private ?int $post_code;
 
     /**
      * @var string|null $prefecture 都道府県
      */
-    private $prefecture;
+    private ?string $prefecture;
 
     /**
      * @var string|null $city 市区町村
      */
-    private $city;
+    private ?string $city;
 
     /**
      * @var string|null $house_number 住所
      */
-    private $house_number;
+    private ?string $house_number;
 
     /**
      * @var string|null $building 建物
      */
-    private $building;
+    private ?string $building;
 
     /**
      * @var string|null $room_number 部屋番号
      */
-    private $room_number;
+    private ?string $room_number;
 
     /**
      * @var string|null $tel 電話番号
      */
-    private $tel;
+    private ?string $tel;
 
     /**
      * @var string|null $email メールアドレス
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @var string|null $content 本文
      */
-    private $content;
+    private ?string $content;
 
     /**
      * Create a new message instance.
@@ -95,19 +95,19 @@ class ListenerMessageMail extends Mailable
      * @return void
      */
     public function __construct(
-        string|null $corner,
-        string|null $full_name,
-        string|null $full_name_kana,
-        string|null $radio_name,
-        int|null    $post_code,
-        string|null $prefecture,
-        string|null $city,
-        string|null $house_number,
-        string|null $building,
-        string|null $room_number,
-        string|null $tel,
-        string|null $email,
-        string|null $content
+        ?string $corner = null,
+        ?string $full_name = null,
+        ?string $full_name_kana = null,
+        ?string $radio_name = null,
+        ?int    $post_code = null,
+        ?string $prefecture = null,
+        ?string $city = null,
+        ?string $house_number = null,
+        ?string $building = null,
+        ?string $room_number = null,
+        ?string $tel = null,
+        ?string $email = null,
+        ?string $content = null
     ) {
         $this->corner = $corner;
         $this->full_name = $full_name;
@@ -148,5 +148,55 @@ class ListenerMessageMail extends Mailable
                 'email' => $this->email,
                 'content' => $this->content,
             ]);
+    }
+
+    /**
+     * ListenerMessageMailインスタンスを取得
+     *
+     * @param string|null $corner コーナー（件名）
+     * @param string|null $full_name 本名
+     * @param string|null $full_name_kana 本名かな
+     * @param string|null $radio_name ラジオネーム
+     * @param int|null    $post_code 郵便番号
+     * @param string|null $prefecture 都道府県
+     * @param string|null $city 市区町村
+     * @param string|null $house_number 住所
+     * @param string|null $building 建物
+     * @param string|null $room_number 部屋番号
+     * @param string|null $tel 電話番号
+     * @param string|null $email メールアドレス
+     * @param string|null $content 本文
+     * @return ListenerMessageMail ListenerMessageMailインスタンス
+     */
+    public function getSelf(
+        string|null $corner,
+        string|null $full_name,
+        string|null $full_name_kana,
+        string|null $radio_name,
+        int|null    $post_code,
+        string|null $prefecture,
+        string|null $city,
+        string|null $house_number,
+        string|null $building,
+        string|null $room_number,
+        string|null $tel,
+        string|null $email,
+        string|null $content
+    ) {
+        return new ListenerMessageMail(
+            $corner,
+            $full_name,
+            $full_name_kana,
+            $radio_name,
+            $post_code,
+            $prefecture,
+            $city,
+            $house_number,
+            $building,
+            $room_number,
+            $tel,
+            $email,
+            $content
+        );
     }
 }

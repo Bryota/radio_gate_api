@@ -59,6 +59,11 @@ class ListenerService
     private $listener;
 
     /**
+     * @var ListenerMessageMail $listener_message_mail ListenerMessageMailインスタンス
+     */
+    private $listener_message_mail;
+
+    /**
      * コンストラクタ
      *
      * @param RadioProgramRepository $radio_program RadioProgramRepositoryインスタンス
@@ -66,6 +71,7 @@ class ListenerService
      * @param ListenerMyProgramRepository $listener_my_program ListenerMyProgramRepositoryインスタンス
      * @param MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
      * @param ListenerRepository $listener ListenerRepositoryインスタンス
+     * @param ListenerMessageMail $listener_message_mail ListenerMessageMailインスタンス
      */
     public function __construct(
         RadioProgramRepository $radio_program,
@@ -73,12 +79,14 @@ class ListenerService
         ListenerMyProgramRepository $listener_my_program,
         MyProgramCornerRepository $my_program_corner,
         ListenerRepository $listener,
+        ListenerMessageMail $listener_message_mail,
     ) {
         $this->radio_program = $radio_program;
         $this->program_corner = $program_corner;
         $this->listener_my_program = $listener_my_program;
         $this->my_program_corner = $my_program_corner;
         $this->listener = $listener;
+        $this->listener_message_mail = $listener_message_mail;
     }
 
     /**
@@ -149,21 +157,10 @@ class ListenerService
      */
     public function sendEmailToRadioProgram(ListenerMessageRequest $request, int $listener_id)
     {
-        // TODO: 別メソッドに分けてもいいかも
-        if ($request->radio_program_id) {
-            $radio_email = $this->radio_program->getSingleRadioProgram($request->radio_program_id)->email;
-        } else {
-            $radio_email = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $request->listener_my_program_id)->email;
-        }
-        if ($request->program_corner_id) {
-            $corner = $this->program_corner->getSingleProgramCorner($request->program_corner_id)->name;
-        } else if ($request->my_program_corner_id) {
-            $corner = $this->my_program_corner->getSingleMyProgramCorner($request->my_program_corner_id)->name;
-        } else {
-            $corner = $request->subject;
-        }
-
+        $radio_email = $this->setRadioProgramEmail($request->radio_program_id, $request->listener_my_program_id, $listener_id);
+        $corner = $this->setCorner($request->program_corner_id, $request->my_program_corner_id, $request->subject);
         $listener = $this->listener->getSingleListener($listener_id);
+
         $full_name = $listener->last_name ? "%{$request->last_name}　%{$request->first_name}" : null;
         $full_name_kana = $listener->last_name_kana ? "%{$request->last_name_kana}　%{$request->first_name_kana}" : null;
         $post_code = $listener->post_code ? $listener->post_code : null;
@@ -183,8 +180,8 @@ class ListenerService
             $radio_name = null;
         }
 
-        // TODO: ListenerMessageMailはコンストラクタでDIしたい
-        Mail::to($radio_email)->send(new ListenerMessageMail(
+        // TODO: Mailファザードはどこかで怒られるかも
+        Mail::to($radio_email)->send($this->listener_message_mail->getSelf(
             $corner,
             $full_name,
             $full_name_kana,
@@ -245,5 +242,43 @@ class ListenerService
     public function saveListenerMyProgram(ListenerMessageRequest $request, int $listener_id)
     {
         $this->listener->saveListenerMyProgram($request, $listener_id);
+    }
+
+    /**
+     * 番組メールアドレスを取得
+     * 
+     * @param int|null $radio_program_id ラジオ番組ID
+     * @param int|null $listener_my_program_id マイラジオ番組ID
+     * @param int $listener_id リスナーID
+     * @return string ラジオ番組メールアドレス
+     */
+    private function setRadioProgramEmail(int|null $radio_program_id, int|null $listener_my_program_id, int $listener_id): string
+    {
+        if ($radio_program_id) {
+            $radio_email = $this->radio_program->getSingleRadioProgram($radio_program_id)->email;
+        } else {
+            $radio_email = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id)->email;
+        }
+        return $radio_email;
+    }
+
+    /**
+     * 番組コーナーを取得
+     * 
+     * @param int|null $program_corner_id 番組コーナーID
+     * @param int|null $my_program_corner_id マイ番組コーナーID
+     * @param string|null $subject 件名
+     * @return string 番組コーナー
+     */
+    private function setCorner(int|null $program_corner_id, int|null $my_program_corner_id, string|null $subject): string
+    {
+        if ($program_corner_id) {
+            $corner = $this->program_corner->getSingleProgramCorner($program_corner_id)->name;
+        } else if ($my_program_corner_id) {
+            $corner = $this->my_program_corner->getSingleMyProgramCorner($my_program_corner_id)->name;
+        } else {
+            $corner = $subject;
+        }
+        return $corner;
     }
 }
