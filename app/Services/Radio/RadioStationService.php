@@ -46,8 +46,7 @@ class RadioStationService
      */
     public function getAllRadioStations(): object
     {
-        $radio_stations = $this->radio_station->getAllRadioStations();
-        return $radio_stations;
+        return $this->radio_station->getAllRadioStations();
     }
 
     /**
@@ -58,8 +57,7 @@ class RadioStationService
      */
     public function storeRadioStation(RadioStationRequest $request): RadioStation
     {
-        $radio_station = $this->radio_station->storeRadioStation($request);
-        return $radio_station;
+        return $this->radio_station->storeRadioStation($request);
     }
 
     /**
@@ -71,8 +69,7 @@ class RadioStationService
      */
     public function updateRadioStation(RadioStationRequest $request, int $radio_station_id): bool
     {
-        $radio_station = $this->radio_station->updateRadioStation($request, $radio_station_id);
-        return $radio_station;
+        return $this->radio_station->updateRadioStation($request, $radio_station_id);
     }
 
     /**
@@ -83,7 +80,6 @@ class RadioStationService
      */
     public function deleteRadioStation(int $radio_station_id): bool
     {
-        $radio_stations_destroy_count = $this->radio_station->deleteRadioStation($radio_station_id);
-        return $radio_stations_destroy_count;
+        return $this->radio_station->deleteRadioStation($radio_station_id);
     }
 }

@@ -89,8 +89,7 @@ class ListenerService
      */
     public function CreateListener(ListenerRequest $request): Listener
     {
-        $listener = $this->listener->CreateListener($request);
-        return $listener;
+        return $this->listener->CreateListener($request);
     }
 
     /**
@@ -115,8 +114,7 @@ class ListenerService
      */
     public function getAllListeners(): object
     {
-        $listeners = $this->listener->getAllListeners();
-        return $listeners;
+        return $this->listener->getAllListeners();
     }
 
     /**
@@ -127,8 +125,7 @@ class ListenerService
      */
     public function getSingleListener(int $listener_id): Listener
     {
-        $listener = $this->listener->getSingleListener($listener_id);
-        return $listener;
+        return $this->listener->getSingleListener($listener_id);
     }
 
     /**
@@ -212,8 +209,7 @@ class ListenerService
      */
     public function getAllListenerMessages(int $listener_id): object
     {
-        $listener_messages = $this->listener->getAllListenerMessages($listener_id);
-        return $listener_messages;
+        return $this->listener->getAllListenerMessages($listener_id);
     }
 
     /**
@@ -225,8 +221,7 @@ class ListenerService
      */
     public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage
     {
-        $listener_message = $this->listener->getSingleListenerMessage($listener_id, $listener_message_id);
-        return $listener_message;
+        return $this->listener->getSingleListenerMessage($listener_id, $listener_message_id);
     }
 
     /**
@@ -237,8 +232,7 @@ class ListenerService
      */
     public function getAllListenerSavedMessages(int $listener_id): object
     {
-        $listener_messages = $this->listener->getAllListenerSavedMessages($listener_id);
-        return $listener_messages;
+        return $this->listener->getAllListenerSavedMessages($listener_id);
     }
 
     /**
