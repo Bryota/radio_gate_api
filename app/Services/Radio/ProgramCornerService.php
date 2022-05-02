@@ -47,8 +47,7 @@ class ProgramCornerService
      */
     public function getAllProgramCorners(int $radio_program_id): object
     {
-        $program_corners = $this->program_corner->getAllProgramCorners($radio_program_id);
-        return $program_corners;
+        return $this->program_corner->getAllProgramCorners($radio_program_id);
     }
 
     /**
@@ -59,8 +58,7 @@ class ProgramCornerService
      */
     public function getSingleProgramCorner(int $program_corner_id): ProgramCorner
     {
-        $program_corner = $this->program_corner->getSingleProgramCorner($program_corner_id);
-        return $program_corner;
+        return $this->program_corner->getSingleProgramCorner($program_corner_id);
     }
 
     /**
@@ -71,8 +69,7 @@ class ProgramCornerService
      */
     public function storeProgramCorner(ProgramCornerRequest $request): ProgramCorner
     {
-        $program_corner = $this->program_corner->storeProgramCorner($request);
-        return $program_corner;
+        return $this->program_corner->storeProgramCorner($request);
     }
 
     /**
@@ -84,8 +81,7 @@ class ProgramCornerService
      */
     public function updateProgramCorner(ProgramCornerRequest $request, int $program_corner_id): bool
     {
-        $program_corner = $this->program_corner->updateProgramCorner($request, $program_corner_id);
-        return $program_corner;
+        return $this->program_corner->updateProgramCorner($request, $program_corner_id);
     }
 
     /**
@@ -96,7 +92,6 @@ class ProgramCornerService
      */
     public function deleteProgramCorner(int $program_corner_id): bool
     {
-        $program_corners_destroy_count = $this->program_corner->deleteProgramCorner($program_corner_id);
-        return $program_corners_destroy_count;
+        return $this->program_corner->deleteProgramCorner($program_corner_id);
     }
 }

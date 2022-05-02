@@ -47,8 +47,7 @@ class RequestFunctionService
      */
     public function getAllRequestFunctions(): object
     {
-        $request_functions = $this->request_function->getAllRequestFunctions();
-        return $request_functions;
+        return $this->request_function->getAllRequestFunctions();
     }
 
     /**
@@ -59,8 +58,7 @@ class RequestFunctionService
      */
     public function getSingleRequestFunction(int $request_function_id): RequestFunction
     {
-        $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
-        return $request_function;
+        return $this->request_function->getSingleRequestFunction($request_function_id);
     }
 
     /**
@@ -71,8 +69,7 @@ class RequestFunctionService
      */
     public function storeRequestFunction(RequestFunctionRequest $request): RequestFunction
     {
-        $request_function = $this->request_function->storeRequestFunction($request);
-        return $request_function;
+        return $this->request_function->storeRequestFunction($request);
     }
 
     /**
@@ -85,8 +82,7 @@ class RequestFunctionService
      */
     public function updateRequestFunction(RequestFunctionRequest $request, int $listener_id, int $request_function_id): bool
     {
-        $request_function = $this->request_function->updateRequestFunction($request, $listener_id, $request_function_id);
-        return $request_function;
+        return $this->request_function->updateRequestFunction($request, $listener_id, $request_function_id);
     }
 
     /**
@@ -122,7 +118,6 @@ class RequestFunctionService
      */
     public function deleteRequestFunction(int $listener_id, int $request_function_id): bool
     {
-        $is_deleted = $this->request_function->deleteRequestFunction($listener_id, $request_function_id);
-        return $is_deleted;
+        return $this->request_function->deleteRequestFunction($listener_id, $request_function_id);
     }
 }

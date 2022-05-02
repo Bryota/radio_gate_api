@@ -47,8 +47,7 @@ class MyProgramCornerService
      */
     public function getAllMyProgramCorners(int $listener_my_program_id): object
     {
-        $my_program_corners = $this->my_program_corner->getAllMyProgramCorners($listener_my_program_id);
-        return $my_program_corners;
+        return $this->my_program_corner->getAllMyProgramCorners($listener_my_program_id);
     }
 
     /**
@@ -59,8 +58,7 @@ class MyProgramCornerService
      */
     public function getSingleMyProgramCorner(int $my_program_corner_id): MyProgramCorner
     {
-        $my_program_corner = $this->my_program_corner->getSingleMyProgramCorner($my_program_corner_id);
-        return $my_program_corner;
+        return $this->my_program_corner->getSingleMyProgramCorner($my_program_corner_id);
     }
 
 
@@ -72,8 +70,7 @@ class MyProgramCornerService
      */
     public function storeMyProgramCorner(MyProgramCornerRequest $request): MyProgramCorner
     {
-        $my_program_corner = $this->my_program_corner->storeMyProgramCorner($request);
-        return $my_program_corner;
+        return $this->my_program_corner->storeMyProgramCorner($request);
     }
 
     /**
@@ -85,8 +82,7 @@ class MyProgramCornerService
      */
     public function updateMyProgramCorner(MyProgramCornerRequest $request, int $my_program_corner_id): bool
     {
-        $my_program_corner = $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
-        return $my_program_corner;
+        return $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
     }
 
     /**
@@ -97,7 +93,6 @@ class MyProgramCornerService
      */
     public function deleteMyProgramCorner(int $my_program_corner_id): bool
     {
-        $is_deleted = $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id);
-        return $is_deleted;
+        return $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id);
     }
 }

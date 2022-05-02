@@ -47,8 +47,7 @@ class RadioProgramService
      */
     public function getAllRadioPrograms(int $radio_station_id): object
     {
-        $radio_programs = $this->radio_program->getAllRadioPrograms($radio_station_id);
-        return $radio_programs;
+        return $this->radio_program->getAllRadioPrograms($radio_station_id);
     }
 
     /**
@@ -59,8 +58,7 @@ class RadioProgramService
      */
     public function getSingleRadioProgram(int $radio_program_id): RadioProgram
     {
-        $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
-        return $radio_program;
+        return $this->radio_program->getSingleRadioProgram($radio_program_id);
     }
 
     /**
@@ -71,8 +69,7 @@ class RadioProgramService
      */
     public function storeRadioProgram(RadioProgramRequest $request): RadioProgram
     {
-        $radio_program = $this->radio_program->storeRadioProgram($request);
-        return $radio_program;
+        return $this->radio_program->storeRadioProgram($request);
     }
 
     /**
@@ -84,8 +81,7 @@ class RadioProgramService
      */
     public function updateRadioProgram(RadioProgramRequest $request, int $radio_program_id): bool
     {
-        $radio_program = $this->radio_program->updateRadioProgram($request, $radio_program_id);
-        return $radio_program;
+        return $this->radio_program->updateRadioProgram($request, $radio_program_id);
     }
 
     /**
@@ -96,7 +92,6 @@ class RadioProgramService
      */
     public function deleteRadioProgram(int $radio_program_id): bool
     {
-        $radio_programs_destroy_count = $this->radio_program->deleteRadioProgram($radio_program_id);
-        return $radio_programs_destroy_count;
+        return $this->radio_program->deleteRadioProgram($radio_program_id);
     }
 }

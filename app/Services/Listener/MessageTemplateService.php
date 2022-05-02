@@ -47,8 +47,7 @@ class MessageTemplateService
      */
     public function getAllMessageTemplates(int $listener_id): object
     {
-        $message_templates = $this->message_template->getAllMessageTemplates($listener_id);
-        return $message_templates;
+        return $this->message_template->getAllMessageTemplates($listener_id);
     }
 
     /**
@@ -60,8 +59,7 @@ class MessageTemplateService
      */
     public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
     {
-        $message_template = $this->message_template->getSingleMessageTemplate($listener_id, $message_template_id);
-        return $message_template;
+        return $this->message_template->getSingleMessageTemplate($listener_id, $message_template_id);
     }
 
     /**
@@ -73,8 +71,7 @@ class MessageTemplateService
      */
     public function storeMessageTemplate(MessageTemplateRequest $request, int $listener_id): MessageTemplate
     {
-        $message_template = $this->message_template->storeMessageTemplate($request, $listener_id);
-        return $message_template;
+        return $this->message_template->storeMessageTemplate($request, $listener_id);
     }
 
     /**
@@ -87,8 +84,7 @@ class MessageTemplateService
      */
     public function updateMessageTemplate(MessageTemplateRequest $request, int $listener_id, int $message_template_id): bool
     {
-        $message_template = $this->message_template->updateMessageTemplate($request, $listener_id, $message_template_id);
-        return $message_template;
+        return $this->message_template->updateMessageTemplate($request, $listener_id, $message_template_id);
     }
 
     /**
@@ -100,7 +96,6 @@ class MessageTemplateService
      */
     public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
     {
-        $is_deleted = $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
-        return $is_deleted;
+        return $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
     }
 }

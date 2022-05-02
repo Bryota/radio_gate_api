@@ -47,8 +47,7 @@ class ListenerMyProgramService
      */
     public function getAllListenerMyPrograms(int $listener_id): object
     {
-        $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms($listener_id);
-        return $listener_my_programs;
+        return $this->listener_my_program->getAllListenerMyPrograms($listener_id);
     }
 
     /**
@@ -60,8 +59,7 @@ class ListenerMyProgramService
      */
     public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram
     {
-        $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id);
-        return $listener_my_program;
+        return $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id);
     }
 
     /**
@@ -73,8 +71,7 @@ class ListenerMyProgramService
      */
     public function storeListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id): ListenerMyProgram
     {
-        $listener_my_program = $this->listener_my_program->storeListenerMyProgram($request, $listener_id);
-        return $listener_my_program;
+        return $this->listener_my_program->storeListenerMyProgram($request, $listener_id);
     }
 
     /**
@@ -87,8 +84,7 @@ class ListenerMyProgramService
      */
     public function updateListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id, int $listener_my_program_id): bool
     {
-        $listener_my_program = $this->listener_my_program->updateListenerMyProgram($request, $listener_id, $listener_my_program_id);
-        return $listener_my_program;
+        return $this->listener_my_program->updateListenerMyProgram($request, $listener_id, $listener_my_program_id);
     }
 
     /**
@@ -100,7 +96,6 @@ class ListenerMyProgramService
      */
     public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool
     {
-        $is_deleted = $this->listener_my_program->deleteListenerMyProgram($listener_id, $listener_my_program_id);
-        return $is_deleted;
+        return $this->listener_my_program->deleteListenerMyProgram($listener_id, $listener_my_program_id);
     }
 }
