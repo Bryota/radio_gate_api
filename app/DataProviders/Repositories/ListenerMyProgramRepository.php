@@ -73,7 +73,7 @@ class ListenerMyProgramRepository
     public function storeListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id): ListenerMyProgram
     {
         return $this->listener_my_program::create([
-            'program_name' => $request->program_name,
+            'name' => $request->name,
             'email' => $request->email,
             'listener_id' => $listener_id
         ]);
@@ -92,7 +92,7 @@ class ListenerMyProgramRepository
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
             ->where('listener_id', $listener_id)
             ->first();
-        $listener_my_program->program_name = $request->program_name;
+        $listener_my_program->name = $request->name;
         $listener_my_program->email = $request->email;
         return $listener_my_program->save();
     }

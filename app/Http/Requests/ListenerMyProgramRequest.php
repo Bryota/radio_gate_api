@@ -25,7 +25,7 @@ class ListenerMyProgramRequest extends FormRequest
     public function rules()
     {
         return [
-            'program_name' => 'required|max: 150',
+            'name' => 'required|max: 150',
             'email' => 'required|max: 150|unique:listener_my_programs',
         ];
     }
@@ -33,8 +33,8 @@ class ListenerMyProgramRequest extends FormRequest
     public function messages()
     {
         return [
-            'program_name.required' => '番組名を入力してください。',
-            'program_name.max' => '番組名は150文字以下で入力してください。',
+            'name.required' => '番組名を入力してください。',
+            'name.max' => '番組名は150文字以下で入力してください。',
             'email.required' => '番組メールアドレスを入力してください。',
             'email.max' => '番組メールアドレスは150文字以下で入力してください。',
             'email.unique' => '番組メールアドレスは既に保存されています。',

@@ -18,7 +18,7 @@ class MyProgramCornerTest extends TestCase
 
         $this->listener = $this->loginAsListener();
 
-        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => 'test@example.com']);
+        $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $this->listener_my_program = ListenerMyProgram::first();
     }
 
@@ -38,7 +38,7 @@ class MyProgramCornerTest extends TestCase
         $my_program_corner = MyProgramCorner::first();
         $this->assertEquals('BBSリクエスト', $my_program_corner->name);
         $this->assertEquals($this->listener_my_program->id, $my_program_corner->listener_my_program_id);
-        $this->assertEquals('テストマイ番組', $my_program_corner->ListenerMyProgram->program_name);
+        $this->assertEquals('テストマイ番組', $my_program_corner->ListenerMyProgram->name);
     }
 
     /**

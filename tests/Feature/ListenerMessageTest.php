@@ -30,7 +30,7 @@ class ListenerMessageTest extends TestCase
         $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
         $this->program_corner = ProgramCorner::first();
 
-        $this->postJson('api/listener_my_programs', ['program_name' => 'テストマイ番組', 'email' => 'test@example.com']);
+        $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $this->listener_my_program = ListenerMyProgram::first();
         $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $this->my_program_corner = MyProgramCorner::first();
@@ -132,7 +132,7 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals($this->my_program_corner->id, $listener_message->my_program_corner_id);
         $this->assertEquals($this->listener->id, $listener_message->listener_id);
         $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
-        $this->assertEquals('テストマイ番組', $listener_message->ListenerMyProgram->program_name);
+        $this->assertEquals('テストマイ番組', $listener_message->ListenerMyProgram->name);
         $this->assertEquals('BBSリクエスト', $listener_message->MyProgramCorner->name);
 
         Mail::assertSent(function (ListenerMessageMail $mail) {
@@ -166,7 +166,7 @@ class ListenerMessageTest extends TestCase
         $this->assertEquals($this->listener_my_program->id, $listener_message->listener_my_program_id);
         $this->assertEquals($this->listener->id, $listener_message->listener_id);
         $this->assertEquals('こんにちは。こんばんは。', $listener_message->content);
-        $this->assertEquals('テストマイ番組', $listener_message->ListenerMyProgram->program_name);
+        $this->assertEquals('テストマイ番組', $listener_message->ListenerMyProgram->name);
 
         Mail::assertSent(function (ListenerMessageMail $mail) {
             $mail->build();
