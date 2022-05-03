@@ -17,7 +17,7 @@ class ListenerMyProgram extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'program_name',
+        'name',
         'email',
         'listener_id'
     ];
