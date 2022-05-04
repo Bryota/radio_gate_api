@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioStationService;
 use App\Http\Requests\RadioStationRequest;
+use Illuminate\Support\Facades\DB;
 
 class RadioStationController extends Controller
 {
@@ -45,11 +46,15 @@ class RadioStationController extends Controller
     public function store(RadioStationRequest $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->radio_station->storeRadioStation($request);
+            DB::commit();
             return response()->json([
                 'message' => 'ラジオ局が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'ラジオ局の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -66,11 +71,15 @@ class RadioStationController extends Controller
     public function update(RadioStationRequest $request, int $radio_station_id)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->radio_station->updateRadioStation($request, $radio_station_id);
+            DB::commit();
             return response()->json([
                 'message' => 'ラジオ局が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'ラジオ局の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

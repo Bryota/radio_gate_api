@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\MyProgramCornerService;
 use App\Http\Requests\MyProgramCornerRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MyProgramCornerController extends Controller
 {
@@ -81,11 +82,15 @@ class MyProgramCornerController extends Controller
         }
 
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->my_program_corner->storeMyProgramCorner($request);
+            DB::commit();
             return response()->json([
                 'message' => 'マイ番組コーナーが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'マイ番組コーナーの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -108,11 +113,15 @@ class MyProgramCornerController extends Controller
         }
 
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
+            DB::commit();
             return response()->json([
                 'message' => 'マイ番組コーナーが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'マイ番組コーナーの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

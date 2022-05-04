@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Listener\ListenerService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ListenerController extends Controller
 {
@@ -64,11 +65,15 @@ class ListenerController extends Controller
     public function update(Request $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->listener->UpdateListener($request, auth()->user()->id);
+            DB::commit();
             return response()->json([
                 'message' => 'リスナーデータの更新に成功しました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'リスナーデータの更新に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

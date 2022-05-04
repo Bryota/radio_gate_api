@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\MessageTemplateService;
 use App\Http\Requests\MessageTemplateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MessageTemplateController extends Controller
 {
@@ -66,11 +67,15 @@ class MessageTemplateController extends Controller
     public function store(MessageTemplateRequest $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->message_template->storeMessageTemplate($request, auth()->user()->id);
+            DB::commit();
             return response()->json([
                 'message' => '投稿テンプレートが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => '投稿テンプレートの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -87,11 +92,15 @@ class MessageTemplateController extends Controller
     public function update(MessageTemplateRequest $request, int $message_template_id)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->message_template->updateMessageTemplate($request, auth()->user()->id, $message_template_id);
+            DB::commit();
             return response()->json([
                 'message' => '投稿テンプレートが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => '投稿テンプレートの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

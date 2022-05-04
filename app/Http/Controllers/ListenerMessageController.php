@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ListenerMessageRequest;
 use App\Services\Listener\ListenerService;
+use Illuminate\Support\Facades\DB;
 
 class ListenerMessageController extends Controller
 {
@@ -84,12 +85,16 @@ class ListenerMessageController extends Controller
     public function store(ListenerMessageRequest $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->listener->storeListenerMyProgram($request, auth()->user()->id);
             $this->listener->sendEmailToRadioProgram($request, auth()->user()->id);
+            DB::commit();
             return response()->json([
                 'message' => 'メッセージが投稿されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'メッセージの投稿に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -105,11 +110,15 @@ class ListenerMessageController extends Controller
     public function save(ListenerMessageRequest $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->listener->saveListenerMyProgram($request, auth()->user()->id);
+            DB::commit();
             return response()->json([
                 'message' => 'メッセージが保存されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'メッセージの保存に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
