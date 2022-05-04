@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\RequestFunctionService;
 use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
+use Illuminate\Support\Facades\DB;
 
 class RequestFunctionController extends Controller
 {
@@ -66,11 +67,15 @@ class RequestFunctionController extends Controller
     public function store(RequestFunctionRequest $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->request_function->storeRequestFunction($request);
+            DB::commit();
             return response()->json([
                 'message' => 'リクエスト機能が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'リクエスト機能の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -87,11 +92,15 @@ class RequestFunctionController extends Controller
     public function update(RequestFunctionRequest $request, int $request_function_id)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->request_function->updateRequestFunction($request, auth()->user()->id, $request_function_id);
+            DB::commit();
             return response()->json([
                 'message' => 'リクエスト機能が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'リクエスト機能の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -113,11 +122,15 @@ class RequestFunctionController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         };
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->request_function->submitListenerPoint($request, auth()->user()->id);
+            DB::commit();
             return response()->json([
                 'message' => '投票が完了しました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => '投票に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Listener\ListenerMyProgramService;
 use App\Http\Requests\ListenerMyProgramRequest;
+use Illuminate\Support\Facades\DB;
 
 class ListenerMyProgramController extends Controller
 {
@@ -65,11 +66,15 @@ class ListenerMyProgramController extends Controller
     public function store(ListenerMyProgramRequest $request)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->listener_my_program->storeListenerMyProgram($request, auth()->user()->id);
+            DB::commit();
             return response()->json([
                 'message' => 'マイ番組が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'マイ番組の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -86,11 +91,15 @@ class ListenerMyProgramController extends Controller
     public function update(ListenerMyProgramRequest $request, int $listener_my_program_id)
     {
         try {
+            // TODO: facade使うと誰かに怒られるかも
+            DB::beginTransaction();
             $this->listener_my_program->updateListenerMyProgram($request, auth()->user()->id, $listener_my_program_id);
+            DB::commit();
             return response()->json([
                 'message' => 'マイ番組が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'マイ番組の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
