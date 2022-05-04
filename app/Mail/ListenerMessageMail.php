@@ -134,6 +134,7 @@ class ListenerMessageMail extends Mailable
         return $this->from(config('mail.from.address'))
             ->subject($this->corner)
             ->view('email.listener_message')
+            ->text('email.listener_message_plain')
             ->with([
                 'full_name' => $this->full_name,
                 'full_name_kana' => $this->full_name_kana,
