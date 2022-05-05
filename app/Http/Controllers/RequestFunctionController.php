@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\RequestFunctionService;
 use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class RequestFunctionController extends Controller
@@ -31,6 +32,10 @@ class RequestFunctionController extends Controller
             return response()->json([
                 'request_functions' => $request_functions
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'リクエスト機能一覧の取得に失敗しました。'
@@ -51,6 +56,10 @@ class RequestFunctionController extends Controller
             return response()->json([
                 'request_function' => $request_function
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'リクエスト機能の取得に失敗しました。'
@@ -99,6 +108,10 @@ class RequestFunctionController extends Controller
             return response()->json([
                 'message' => 'リクエスト機能が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([

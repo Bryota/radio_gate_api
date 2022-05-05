@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Radio\ProgramCornerService;
 use App\Http\Requests\ProgramCornerRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,6 +34,10 @@ class ProgramCornerController extends Controller
             return response()->json([
                 'program_corners' => $program_corners
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => '番組コーナー一覧の取得に失敗しました。'
@@ -53,6 +58,10 @@ class ProgramCornerController extends Controller
             return response()->json([
                 'program_corner' => $program_corner
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => '番組コーナーの取得に失敗しました。'
@@ -101,6 +110,10 @@ class ProgramCornerController extends Controller
             return response()->json([
                 'message' => '番組コーナーが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
