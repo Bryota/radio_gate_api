@@ -102,7 +102,7 @@ class Listener extends Authenticatable
      * @param int $listener_id リスナーID
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeListenerIdEqual($query, int $listener_id): Builder
+    public function scopeListenerIdEqual(Builder $query, int $listener_id): Builder
     {
         return $query->where('id', $listener_id);
     }

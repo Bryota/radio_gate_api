@@ -51,7 +51,7 @@ class RequestFunction extends Model
      * @param int $listener_id リスナーID
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeListenerIdEqual($query, $listener_id): Builder
+    public function scopeListenerIdEqual(Builder $query, int $listener_id): Builder
     {
         return $query->where('listener_id', $listener_id);
     }
