@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\MessageTemplateService;
 use App\Http\Requests\MessageTemplateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class MessageTemplateController extends Controller
 {
@@ -15,9 +14,15 @@ class MessageTemplateController extends Controller
      */
     private $message_template;
 
-    public function __construct(MessageTemplateService $message_template)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(MessageTemplateService $message_template, Connection $db_connection)
     {
         $this->message_template = $message_template;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -76,15 +81,14 @@ class MessageTemplateController extends Controller
     public function store(MessageTemplateRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->message_template->storeMessageTemplate($request, auth()->user()->id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => '投稿テンプレートが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => '投稿テンプレートの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -101,10 +105,9 @@ class MessageTemplateController extends Controller
     public function update(MessageTemplateRequest $request, int $message_template_id)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->message_template->updateMessageTemplate($request, auth()->user()->id, $message_template_id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => '投稿テンプレートが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -113,7 +116,7 @@ class MessageTemplateController extends Controller
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => '投稿テンプレートの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

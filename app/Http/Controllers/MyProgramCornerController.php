@@ -6,7 +6,7 @@ use App\Services\Listener\MyProgramCornerService;
 use App\Http\Requests\MyProgramCornerRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class MyProgramCornerController extends Controller
 {
@@ -15,9 +15,15 @@ class MyProgramCornerController extends Controller
      */
     private $my_program_corner;
 
-    public function __construct(MyProgramCornerService $my_program_corner)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(MyProgramCornerService $my_program_corner, Connection $db_connection)
     {
         $this->my_program_corner = $my_program_corner;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -91,15 +97,14 @@ class MyProgramCornerController extends Controller
         }
 
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->my_program_corner->storeMyProgramCorner($request);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'マイ番組コーナーが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組コーナーの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -122,10 +127,9 @@ class MyProgramCornerController extends Controller
         }
 
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->my_program_corner->updateMyProgramCorner($request, $my_program_corner_id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'マイ番組コーナーが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -134,7 +138,7 @@ class MyProgramCornerController extends Controller
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組コーナーの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

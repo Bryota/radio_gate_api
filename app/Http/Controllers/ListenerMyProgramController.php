@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\ListenerMyProgramService;
 use App\Http\Requests\ListenerMyProgramRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class ListenerMyProgramController extends Controller
 {
@@ -14,9 +14,15 @@ class ListenerMyProgramController extends Controller
      */
     private $listener_my_program;
 
-    public function __construct(ListenerMyProgramService $listener_my_program)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(ListenerMyProgramService $listener_my_program, Connection $db_connection)
     {
         $this->listener_my_program = $listener_my_program;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -71,15 +77,14 @@ class ListenerMyProgramController extends Controller
     public function store(ListenerMyProgramRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->listener_my_program->storeListenerMyProgram($request, auth()->user()->id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'マイ番組が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -96,10 +101,9 @@ class ListenerMyProgramController extends Controller
     public function update(ListenerMyProgramRequest $request, int $listener_my_program_id)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->listener_my_program->updateListenerMyProgram($request, auth()->user()->id, $listener_my_program_id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'マイ番組が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -108,7 +112,7 @@ class ListenerMyProgramController extends Controller
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
