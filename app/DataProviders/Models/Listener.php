@@ -3,6 +3,7 @@
 namespace App\DataProviders\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -92,5 +93,17 @@ class Listener extends Authenticatable
     public function RequestFunctionListenerSubmits(): hasMany
     {
         return $this->hasMany(RequestFunctionListenerSubmit::class);
+    }
+
+    /**
+     * リスナーID一致クエリのスコープ
+     * 
+     * @param Builder $query クエリビルダ
+     * @param int $listener_id リスナーID
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeListenerIdEqual($query, int $listener_id): Builder
+    {
+        return $query->where('id', $listener_id);
     }
 }

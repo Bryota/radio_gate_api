@@ -91,7 +91,7 @@ class RequestFunctionRepository
     public function updateRequestFunction(RequestFunctionRequest $request, int $listener_id, int $request_function_id): bool
     {
         $request_function = $this->request_function::where('id', $request_function_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
         $request_function->name = $request->name;
         $request_function->detail = $request->detail;
@@ -128,7 +128,7 @@ class RequestFunctionRepository
     public function isSubmittedListener(int $request_function_id, int $listener_id): bool
     {
         return $this->request_function_listener_submit::where('request_function_id', $request_function_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->exists();
     }
 
@@ -142,7 +142,7 @@ class RequestFunctionRepository
     public function deleteRequestFunction(int $listener_id, int $request_function_id): bool
     {
         $request_function = $this->request_function::where('id', $request_function_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
         return $request_function->delete();
     }

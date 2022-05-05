@@ -47,7 +47,7 @@ class ListenerMyProgramRepository
      */
     public function getAllListenerMyPrograms(int $listener_id): object
     {
-        return $this->listener_my_program::where('listener_id', $listener_id)->get();
+        return $this->listener_my_program::ListenerIdEqual($listener_id)->get();
     }
 
     /**
@@ -60,7 +60,7 @@ class ListenerMyProgramRepository
     public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram
     {
         return $this->listener_my_program::where('id', $listener_my_program_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
     }
 
@@ -90,7 +90,7 @@ class ListenerMyProgramRepository
     public function updateListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id, int $listener_my_program_id): bool
     {
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
         $listener_my_program->name = $request->name;
         $listener_my_program->email = $request->email;
@@ -107,7 +107,7 @@ class ListenerMyProgramRepository
     public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool
     {
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
         return $listener_my_program->delete();
     }

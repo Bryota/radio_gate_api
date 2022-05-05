@@ -87,7 +87,7 @@ class ListenerRepository
      */
     public function UpdateListener(Request $request, int $listener_id): void
     {
-        $this->listener::where('id', $listener_id)
+        $this->listener::ListenerIdEqual($listener_id)
             ->update($request->all());
     }
 
@@ -109,7 +109,7 @@ class ListenerRepository
      */
     public function getSingleListener(int $listener_id): Listener
     {
-        return $this->listener::where('id', $listener_id)
+        return $this->listener::ListenerIdEqual($listener_id)
             ->first();
     }
 
@@ -164,7 +164,7 @@ class ListenerRepository
      */
     public function getAllListenerMessages(int $listener_id): object
     {
-        return $this->listener_message::where('listener_id', $listener_id)->get();
+        return $this->listener_message::ListenerIdEqual($listener_id)->get();
     }
 
     /**
@@ -177,7 +177,7 @@ class ListenerRepository
     public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage
     {
         return $this->listener_message::where('id', $listener_message_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
     }
 
@@ -189,7 +189,7 @@ class ListenerRepository
      */
     public function getAllListenerSavedMessages(int $listener_id): object
     {
-        return $this->listener_message::where('listener_id', $listener_id)
+        return $this->listener_message::ListenerIdEqual($listener_id)
             ->where('posted_at', null)
             ->get();
     }

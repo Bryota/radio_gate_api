@@ -47,7 +47,7 @@ class MessageTemplateRepository
      */
     public function getAllMessageTemplates(int $listener_id): object
     {
-        return $this->message_template::where('listener_id', $listener_id)->get();
+        return $this->message_template::ListenerIdEqual($listener_id)->get();
     }
 
     /**
@@ -60,7 +60,7 @@ class MessageTemplateRepository
     public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
     {
         return $this->message_template::where('id', $message_template_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
     }
 
@@ -93,7 +93,7 @@ class MessageTemplateRepository
     public function updateMessageTemplate(MessageTemplateRequest $request, int $listener_id, int $message_template_id): bool
     {
         $message_template = $this->message_template::where('id', $message_template_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
         $message_template->name = $request->name;
         $message_template->content = $request->content;
@@ -110,7 +110,7 @@ class MessageTemplateRepository
     public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
     {
         $message_template = $this->message_template::where('id', $message_template_id)
-            ->where('listener_id', $listener_id)
+            ->ListenerIdEqual($listener_id)
             ->first();
         return $message_template->delete();
     }
