@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Listener\ListenerService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -49,6 +50,10 @@ class ListenerController extends Controller
             return response()->json([
                 'listener' => $listener
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'リスナーデータがありませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'リスナーデータの取得に失敗しました。'
@@ -72,6 +77,10 @@ class ListenerController extends Controller
             return response()->json([
                 'message' => 'リスナーデータの更新に成功しました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'リスナーデータがありませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ListenerMessageRequest;
 use App\Services\Listener\ListenerService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class ListenerMessageController extends Controller
@@ -30,6 +31,10 @@ class ListenerMessageController extends Controller
             return response()->json([
                 'listener_messages' => $listener_messages
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => '投稿一覧の取得に失敗しました。'
@@ -50,6 +55,10 @@ class ListenerMessageController extends Controller
             return response()->json([
                 'listener_message' => $listener_message
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => '投稿の取得に失敗しました。'
@@ -69,6 +78,10 @@ class ListenerMessageController extends Controller
             return response()->json([
                 'listener_messages' => $listener_messages
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => '投稿一覧の取得に失敗しました。'

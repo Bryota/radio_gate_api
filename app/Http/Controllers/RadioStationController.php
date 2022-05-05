@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioStationService;
 use App\Http\Requests\RadioStationRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class RadioStationController extends Controller
@@ -30,6 +31,10 @@ class RadioStationController extends Controller
             return response()->json([
                 'radio_stations' => $radio_staitons
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ局一覧の取得に失敗しました。'
@@ -78,6 +83,10 @@ class RadioStationController extends Controller
             return response()->json([
                 'message' => 'ラジオ局が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([

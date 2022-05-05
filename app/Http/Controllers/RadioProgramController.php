@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Radio\RadioProgramService;
 use App\Http\Requests\RadioProgramRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,6 +34,10 @@ class RadioProgramController extends Controller
             return response()->json([
                 'radio_programs' => $radio_programs
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ番組一覧の取得に失敗しました。'
@@ -53,6 +58,10 @@ class RadioProgramController extends Controller
             return response()->json([
                 'radio_program' => $radio_program
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'ラジオ番組の取得に失敗しました。'
@@ -101,6 +110,10 @@ class RadioProgramController extends Controller
             return response()->json([
                 'message' => 'ラジオ番組が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
