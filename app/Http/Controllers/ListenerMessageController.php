@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ListenerMessageRequest;
 use App\Services\Listener\ListenerService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class ListenerMessageController extends Controller
 {
@@ -14,9 +14,15 @@ class ListenerMessageController extends Controller
      */
     private $listener;
 
-    public function __construct(ListenerService $listener)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(ListenerService $listener, Connection $db_connection)
     {
         $this->listener = $listener;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -98,16 +104,15 @@ class ListenerMessageController extends Controller
     public function store(ListenerMessageRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->listener->storeListenerMyProgram($request, auth()->user()->id);
             $this->listener->sendEmailToRadioProgram($request, auth()->user()->id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'メッセージが投稿されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの投稿に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -123,15 +128,14 @@ class ListenerMessageController extends Controller
     public function save(ListenerMessageRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->listener->saveListenerMyProgram($request, auth()->user()->id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'メッセージが保存されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの保存に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

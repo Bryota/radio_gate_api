@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Radio\RadioStationService;
 use App\Http\Requests\RadioStationRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class RadioStationController extends Controller
 {
@@ -14,9 +14,15 @@ class RadioStationController extends Controller
      */
     private $radio_station;
 
-    public function __construct(RadioStationService $radio_station)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(RadioStationService $radio_station, Connection $db_connection)
     {
         $this->radio_station = $radio_station;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -51,15 +57,14 @@ class RadioStationController extends Controller
     public function store(RadioStationRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->radio_station->storeRadioStation($request);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'ラジオ局が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ局の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -76,10 +81,9 @@ class RadioStationController extends Controller
     public function update(RadioStationRequest $request, int $radio_station_id)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->radio_station->updateRadioStation($request, $radio_station_id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'ラジオ局が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -88,7 +92,7 @@ class RadioStationController extends Controller
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ局の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

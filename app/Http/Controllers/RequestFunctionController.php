@@ -6,7 +6,7 @@ use App\Services\Listener\RequestFunctionService;
 use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class RequestFunctionController extends Controller
 {
@@ -15,9 +15,15 @@ class RequestFunctionController extends Controller
      */
     private $request_function;
 
-    public function __construct(RequestFunctionService $request_function)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(RequestFunctionService $request_function, Connection $db_connection)
     {
         $this->request_function = $request_function;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -76,15 +82,14 @@ class RequestFunctionController extends Controller
     public function store(RequestFunctionRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->request_function->storeRequestFunction($request);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'リクエスト機能が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'リクエスト機能の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -101,10 +106,9 @@ class RequestFunctionController extends Controller
     public function update(RequestFunctionRequest $request, int $request_function_id)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->request_function->updateRequestFunction($request, auth()->user()->id, $request_function_id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'リクエスト機能が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -113,13 +117,12 @@ class RequestFunctionController extends Controller
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'リクエスト機能の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
-
 
     /**
      * リクエスト機能リスナー投票
@@ -135,15 +138,14 @@ class RequestFunctionController extends Controller
             ], 409, [], JSON_UNESCAPED_UNICODE);
         };
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->request_function->submitListenerPoint($request, auth()->user()->id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => '投票が完了しました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => '投票に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

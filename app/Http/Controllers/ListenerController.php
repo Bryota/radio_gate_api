@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Listener\ListenerService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class ListenerController extends Controller
 {
@@ -14,9 +14,15 @@ class ListenerController extends Controller
      */
     private $listener;
 
-    public function __construct(ListenerService $listener)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(ListenerService $listener, Connection $db_connection)
     {
         $this->listener = $listener;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -70,10 +76,9 @@ class ListenerController extends Controller
     public function update(Request $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->listener->UpdateListener($request, auth()->user()->id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'リスナーデータの更新に成功しました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -82,7 +87,7 @@ class ListenerController extends Controller
                 'message' => 'リスナーデータがありませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'リスナーデータの更新に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

@@ -6,7 +6,7 @@ use App\Services\Radio\RadioProgramService;
 use App\Http\Requests\RadioProgramRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
 
 class RadioProgramController extends Controller
 {
@@ -15,9 +15,15 @@ class RadioProgramController extends Controller
      */
     private $radio_program;
 
-    public function __construct(RadioProgramService $radio_program)
+    /**
+     * @var Connection $db_connection Connectionインスタンス
+     */
+    private $db_connection;
+
+    public function __construct(RadioProgramService $radio_program, Connection $db_connection)
     {
         $this->radio_program = $radio_program;
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -78,15 +84,14 @@ class RadioProgramController extends Controller
     public function store(RadioProgramRequest $request)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->radio_program->storeRadioProgram($request);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'ラジオ番組が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ番組の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -103,10 +108,9 @@ class RadioProgramController extends Controller
     public function update(RadioProgramRequest $request, int $radio_program_id)
     {
         try {
-            // TODO: facade使うと誰かに怒られるかも
-            DB::beginTransaction();
+            $this->db_connection->beginTransaction();
             $this->radio_program->updateRadioProgram($request, $radio_program_id);
-            DB::commit();
+            $this->db_connection->commit();
             return response()->json([
                 'message' => 'ラジオ番組が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -115,7 +119,7 @@ class RadioProgramController extends Controller
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ番組の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
