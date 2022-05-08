@@ -34,6 +34,13 @@ class MyProgramCornerController extends Controller
      */
     public function index(Request $request)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         $listener_my_program_id = $request->input('listener_my_program');
         $listener_id = (int) $request->input('listener');
         if ($listener_id !== auth()->user()->id) {
@@ -90,6 +97,13 @@ class MyProgramCornerController extends Controller
      */
     public function store(MyProgramCornerRequest $request)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         if ($request->listener_id !== auth()->user()->id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
@@ -120,6 +134,13 @@ class MyProgramCornerController extends Controller
      */
     public function update(MyProgramCornerRequest $request, $my_program_corner_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         if ($request->listener_id !== auth()->user()->id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
@@ -154,6 +175,13 @@ class MyProgramCornerController extends Controller
      */
     public function destroy(Request $request, int $my_program_corner_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         $listener_id = (int) $request->input('listener');
         if ($listener_id !== auth()->user()->id) {
             return response()->json([

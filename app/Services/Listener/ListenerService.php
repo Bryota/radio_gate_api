@@ -129,9 +129,9 @@ class ListenerService
      * リスナー情報取得
      *
      * @param int $listener_id リスナーID
-     * @return Listener リスナーデータ
+     * @return Listener|null リスナーデータ
      */
-    public function getSingleListener(int $listener_id): Listener
+    public function getSingleListener(int $listener_id): Listener|null
     {
         return $this->listener->getSingleListener($listener_id);
     }
@@ -161,41 +161,43 @@ class ListenerService
         $corner = $this->setCorner($request->program_corner_id, $request->my_program_corner_id, $request->subject);
         $listener = $this->listener->getSingleListener($listener_id);
 
-        $full_name = $listener->last_name ? "%{$request->last_name}　%{$request->first_name}" : null;
-        $full_name_kana = $listener->last_name_kana ? "%{$request->last_name_kana}　%{$request->first_name_kana}" : null;
-        $post_code = $listener->post_code ? $listener->post_code : null;
-        $prefecture = $listener->prefecture ? $listener->prefecture : null;
-        $city = $listener->city ? $listener->city : null;
-        $house_number = $listener->house_number ? $listener->house_number : null;
-        $building = $listener->building ? $listener->building : null;
-        $room_number = $listener->room_number ? $listener->room_number : null;
-        $tel = $listener->tel ? $listener->tel : null;
-        $email = $listener->email;
-        $content = $request->content;
-        if ($request->radio_name) {
-            $radio_name = $request->radio_name;
-        } else if ($listener->radio_name) {
-            $radio_name = $listener->radio_name;
-        } else {
-            $radio_name = null;
-        }
+        if ($listener) {
+            $full_name = $listener->last_name ? "%{$request->last_name}　%{$request->first_name}" : null;
+            $full_name_kana = $listener->last_name_kana ? "%{$request->last_name_kana}　%{$request->first_name_kana}" : null;
+            $post_code = $listener->post_code ? $listener->post_code : null;
+            $prefecture = $listener->prefecture ? $listener->prefecture : null;
+            $city = $listener->city ? $listener->city : null;
+            $house_number = $listener->house_number ? $listener->house_number : null;
+            $building = $listener->building ? $listener->building : null;
+            $room_number = $listener->room_number ? $listener->room_number : null;
+            $tel = $listener->tel ? $listener->tel : null;
+            $email = $listener->email;
+            $content = $request->content;
+            if ($request->radio_name) {
+                $radio_name = $request->radio_name;
+            } else if ($listener->radio_name) {
+                $radio_name = $listener->radio_name;
+            } else {
+                $radio_name = null;
+            }
 
-        // TODO: Mailファザードはどこかで怒られるかも
-        Mail::to($radio_email)->send($this->listener_message_mail->getSelf(
-            $corner,
-            $full_name,
-            $full_name_kana,
-            $radio_name,
-            $post_code,
-            $prefecture,
-            $city,
-            $house_number,
-            $building,
-            $room_number,
-            $tel,
-            $email,
-            $content
-        ));
+            // TODO: Mailファザードはどこかで怒られるかも
+            Mail::to($radio_email)->send($this->listener_message_mail->getSelf(
+                $corner,
+                $full_name,
+                $full_name_kana,
+                $radio_name,
+                $post_code,
+                $prefecture,
+                $city,
+                $house_number,
+                $building,
+                $room_number,
+                $tel,
+                $email,
+                $content
+            ));
+        }
     }
 
     /**
@@ -214,9 +216,9 @@ class ListenerService
      *
      * @param int $listener_id リスナーID
      * @param int $listener_message_id 投稿ID
-     * @return ListenerMessage 投稿データ
+     * @return ListenerMessage|null 投稿データ
      */
-    public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage
+    public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage|null
     {
         return $this->listener->getSingleListenerMessage($listener_id, $listener_message_id);
     }
@@ -250,14 +252,21 @@ class ListenerService
      * @param int|null $radio_program_id ラジオ番組ID
      * @param int|null $listener_my_program_id マイラジオ番組ID
      * @param int $listener_id リスナーID
-     * @return string ラジオ番組メールアドレス
+     * @return string|null ラジオ番組メールアドレス
      */
-    private function setRadioProgramEmail(int|null $radio_program_id, int|null $listener_my_program_id, int $listener_id): string
+    private function setRadioProgramEmail(int|null $radio_program_id, int|null $listener_my_program_id, int $listener_id): string|null
     {
         if ($radio_program_id) {
             $radio_email = $this->radio_program->getSingleRadioProgram($radio_program_id)->email;
+        } else if ($listener_my_program_id) {
+            $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id);
+            if ($listener_my_program) {
+                $radio_email = $listener_my_program->email;
+            } else {
+                $radio_email = null;
+            }
         } else {
-            $radio_email = $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id)->email;
+            $radio_email = null;
         }
         return $radio_email;
     }
@@ -268,9 +277,9 @@ class ListenerService
      * @param int|null $program_corner_id 番組コーナーID
      * @param int|null $my_program_corner_id マイ番組コーナーID
      * @param string|null $subject 件名
-     * @return string 番組コーナー
+     * @return string|null 番組コーナー
      */
-    private function setCorner(int|null $program_corner_id, int|null $my_program_corner_id, string|null $subject): string
+    private function setCorner(int|null $program_corner_id, int|null $my_program_corner_id, string|null $subject): string|null
     {
         if ($program_corner_id) {
             $corner = $this->program_corner->getSingleProgramCorner($program_corner_id)->name;

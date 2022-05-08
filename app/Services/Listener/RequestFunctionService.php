@@ -54,9 +54,9 @@ class RequestFunctionService
      * リクエスト機能個別の取得
      *
      * @param int $request_function_id リクエスト機能ID
-     * @return RequestFunction リクエスト機能データ
+     * @return RequestFunction|null リクエスト機能データ
      */
-    public function getSingleRequestFunction(int $request_function_id): RequestFunction
+    public function getSingleRequestFunction(int $request_function_id): RequestFunction|null
     {
         return $this->request_function->getSingleRequestFunction($request_function_id);
     }
@@ -114,9 +114,9 @@ class RequestFunctionService
      *
      * @param int $listener_id リスナーID
      * @param int $request_function_id  リクエスト機能ID
-     * @return bool 削除できたかどうか
+     * @return bool|null 削除できたかどうか
      */
-    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool
+    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool|null
     {
         return $this->request_function->deleteRequestFunction($listener_id, $request_function_id);
     }

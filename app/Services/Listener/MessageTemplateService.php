@@ -55,9 +55,9 @@ class MessageTemplateService
      *
      * @param int $listener_id リスナーID
      * @param int $message_template_id 投稿テンプレートID
-     * @return MessageTemplate 投稿テンプレートデータ
+     * @return MessageTemplate|null 投稿テンプレートデータ
      */
-    public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
+    public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate|null
     {
         return $this->message_template->getSingleMessageTemplate($listener_id, $message_template_id);
     }
@@ -92,9 +92,9 @@ class MessageTemplateService
      *
      * @param int $listener_id リスナーID
      * @param int $message_template_id  投稿テンプレートID
-     * @return bool 削除できたかどうか
+     * @return bool|null 削除できたかどうか
      */
-    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
+    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool|null
     {
         return $this->message_template->deleteMessageTemplate($listener_id, $message_template_id);
     }

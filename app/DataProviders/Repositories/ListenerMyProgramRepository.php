@@ -55,9 +55,9 @@ class ListenerMyProgramRepository
      * 
      * @param int $listener_id リスナーID
      * @param int $listener_my_program_id マイ番組ID
-     * @return ListenerMyProgram マイ番組データ
+     * @return ListenerMyProgram|null マイ番組データ
      */
-    public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram
+    public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram|null
     {
         return $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
@@ -68,9 +68,9 @@ class ListenerMyProgramRepository
      * マイ番組作成
      *
      * @param ListenerMyProgramRequest $request マイ番組作成リクエストデータ
-     * @return ListenerMyProgram マイ番組生成データ
+     * @return ListenerMyProgram|null マイ番組生成データ
      */
-    public function storeListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id): ListenerMyProgram
+    public function storeListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id): ListenerMyProgram|null
     {
         return $this->listener_my_program::create([
             'name' => $request->name,
@@ -92,9 +92,13 @@ class ListenerMyProgramRepository
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
             ->first();
-        $listener_my_program->name = $request->name;
-        $listener_my_program->email = $request->email;
-        return $listener_my_program->save();
+        if ($listener_my_program) {
+            $listener_my_program->name = $request->name;
+            $listener_my_program->email = $request->email;
+            return $listener_my_program->save();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -102,13 +106,17 @@ class ListenerMyProgramRepository
      *
      * @param int $listener_id リスナーID
      * @param int $listener_my_program_id マイ番組ID
-     * @return bool 削除できたかどうか
+     * @return bool|null 削除できたかどうか
      */
-    public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool
+    public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool|null
     {
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
             ->first();
-        return $listener_my_program->delete();
+        if ($listener_my_program) {
+            return $listener_my_program->delete();
+        } else {
+            return false;
+        }
     }
 }
