@@ -32,6 +32,13 @@ class ListenerMyProgramController extends Controller
      */
     public function index()
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms(auth()->user()->id);
             return response()->json([
@@ -52,6 +59,13 @@ class ListenerMyProgramController extends Controller
      */
     public function show(int $listener_my_program_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram(auth()->user()->id, $listener_my_program_id);
             return response()->json([
@@ -76,6 +90,13 @@ class ListenerMyProgramController extends Controller
      */
     public function store(ListenerMyProgramRequest $request)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->db_connection->beginTransaction();
             $this->listener_my_program->storeListenerMyProgram($request, auth()->user()->id);
@@ -100,6 +121,13 @@ class ListenerMyProgramController extends Controller
      */
     public function update(ListenerMyProgramRequest $request, int $listener_my_program_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->db_connection->beginTransaction();
             $this->listener_my_program->updateListenerMyProgram($request, auth()->user()->id, $listener_my_program_id);
@@ -127,6 +155,13 @@ class ListenerMyProgramController extends Controller
      */
     public function destroy(int $listener_my_program_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->listener_my_program->deleteListenerMyProgram(auth()->user()->id, $listener_my_program_id);
             return response()->json([

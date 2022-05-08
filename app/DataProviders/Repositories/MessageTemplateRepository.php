@@ -55,9 +55,9 @@ class MessageTemplateRepository
      * 
      * @param int $listener_id リスナーID
      * @param int $message_template_id 投稿テンプレートID
-     * @return MessageTemplate 投稿テンプレートデータ
+     * @return MessageTemplate|null 投稿テンプレートデータ
      */
-    public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate
+    public function getSingleMessageTemplate(int $listener_id, int $message_template_id): MessageTemplate|null
     {
         return $this->message_template::where('id', $message_template_id)
             ->ListenerIdEqual($listener_id)
@@ -95,9 +95,13 @@ class MessageTemplateRepository
         $message_template = $this->message_template::where('id', $message_template_id)
             ->ListenerIdEqual($listener_id)
             ->first();
-        $message_template->name = $request->name;
-        $message_template->content = $request->content;
-        return $message_template->save();
+        if ($message_template) {
+            $message_template->name = $request->name;
+            $message_template->content = $request->content;
+            return $message_template->save();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -105,13 +109,17 @@ class MessageTemplateRepository
      *
      * @param int $listener_id リスナーID
      * @param int $message_template_id 投稿テンプレートID
-     * @return bool 削除できたかどうか
+     * @return bool|null 削除できたかどうか
      */
-    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool
+    public function deleteMessageTemplate(int $listener_id, int $message_template_id): bool|null
     {
         $message_template = $this->message_template::where('id', $message_template_id)
             ->ListenerIdEqual($listener_id)
             ->first();
-        return $message_template->delete();
+        if ($message_template) {
+            return $message_template->delete();
+        } else {
+            return false;
+        }
     }
 }

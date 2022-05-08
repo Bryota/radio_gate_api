@@ -131,24 +131,44 @@ class ListenerMessageMail extends Mailable
      */
     public function build()
     {
-        return $this->from(config('mail.from.address'))
-            ->subject($this->corner)
-            ->view('email.listener_message')
-            ->text('email.listener_message_plain')
-            ->with([
-                'full_name' => $this->full_name,
-                'full_name_kana' => $this->full_name_kana,
-                'radio_name' => $this->radio_name,
-                'post_code' => $this->post_code,
-                'prefecture' => $this->prefecture,
-                'city' => $this->city,
-                'house_number' => $this->house_number,
-                'building' => $this->building,
-                'room_number' => $this->room_number,
-                'tel' => $this->tel,
-                'email' => $this->email,
-                'content' => $this->content,
-            ]);
+        if ($this->corner) {
+            return $this->from(config('mail.from.address'))
+                ->subject($this->corner)
+                ->view('email.listener_message')
+                ->text('email.listener_message_plain')
+                ->with([
+                    'full_name' => $this->full_name,
+                    'full_name_kana' => $this->full_name_kana,
+                    'radio_name' => $this->radio_name,
+                    'post_code' => $this->post_code,
+                    'prefecture' => $this->prefecture,
+                    'city' => $this->city,
+                    'house_number' => $this->house_number,
+                    'building' => $this->building,
+                    'room_number' => $this->room_number,
+                    'tel' => $this->tel,
+                    'email' => $this->email,
+                    'content' => $this->content,
+                ]);
+        } else {
+            return $this->from(config('mail.from.address'))
+                ->view('email.listener_message')
+                ->text('email.listener_message_plain')
+                ->with([
+                    'full_name' => $this->full_name,
+                    'full_name_kana' => $this->full_name_kana,
+                    'radio_name' => $this->radio_name,
+                    'post_code' => $this->post_code,
+                    'prefecture' => $this->prefecture,
+                    'city' => $this->city,
+                    'house_number' => $this->house_number,
+                    'building' => $this->building,
+                    'room_number' => $this->room_number,
+                    'tel' => $this->tel,
+                    'email' => $this->email,
+                    'content' => $this->content,
+                ]);
+        }
     }
 
     /**

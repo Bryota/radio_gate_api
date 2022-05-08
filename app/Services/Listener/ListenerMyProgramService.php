@@ -55,9 +55,9 @@ class ListenerMyProgramService
      *
      * @param int $listener_id リスナーID
      * @param int $listener_my_program_id マイ番組ID
-     * @return ListenerMyProgram マイ番組データ
+     * @return ListenerMyProgram|null マイ番組データ
      */
-    public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram
+    public function getSingleListenerMyProgram(int $listener_id, int $listener_my_program_id): ListenerMyProgram|null
     {
         return $this->listener_my_program->getSingleListenerMyProgram($listener_id, $listener_my_program_id);
     }
@@ -67,9 +67,9 @@ class ListenerMyProgramService
      * 
      * @param int $listener_id リスナーID
      * @param ListenerMyProgramRequest $request マイ番組登録用のリクエストデータ
-     * @return ListenerMyProgram 作成されたマイ番組情報
+     * @return ListenerMyProgram|null 作成されたマイ番組情報
      */
-    public function storeListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id): ListenerMyProgram
+    public function storeListenerMyProgram(ListenerMyProgramRequest $request, int $listener_id): ListenerMyProgram|null
     {
         return $this->listener_my_program->storeListenerMyProgram($request, $listener_id);
     }
@@ -92,9 +92,9 @@ class ListenerMyProgramService
      *
      * @param int $listener_id リスナーID
      * @param int $listener_my_program_id  マイ番組ID
-     * @return bool 削除できたかどうか
+     * @return bool|null 削除できたかどうか
      */
-    public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool
+    public function deleteListenerMyProgram(int $listener_id, int $listener_my_program_id): bool|null
     {
         return $this->listener_my_program->deleteListenerMyProgram($listener_id, $listener_my_program_id);
     }

@@ -105,9 +105,9 @@ class ListenerRepository
      * リスナー情報取得
      * 
      * @param int $listener_id リスナーID
-     * @return Listener リスナーデータ
+     * @return Listener|null リスナーデータ
      */
-    public function getSingleListener(int $listener_id): Listener
+    public function getSingleListener(int $listener_id): Listener|null
     {
         return $this->listener::ListenerIdEqual($listener_id)
             ->first();
@@ -172,9 +172,9 @@ class ListenerRepository
      * 
      * @param int $listener_id リスナーID
      * @param int $listener_message_id 投稿ID
-     * @return ListenerMessage 投稿データ
+     * @return ListenerMessage|null 投稿データ
      */
-    public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage
+    public function getSingleListenerMessage(int $listener_id, int $listener_message_id): ListenerMessage|null
     {
         return $this->listener_message::where('id', $listener_message_id)
             ->ListenerIdEqual($listener_id)

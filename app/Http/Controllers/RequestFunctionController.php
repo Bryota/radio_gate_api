@@ -105,6 +105,13 @@ class RequestFunctionController extends Controller
      */
     public function update(RequestFunctionRequest $request, int $request_function_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->db_connection->beginTransaction();
             $this->request_function->updateRequestFunction($request, auth()->user()->id, $request_function_id);
@@ -132,6 +139,13 @@ class RequestFunctionController extends Controller
      */
     public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         if ($this->request_function->isSubmittedListener($request->request_function_id, auth()->user()->id)) {
             return response()->json([
                 'message' => 'この機能には既に投票してあります。'
@@ -160,6 +174,13 @@ class RequestFunctionController extends Controller
      */
     public function destroy(int $request_function_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->request_function->deleteRequestFunction(auth()->user()->id, $request_function_id);
             return response()->json([

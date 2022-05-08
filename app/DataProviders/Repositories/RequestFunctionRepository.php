@@ -61,9 +61,9 @@ class RequestFunctionRepository
      * リクエスト機能個別の取得
      * 
      * @param int $request_function_id リクエスト機能ID
-     * @return RequestFunction リクエスト機能データ
+     * @return RequestFunction|null リクエスト機能データ
      */
-    public function getSingleRequestFunction(int $request_function_id): RequestFunction
+    public function getSingleRequestFunction(int $request_function_id): RequestFunction|null
     {
         return $this->request_function::where('id', $request_function_id)
             ->first();
@@ -93,9 +93,13 @@ class RequestFunctionRepository
         $request_function = $this->request_function::where('id', $request_function_id)
             ->ListenerIdEqual($listener_id)
             ->first();
-        $request_function->name = $request->name;
-        $request_function->detail = $request->detail;
-        return $request_function->save();
+        if ($request_function) {
+            $request_function->name = $request->name;
+            $request_function->detail = $request->detail;
+            return $request_function->save();
+        } else {
+            return false;
+        }
     }
 
 
@@ -114,8 +118,10 @@ class RequestFunctionRepository
             'point' => (int)$request->point
         ]);
         $request_function = $this->getSingleRequestFunction($request->request_function_id);
-        $request_function->point = $request_function->point + (int)$request->point;
-        $request_function->save();
+        if ($request_function) {
+            $request_function->point = $request_function->point + (int)$request->point;
+            $request_function->save();
+        }
     }
 
     /**
@@ -137,13 +143,17 @@ class RequestFunctionRepository
      *
      * @param int $listener_id リスナーID
      * @param int $request_function_id リクエスト機能ID
-     * @return bool 削除できたかどうか
+     * @return bool|null 削除できたかどうか
      */
-    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool
+    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool|null
     {
         $request_function = $this->request_function::where('id', $request_function_id)
             ->ListenerIdEqual($listener_id)
             ->first();
-        return $request_function->delete();
+        if ($request_function) {
+            return $request_function->delete();
+        } else {
+            return false;
+        }
     }
 }

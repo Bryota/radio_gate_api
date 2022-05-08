@@ -32,6 +32,13 @@ class MessageTemplateController extends Controller
      */
     public function index()
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $message_templates = $this->message_template->getAllMessageTemplates(auth()->user()->id);
             return response()->json([
@@ -56,6 +63,13 @@ class MessageTemplateController extends Controller
      */
     public function show(int $message_template_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $message_template = $this->message_template->getSingleMessageTemplate(auth()->user()->id, $message_template_id);
             return response()->json([
@@ -80,6 +94,13 @@ class MessageTemplateController extends Controller
      */
     public function store(MessageTemplateRequest $request)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->db_connection->beginTransaction();
             $this->message_template->storeMessageTemplate($request, auth()->user()->id);
@@ -104,6 +125,13 @@ class MessageTemplateController extends Controller
      */
     public function update(MessageTemplateRequest $request, int $message_template_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->db_connection->beginTransaction();
             $this->message_template->updateMessageTemplate($request, auth()->user()->id, $message_template_id);
@@ -131,6 +159,13 @@ class MessageTemplateController extends Controller
      */
     public function destroy(int $message_template_id)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->message_template->deleteMessageTemplate(auth()->user()->id, $message_template_id);
             return response()->json([

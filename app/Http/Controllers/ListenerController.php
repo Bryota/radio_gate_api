@@ -51,6 +51,13 @@ class ListenerController extends Controller
      */
     public function show()
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $listener = $this->listener->getSingleListener(auth()->user()->id);
             return response()->json([
@@ -75,6 +82,13 @@ class ListenerController extends Controller
      */
     public function update(Request $request)
     {
+        // TODO: どっかで共通化するかmiddlewareで対応したい
+        if (!auth()->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             $this->db_connection->beginTransaction();
             $this->listener->UpdateListener($request, auth()->user()->id);
