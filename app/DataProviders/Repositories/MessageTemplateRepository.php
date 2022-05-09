@@ -96,8 +96,8 @@ class MessageTemplateRepository
             ->ListenerIdEqual($listener_id)
             ->first();
         if ($message_template) {
-            $message_template->name = $request->name;
-            $message_template->content = $request->content;
+            $message_template->name = strval($request->name);
+            $message_template->content = strval($request->content);
             return $message_template->save();
         } else {
             return false;

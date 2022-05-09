@@ -146,7 +146,7 @@ class RequestFunctionController extends Controller
             ], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
-        if ($this->request_function->isSubmittedListener($request->request_function_id, auth()->user()->id)) {
+        if ($this->request_function->isSubmittedListener(intval($request->request_function_id), auth()->user()->id)) {
             return response()->json([
                 'message' => 'この機能には既に投票してあります。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

@@ -93,8 +93,8 @@ class ListenerMyProgramRepository
             ->ListenerIdEqual($listener_id)
             ->first();
         if ($listener_my_program) {
-            $listener_my_program->name = $request->name;
-            $listener_my_program->email = $request->email;
+            $listener_my_program->name = strval($request->name);
+            $listener_my_program->email = strval($request->email);
             return $listener_my_program->save();
         } else {
             return false;

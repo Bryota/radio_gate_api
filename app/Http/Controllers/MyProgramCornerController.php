@@ -41,8 +41,8 @@ class MyProgramCornerController extends Controller
             ], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
-        $listener_my_program_id = $request->input('listener_my_program');
-        $listener_id = (int) $request->input('listener');
+        $listener_my_program_id = intval($request->input('listener_my_program'));
+        $listener_id = intval($request->input('listener'));
         if ($listener_id !== auth()->user()->id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
@@ -182,7 +182,7 @@ class MyProgramCornerController extends Controller
             ], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
-        $listener_id = (int) $request->input('listener');
+        $listener_id = intval($request->input('listener'));
         if ($listener_id !== auth()->user()->id) {
             return response()->json([
                 'message' => 'ログインし直してください。'

@@ -34,7 +34,7 @@ class RadioProgramController extends Controller
      */
     public function index(Request $request)
     {
-        $radio_station_id = $request->input('radio_station');
+        $radio_station_id = intval($request->input('radio_station'));
         try {
             $radio_programs = $this->radio_program->getAllRadioPrograms($radio_station_id);
             return response()->json([

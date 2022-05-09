@@ -94,8 +94,8 @@ class RequestFunctionRepository
             ->ListenerIdEqual($listener_id)
             ->first();
         if ($request_function) {
-            $request_function->name = $request->name;
-            $request_function->detail = $request->detail;
+            $request_function->name = strval($request->name);
+            $request_function->detail = strval($request->detail);
             return $request_function->save();
         } else {
             return false;
@@ -115,11 +115,11 @@ class RequestFunctionRepository
         $this->request_function_listener_submit::create([
             'listener_id' => $listener_id,
             'request_function_id' => $request->request_function_id,
-            'point' => (int)$request->point
+            'point' => intval($request->point)
         ]);
-        $request_function = $this->getSingleRequestFunction($request->request_function_id);
+        $request_function = $this->getSingleRequestFunction(intval($request->request_function_id));
         if ($request_function) {
-            $request_function->point = $request_function->point + (int)$request->point;
+            $request_function->point = intval($request_function->point) + intval($request->point);
             $request_function->save();
         }
     }
