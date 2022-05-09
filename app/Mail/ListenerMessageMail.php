@@ -132,7 +132,7 @@ class ListenerMessageMail extends Mailable
     public function build()
     {
         if ($this->corner) {
-            return $this->from(config('mail.from.address'))
+            return $this->from(strval(config('mail.from.address')))
                 ->subject($this->corner)
                 ->view('email.listener_message')
                 ->text('email.listener_message_plain')
@@ -151,7 +151,7 @@ class ListenerMessageMail extends Mailable
                     'content' => $this->content,
                 ]);
         } else {
-            return $this->from(config('mail.from.address'))
+            return $this->from(strval(config('mail.from.address')))
                 ->view('email.listener_message')
                 ->text('email.listener_message_plain')
                 ->with([

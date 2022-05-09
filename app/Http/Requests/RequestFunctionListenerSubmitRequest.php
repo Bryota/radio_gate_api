@@ -26,7 +26,7 @@ class RequestFunctionListenerSubmitRequest extends FormRequest
     {
         return [
             'request_function_id' => 'required',
-            'point' => 'required',
+            'point' => 'required|integer',
         ];
     }
 

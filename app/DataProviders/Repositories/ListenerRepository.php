@@ -73,7 +73,7 @@ class ListenerRepository
             'room_number' => $request->room_number,
             'tel' => $request->tel,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make(strval($request->password))
         ]);
         return $listener;
     }

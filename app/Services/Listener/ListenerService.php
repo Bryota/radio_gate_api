@@ -157,13 +157,13 @@ class ListenerService
      */
     public function sendEmailToRadioProgram(ListenerMessageRequest $request, int $listener_id)
     {
-        $radio_email = $this->setRadioProgramEmail($request->radio_program_id, $request->listener_my_program_id, $listener_id);
-        $corner = $this->setCorner($request->program_corner_id, $request->my_program_corner_id, $request->subject);
+        $radio_email = $this->setRadioProgramEmail(intval($request->radio_program_id), intval($request->listener_my_program_id), $listener_id);
+        $corner = $this->setCorner(intval($request->program_corner_id), intval($request->my_program_corner_id), strval($request->subject));
         $listener = $this->listener->getSingleListener($listener_id);
 
         if ($listener) {
-            $full_name = $listener->last_name ? "%{$request->last_name}　%{$request->first_name}" : null;
-            $full_name_kana = $listener->last_name_kana ? "%{$request->last_name_kana}　%{$request->first_name_kana}" : null;
+            $full_name = $listener->last_name ? "%{$listener->last_name}　%{$listener->first_name}" : null;
+            $full_name_kana = $listener->last_name_kana ? "%{$listener->last_name_kana}　%{$listener->first_name_kana}" : null;
             $post_code = $listener->post_code ? $listener->post_code : null;
             $prefecture = $listener->prefecture ? $listener->prefecture : null;
             $city = $listener->city ? $listener->city : null;
@@ -172,11 +172,11 @@ class ListenerService
             $room_number = $listener->room_number ? $listener->room_number : null;
             $tel = $listener->tel ? $listener->tel : null;
             $email = $listener->email;
-            $content = $request->content;
+            $content = strval($request->content);
             if ($request->radio_name) {
-                $radio_name = $request->radio_name;
+                $radio_name = strval($request->radio_name);
             } else if ($listener->radio_name) {
-                $radio_name = $listener->radio_name;
+                $radio_name = strval($listener->radio_name);
             } else {
                 $radio_name = null;
             }

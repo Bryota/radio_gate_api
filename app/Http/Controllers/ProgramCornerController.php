@@ -34,7 +34,7 @@ class ProgramCornerController extends Controller
      */
     public function index(Request $request)
     {
-        $radio_program_id = $request->input('radio_program');
+        $radio_program_id = intval($request->input('radio_program'));
         try {
             $program_corners = $this->program_corner->getAllProgramCorners($radio_program_id);
             return response()->json([
