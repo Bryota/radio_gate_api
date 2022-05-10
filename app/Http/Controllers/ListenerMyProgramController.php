@@ -6,6 +6,7 @@ use App\Services\Listener\ListenerMyProgramService;
 use App\Http\Requests\ListenerMyProgramRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Http\Request;
 
 class ListenerMyProgramController extends Controller
 {
@@ -19,10 +20,16 @@ class ListenerMyProgramController extends Controller
      */
     private $db_connection;
 
-    public function __construct(ListenerMyProgramService $listener_my_program, Connection $db_connection)
+    /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(ListenerMyProgramService $listener_my_program, Connection $db_connection, Request $request)
     {
         $this->listener_my_program = $listener_my_program;
         $this->db_connection = $db_connection;
+        $this->request = $request;
     }
 
     /**
@@ -32,15 +39,10 @@ class ListenerMyProgramController extends Controller
      */
     public function index()
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms(auth()->user()->id);
+            $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms(intval($listener_id));
             return response()->json([
                 'listener_my_programs' => $listener_my_programs
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -59,15 +61,10 @@ class ListenerMyProgramController extends Controller
      */
     public function show(int $listener_my_program_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram(auth()->user()->id, $listener_my_program_id);
+            $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram(intval($listener_id), $listener_my_program_id);
             return response()->json([
                 'listener_my_program' => $listener_my_program
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -90,16 +87,11 @@ class ListenerMyProgramController extends Controller
      */
     public function store(ListenerMyProgramRequest $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener_my_program->storeListenerMyProgram($request, auth()->user()->id);
+            $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'マイ番組が作成されました。'
@@ -121,16 +113,11 @@ class ListenerMyProgramController extends Controller
      */
     public function update(ListenerMyProgramRequest $request, int $listener_my_program_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener_my_program->updateListenerMyProgram($request, auth()->user()->id, $listener_my_program_id);
+            $this->listener_my_program->updateListenerMyProgram($request, intval($listener_id), $listener_my_program_id);
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'マイ番組が更新されました。'
@@ -155,15 +142,10 @@ class ListenerMyProgramController extends Controller
      */
     public function destroy(int $listener_my_program_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $this->listener_my_program->deleteListenerMyProgram(auth()->user()->id, $listener_my_program_id);
+            $this->listener_my_program->deleteListenerMyProgram(intval($listener_id), $listener_my_program_id);
             return response()->json([
                 'message' => 'マイ番組が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -172,5 +154,22 @@ class ListenerMyProgramController extends Controller
                 'message' => 'マイ番組の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+    // TODO: どっかで共通化したい
+    /**
+     * リスナーIDが取得できるかどうかの確認
+     *
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    private function checkUserId()
+    {
+        if (!$this->request->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return $this->request->user()->id;
     }
 }

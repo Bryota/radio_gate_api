@@ -6,6 +6,7 @@ use App\Http\Requests\ListenerMessageRequest;
 use App\Services\Listener\ListenerService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Http\Request;
 
 class ListenerMessageController extends Controller
 {
@@ -19,10 +20,16 @@ class ListenerMessageController extends Controller
      */
     private $db_connection;
 
-    public function __construct(ListenerService $listener, Connection $db_connection)
+    /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(ListenerService $listener, Connection $db_connection, Request $request)
     {
         $this->listener = $listener;
         $this->db_connection = $db_connection;
+        $this->request = $request;
     }
 
     /**
@@ -32,15 +39,10 @@ class ListenerMessageController extends Controller
      */
     public function index()
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $listener_messages = $this->listener->getAllListenerMessages(auth()->user()->id);
+            $listener_messages = $this->listener->getAllListenerMessages(intval($listener_id));
             return response()->json([
                 'listener_messages' => $listener_messages
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -63,15 +65,10 @@ class ListenerMessageController extends Controller
      */
     public function show(int $listener_message_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $listener_message = $this->listener->getSingleListenerMessage(auth()->user()->id, $listener_message_id);
+            $listener_message = $this->listener->getSingleListenerMessage(intval($listener_id), $listener_message_id);
             return response()->json([
                 'listener_message' => $listener_message
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -93,15 +90,10 @@ class ListenerMessageController extends Controller
      */
     public function savedMessages()
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $listener_messages = $this->listener->getAllListenerSavedMessages(auth()->user()->id);
+            $listener_messages = $this->listener->getAllListenerSavedMessages(intval($listener_id));
             return response()->json([
                 'listener_messages' => $listener_messages
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -124,17 +116,12 @@ class ListenerMessageController extends Controller
      */
     public function store(ListenerMessageRequest $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener->storeListenerMyProgram($request, auth()->user()->id);
-            $this->listener->sendEmailToRadioProgram($request, auth()->user()->id);
+            $this->listener->storeListenerMyProgram($request, intval($listener_id));
+            $this->listener->sendEmailToRadioProgram($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'メッセージが投稿されました。'
@@ -155,16 +142,11 @@ class ListenerMessageController extends Controller
      */
     public function save(ListenerMessageRequest $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener->saveListenerMyProgram($request, auth()->user()->id);
+            $this->listener->saveListenerMyProgram($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'メッセージが保存されました。'
@@ -175,5 +157,22 @@ class ListenerMessageController extends Controller
                 'message' => 'メッセージの保存に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+    // TODO: どっかで共通化したい
+    /**
+     * リスナーIDが取得できるかどうかの確認
+     *
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    private function checkUserId()
+    {
+        if (!$this->request->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return $this->request->user()->id;
     }
 }

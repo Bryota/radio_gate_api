@@ -20,10 +20,16 @@ class MyProgramCornerController extends Controller
      */
     private $db_connection;
 
-    public function __construct(MyProgramCornerService $my_program_corner, Connection $db_connection)
+    /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(MyProgramCornerService $my_program_corner, Connection $db_connection, Request $request)
     {
         $this->my_program_corner = $my_program_corner;
         $this->db_connection = $db_connection;
+        $this->request = $request;
     }
 
     /**
@@ -34,16 +40,11 @@ class MyProgramCornerController extends Controller
      */
     public function index(Request $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         $listener_my_program_id = intval($request->input('listener_my_program'));
-        $listener_id = intval($request->input('listener'));
-        if ($listener_id !== auth()->user()->id) {
+        $request_listener_id = intval($request->input('listener'));
+        if ($request_listener_id !== $listener_id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -97,14 +98,9 @@ class MyProgramCornerController extends Controller
      */
     public function store(MyProgramCornerRequest $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
-        if ($request->listener_id !== auth()->user()->id) {
+        if ($request->listener_id !== $listener_id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -134,14 +130,9 @@ class MyProgramCornerController extends Controller
      */
     public function update(MyProgramCornerRequest $request, $my_program_corner_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
-        if ($request->listener_id !== auth()->user()->id) {
+        if ($request->listener_id !== $listener_id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -175,15 +166,10 @@ class MyProgramCornerController extends Controller
      */
     public function destroy(Request $request, int $my_program_corner_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
-        $listener_id = intval($request->input('listener'));
-        if ($listener_id !== auth()->user()->id) {
+        $request_listener_id = intval($request->input('listener'));
+        if ($request_listener_id !== $listener_id) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -199,5 +185,22 @@ class MyProgramCornerController extends Controller
                 'message' => 'マイ番組コーナーの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+    // TODO: どっかで共通化したい
+    /**
+     * リスナーIDが取得できるかどうかの確認
+     *
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    private function checkUserId()
+    {
+        if (!$this->request->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return $this->request->user()->id;
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Http\Request;
 
 class RequestFunctionController extends Controller
 {
@@ -20,10 +21,16 @@ class RequestFunctionController extends Controller
      */
     private $db_connection;
 
-    public function __construct(RequestFunctionService $request_function, Connection $db_connection)
+    /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(RequestFunctionService $request_function, Connection $db_connection, Request $request)
     {
         $this->request_function = $request_function;
         $this->db_connection = $db_connection;
+        $this->request = $request;
     }
 
     /**
@@ -105,16 +112,11 @@ class RequestFunctionController extends Controller
      */
     public function update(RequestFunctionRequest $request, int $request_function_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->request_function->updateRequestFunction($request, auth()->user()->id, $request_function_id);
+            $this->request_function->updateRequestFunction($request, intval($listener_id), $request_function_id);
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'リクエスト機能が更新されました。'
@@ -139,21 +141,16 @@ class RequestFunctionController extends Controller
      */
     public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
-        if ($this->request_function->isSubmittedListener(intval($request->request_function_id), auth()->user()->id)) {
+        if ($this->request_function->isSubmittedListener(intval($request->request_function_id), intval($listener_id))) {
             return response()->json([
                 'message' => 'この機能には既に投票してあります。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         };
         try {
             $this->db_connection->beginTransaction();
-            $this->request_function->submitListenerPoint($request, auth()->user()->id);
+            $this->request_function->submitListenerPoint($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => '投票が完了しました。'
@@ -174,15 +171,10 @@ class RequestFunctionController extends Controller
      */
     public function destroy(int $request_function_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $this->request_function->deleteRequestFunction(auth()->user()->id, $request_function_id);
+            $this->request_function->deleteRequestFunction(intval($listener_id), $request_function_id);
             return response()->json([
                 'message' => 'リクエスト機能が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -191,5 +183,22 @@ class RequestFunctionController extends Controller
                 'message' => 'リクエスト機能の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+    // TODO: どっかで共通化したい
+    /**
+     * リスナーIDが取得できるかどうかの確認
+     *
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    private function checkUserId()
+    {
+        if (!$this->request->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return $this->request->user()->id;
     }
 }
