@@ -6,6 +6,7 @@ use App\Services\Listener\MessageTemplateService;
 use App\Http\Requests\MessageTemplateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Http\Request;
 
 class MessageTemplateController extends Controller
 {
@@ -19,10 +20,16 @@ class MessageTemplateController extends Controller
      */
     private $db_connection;
 
-    public function __construct(MessageTemplateService $message_template, Connection $db_connection)
+    /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(MessageTemplateService $message_template, Connection $db_connection, Request $request)
     {
         $this->message_template = $message_template;
         $this->db_connection = $db_connection;
+        $this->request = $request;
     }
 
     /**
@@ -32,15 +39,10 @@ class MessageTemplateController extends Controller
      */
     public function index()
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $message_templates = $this->message_template->getAllMessageTemplates(auth()->user()->id);
+            $message_templates = $this->message_template->getAllMessageTemplates(intval($listener_id));
             return response()->json([
                 'message_templates' => $message_templates
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -63,15 +65,10 @@ class MessageTemplateController extends Controller
      */
     public function show(int $message_template_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $message_template = $this->message_template->getSingleMessageTemplate(auth()->user()->id, $message_template_id);
+            $message_template = $this->message_template->getSingleMessageTemplate(intval($listener_id), $message_template_id);
             return response()->json([
                 'message_template' => $message_template
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -94,16 +91,11 @@ class MessageTemplateController extends Controller
      */
     public function store(MessageTemplateRequest $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->message_template->storeMessageTemplate($request, auth()->user()->id);
+            $this->message_template->storeMessageTemplate($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => '投稿テンプレートが作成されました。'
@@ -125,16 +117,11 @@ class MessageTemplateController extends Controller
      */
     public function update(MessageTemplateRequest $request, int $message_template_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->message_template->updateMessageTemplate($request, auth()->user()->id, $message_template_id);
+            $this->message_template->updateMessageTemplate($request, intval($listener_id), $message_template_id);
             $this->db_connection->commit();
             return response()->json([
                 'message' => '投稿テンプレートが更新されました。'
@@ -159,15 +146,10 @@ class MessageTemplateController extends Controller
      */
     public function destroy(int $message_template_id)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $this->message_template->deleteMessageTemplate(auth()->user()->id, $message_template_id);
+            $this->message_template->deleteMessageTemplate(intval($listener_id), $message_template_id);
             return response()->json([
                 'message' => '投稿テンプレートが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -176,5 +158,22 @@ class MessageTemplateController extends Controller
                 'message' => '投稿テンプレートの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+    // TODO: どっかで共通化したい
+    /**
+     * リスナーIDが取得できるかどうかの確認
+     *
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    private function checkUserId()
+    {
+        if (!$this->request->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return $this->request->user()->id;
     }
 }

@@ -19,10 +19,16 @@ class ListenerController extends Controller
      */
     private $db_connection;
 
-    public function __construct(ListenerService $listener, Connection $db_connection)
+    /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(ListenerService $listener, Connection $db_connection, Request $request)
     {
         $this->listener = $listener;
         $this->db_connection = $db_connection;
+        $this->request = $request;
     }
 
     /**
@@ -51,15 +57,10 @@ class ListenerController extends Controller
      */
     public function show()
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
-            $listener = $this->listener->getSingleListener(auth()->user()->id);
+            $listener = $this->listener->getSingleListener(intval($listener_id));
             return response()->json([
                 'listener' => $listener
             ], 200, [], JSON_UNESCAPED_UNICODE);
@@ -82,16 +83,11 @@ class ListenerController extends Controller
      */
     public function update(Request $request)
     {
-        // TODO: どっかで共通化するかmiddlewareで対応したい
-        if (!auth()->user()) {
-            return response()->json([
-                'message' => 'ログインしてください。'
-            ], 401, [], JSON_UNESCAPED_UNICODE);
-        }
+        $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener->UpdateListener($request, auth()->user()->id);
+            $this->listener->UpdateListener($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'リスナーデータの更新に成功しました。'
@@ -106,5 +102,22 @@ class ListenerController extends Controller
                 'message' => 'リスナーデータの更新に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+    // TODO: どっかで共通化したい
+    /**
+     * リスナーIDが取得できるかどうかの確認
+     *
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    private function checkUserId()
+    {
+        if (!$this->request->user()) {
+            return response()->json([
+                'message' => 'ログインしてください。'
+            ], 401, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        return $this->request->user()->id;
     }
 }
