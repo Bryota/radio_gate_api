@@ -143,7 +143,7 @@ class RequestFunctionController extends Controller
     {
         $listener_id = $this->checkUserId();
 
-        if ($this->request_function->isSubmittedListener(intval($request->request_function_id), intval($listener_id))) {
+        if ($this->request_function->isSubmittedListener($request->integer('request_function_id'), intval($listener_id))) {
             return response()->json([
                 'message' => 'この機能には既に投票してあります。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
