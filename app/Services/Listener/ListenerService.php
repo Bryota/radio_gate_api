@@ -157,8 +157,8 @@ class ListenerService
      */
     public function sendEmailToRadioProgram(ListenerMessageRequest $request, int $listener_id)
     {
-        $radio_email = $this->setRadioProgramEmail(intval($request->radio_program_id), intval($request->listener_my_program_id), $listener_id);
-        $corner = $this->setCorner(intval($request->program_corner_id), intval($request->my_program_corner_id), strval($request->subject));
+        $radio_email = $this->setRadioProgramEmail($request->integer('radio_program_id'), $request->integer('listener_my_program_id'), $listener_id);
+        $corner = $this->setCorner($request->integer('program_corner_id'), $request->integer('my_program_corner_id'), $request->string('subject'));
         $listener = $this->listener->getSingleListener($listener_id);
 
         if ($listener) {
@@ -172,9 +172,9 @@ class ListenerService
             $room_number = $listener->room_number ? $listener->room_number : null;
             $tel = $listener->tel ? $listener->tel : null;
             $email = $listener->email;
-            $content = strval($request->content);
+            $content = $request->string('content');
             if ($request->radio_name) {
-                $radio_name = strval($request->radio_name);
+                $radio_name = $request->string('radio_name');
             } else if ($listener->radio_name) {
                 $radio_name = strval($listener->radio_name);
             } else {

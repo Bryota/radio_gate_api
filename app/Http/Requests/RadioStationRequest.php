@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\TypeCastedFormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RadioStationRequest extends FormRequest
+class RadioStationRequest extends TypeCastedFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
