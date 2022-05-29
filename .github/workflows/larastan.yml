@@ -31,4 +31,4 @@ jobs:
         run: |
           composer require --dev nunomaduro/larastan
       - name: PHP Analyse
-        run: php ./vendor/bin/phpstan analyze
+        run: php ./vendor/bin/phpstan analyze --memory-limit=1G
