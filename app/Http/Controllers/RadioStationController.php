@@ -138,7 +138,7 @@ class RadioStationController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'ラジオ局一覧の取得に失敗しました。'
+                'message' => 'ラジオ局名の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
