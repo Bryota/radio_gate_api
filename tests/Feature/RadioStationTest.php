@@ -145,4 +145,19 @@ class RadioStationTest extends TestCase
 
         $this->assertEquals(0, RadioStation::count());
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\RadioStationController@getRadioStationName
+     */
+    public function ラジオ局名を取得できる()
+    {
+        $this->postJson('api/radio_stations', ['name' => 'テスト局1']);
+        $radio_station = RadioStation::first();
+
+        $response = $this->getJson('api/radio_station_name/' . $radio_station->id);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['radio_station_name' => 'テスト局1']);
+    }
 }

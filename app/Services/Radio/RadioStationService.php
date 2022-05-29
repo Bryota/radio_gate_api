@@ -82,4 +82,15 @@ class RadioStationService
     {
         return $this->radio_station->deleteRadioStation($radio_station_id);
     }
+
+    /**
+     * ラジオ局名取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return string ラジオ局名
+     */
+    public function getRadioStationName(int $radio_station_id)
+    {
+        return $this->radio_station->getRadioStationName($radio_station_id);
+    }
 }

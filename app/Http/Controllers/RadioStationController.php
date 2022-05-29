@@ -118,4 +118,28 @@ class RadioStationController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * ラジオ局名取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRadioStationName(int $radio_station_id)
+    {
+        try {
+            $radio_station_name = $this->radio_station->getRadioStationName($radio_station_id);
+            return response()->json([
+                'radio_station_name' => $radio_station_name
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'ラジオ局一覧の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
