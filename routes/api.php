@@ -35,20 +35,20 @@ Route::get('/test', function () {
 })->name('password.reset');
 Route::post('/forgot_password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('password/reset/{token}', [PasswordResetController::class, 'resetPassword']);
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/listeners', [ListenerController::class, 'index']);
-    Route::get('/listener', [ListenerController::class, 'show']);
-    Route::put('/listener', [ListenerController::class, 'update']);
-    Route::apiResource('radio_stations', RadioStationController::class);
-    Route::get('/radio_station_name/{id}', [RadioStationController::class, 'getRadioStationName']);
-    Route::apiResource('radio_programs', RadioProgramController::class);
-    Route::apiResource('program_corners', ProgramCornerController::class);
-    Route::apiResource('message_templates', MessageTemplateController::class);
-    Route::apiResource('listener_my_programs', ListenerMyProgramController::class);
-    Route::apiResource('my_program_corners', MyProgramCornerController::class);
-    Route::apiResource('listener_messages', ListenerMessageController::class);
-    Route::post('/listener_messages/save', [ListenerMessageController::class, 'save']);
-    Route::get('/saved_messages', [ListenerMessageController::class, 'savedMessages']);
-    Route::apiResource('request_functions', RequestFunctionController::class);
-    Route::post('/request_functions/submit_point', [RequestFunctionController::class, 'submitListenerPoint']);
-});
+// Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::get('/listeners', [ListenerController::class, 'index']);
+Route::get('/listener', [ListenerController::class, 'show']);
+Route::put('/listener', [ListenerController::class, 'update']);
+Route::apiResource('radio_stations', RadioStationController::class);
+Route::get('/radio_station_name/{id}', [RadioStationController::class, 'getRadioStationName']);
+Route::apiResource('radio_programs', RadioProgramController::class);
+Route::apiResource('program_corners', ProgramCornerController::class);
+Route::apiResource('message_templates', MessageTemplateController::class);
+Route::apiResource('listener_my_programs', ListenerMyProgramController::class);
+Route::apiResource('my_program_corners', MyProgramCornerController::class);
+Route::apiResource('listener_messages', ListenerMessageController::class);
+Route::post('/listener_messages/save', [ListenerMessageController::class, 'save']);
+Route::get('/saved_messages', [ListenerMessageController::class, 'savedMessages']);
+Route::apiResource('request_functions', RequestFunctionController::class);
+Route::post('/request_functions/submit_point', [RequestFunctionController::class, 'submitListenerPoint']);
+// });
