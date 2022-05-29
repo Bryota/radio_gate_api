@@ -85,4 +85,15 @@ class RadioStationRepository
         $radio_station = $this->radio_station::find($radio_station_id);
         return $radio_station->delete();
     }
+
+    /**
+     * ラジオ局名取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return string ラジオ局名
+     */
+    public function getRadioStationName(int $radio_station_id)
+    {
+        return $this->radio_station::find($radio_station_id)->name;
+    }
 }
