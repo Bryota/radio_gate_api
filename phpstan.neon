@@ -11,7 +11,7 @@ parameters:
 
     excludePaths:
         - ./*/*/FileToBeExcluded.php
-        - ./vendor/*
+        - vendor
 
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
