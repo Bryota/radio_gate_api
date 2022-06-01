@@ -21,9 +21,9 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return response()->json([
                 'listener_info' => Auth::user()
             ], 200, [], JSON_UNESCAPED_UNICODE);
