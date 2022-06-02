@@ -26,8 +26,7 @@ class MyProgramCornerRequest extends TypeCastedFormRequest
     {
         return [
             'listener_my_program_id' => 'required',
-            'name' => 'required|max: 100',
-            'listener_id' => 'required'
+            'name' => 'required|max: 100'
         ];
     }
 

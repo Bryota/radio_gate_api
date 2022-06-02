@@ -91,10 +91,10 @@ class ListenerMyProgramController extends Controller
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
+            $listener_my_program = $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
-                'message' => 'マイ番組が作成されました。'
+                'listener_my_program' => $listener_my_program
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();

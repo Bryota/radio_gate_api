@@ -70,9 +70,9 @@ class MyProgramCornerTest extends TestCase
      * @test
      * App\Http\Controllers\MyProgramCornerController@store
      */
-    public function 番組コーナー作に失敗する（ログイン関連）()
+    public function 番組コーナー作成に失敗する（ログイン関連）()
     {
-        $response1 = $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => 11111111111111]);
+        $response1 = $this->postJson('api/my_program_corners', ['listener_my_program_id' => 11111111, 'name' => 'BBSリクエスト']);
         $response1->assertStatus(409)
             ->assertJson([
                 'message' => 'ログインし直してください。'

@@ -26,9 +26,8 @@ class ListenerMyProgramTest extends TestCase
         $response = $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
 
         $response->assertStatus(201)
-            ->assertJson([
-                'message' => 'マイ番組が作成されました。'
-            ]);
+            ->assertJsonFragment(['name' => 'テストマイ番組'])
+            ->assertJsonFragment(['email' => 'test@example.com']);
 
         $listener_my_program = ListenerMyProgram::first();
         $this->assertEquals('テストマイ番組', $listener_my_program->name);
