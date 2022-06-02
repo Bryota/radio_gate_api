@@ -90,18 +90,13 @@ class MyProgramCornerTest extends TestCase
         $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'ザワニュー', 'listener_id' => $this->listener->id]);
 
-        $response = $this->getJson('api/my_program_corners?listener_my_program=' . $this->listener_my_program->id . '&listener=' . $this->listener->id);
+        $response = $this->getJson('api/my_program_corners?listener_my_program=' . $this->listener_my_program->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'BBSリクエスト'])
             ->assertJsonFragment(['name' => 'ザワニュー']);
 
-        $response = $this->getJson('api/my_program_corners?listener_my_program=' . 100000 . '&listener=' . $this->listener->id);
-        $response->assertStatus(200)
-            ->assertJsonMissing(['name' => 'BBSリクエスト'])
-            ->assertJsonMissing(['name' => 'ザワニュー']);
-
-        $response = $this->getJson('api/my_program_corners?listener_my_program=' . $this->listener_my_program->id . '&listener=111111');
+        $response = $this->getJson('api/my_program_corners?listener_my_program=' . 100000);
         $response->assertStatus(409)
             ->assertJson([
                 'message' => 'ログインし直してください。'

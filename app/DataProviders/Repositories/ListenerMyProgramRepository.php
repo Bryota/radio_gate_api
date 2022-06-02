@@ -119,4 +119,20 @@ class ListenerMyProgramRepository
             return false;
         }
     }
+
+    /**
+     * 作成したリスナーID取得
+     * 
+     * @param int $listener_my_program_id マイ番組ID
+     * @return bool|null 作成したリスナーID
+     */
+    public function getListenerId(int $listener_my_program_id): bool|null
+    {
+        $listener_my_program = $this->listener_my_program::find($listener_my_program_id);
+        if ($listener_my_program) {
+            return $listener_my_program->id;
+        } else {
+            return null;
+        }
+    }
 }
