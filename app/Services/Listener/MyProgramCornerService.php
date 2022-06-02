@@ -13,6 +13,7 @@
 namespace App\Services\Listener;
 
 use App\DataProviders\Models\MyProgramCorner;
+use App\DataProviders\Repositories\ListenerMyProgramRepository;
 use App\DataProviders\Repositories\MyProgramCornerRepository;
 use App\Http\Requests\MyProgramCornerRequest;
 
@@ -25,6 +26,11 @@ use App\Http\Requests\MyProgramCornerRequest;
 class MyProgramCornerService
 {
     /**
+     * @var ListenerMyProgramRepository $listener_my_program ListenerMyProgramRepositoryインスタンス
+     */
+    private $listener_my_program;
+
+    /**
      * @var MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
      */
     private $my_program_corner;
@@ -32,10 +38,12 @@ class MyProgramCornerService
     /**
      * コンストラクタ
      *
+     * @param ListenerMyProgramRepository $listener_my_program ListenerMyProgramRepositoryインスタンス
      * @param MyProgramCornerRepository $my_program_corner MyProgramCornerRepositoryインスタンス
      */
-    public function __construct(MyProgramCornerRepository $my_program_corner)
+    public function __construct(ListenerMyProgramRepository $listener_my_program, MyProgramCornerRepository $my_program_corner)
     {
+        $this->listener_my_program = $listener_my_program;
         $this->my_program_corner = $my_program_corner;
     }
 
@@ -94,5 +102,19 @@ class MyProgramCornerService
     public function deleteMyProgramCorner(int $my_program_corner_id): bool
     {
         return $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id);
+    }
+
+    /** 
+     * マイ番組がログインしているリスナーが作成したかどうか
+     * 
+     * @param int $listener_id リスナーID
+     * @param int $listener_my_program_id  マイ番組ID
+     * @return bool 削除できたかどうか
+     * 
+     */
+    public function checkLoginListener(int $listener_id, int $listener_my_program_id): bool
+    {
+        $my_program_listener_id = $this->listener_my_program->getListenerId($listener_my_program_id);
+        return $listener_id == $my_program_listener_id;
     }
 }
