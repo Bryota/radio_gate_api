@@ -150,6 +150,7 @@ class ListenerMyProgramController extends Controller
                 'message' => 'マイ番組が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            logger('err', ['err', $th]);
             return response()->json([
                 'message' => 'マイ番組の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

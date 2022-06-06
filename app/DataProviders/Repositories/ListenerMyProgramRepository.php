@@ -124,13 +124,13 @@ class ListenerMyProgramRepository
      * 作成したリスナーID取得
      * 
      * @param int $listener_my_program_id マイ番組ID
-     * @return bool|null 作成したリスナーID
+     * @return int|null 作成したリスナー
      */
-    public function getListenerId(int $listener_my_program_id): bool|null
+    public function getListenerId(int $listener_my_program_id): int|null
     {
         $listener_my_program = $this->listener_my_program::find($listener_my_program_id);
         if ($listener_my_program) {
-            return $listener_my_program->id;
+            return $listener_my_program->listener_id;
         } else {
             return null;
         }

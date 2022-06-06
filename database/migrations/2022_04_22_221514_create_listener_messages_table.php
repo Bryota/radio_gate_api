@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('listener_messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('radio_program_id')->nullable()->nullOnDelete()->constrained('radio_programs');
-            $table->foreignId('program_corner_id')->nullable()->nullOnDelete()->constrained('program_corners');
-            $table->foreignId('listener_my_program_id')->nullable()->nullOnDelete()->constrained('listener_my_programs');
-            $table->foreignId('my_program_corner_id')->nullable()->nullOnDelete()->constrained('my_program_corners');
-            $table->foreignId('listener_id')->nullOnDelete('cascade')->constrained('listeners');
+            $table->foreignId('radio_program_id')->nullable()->onDelete('cascade');
+            $table->foreignId('program_corner_id')->nullable()->onDelete('cascade');
+            $table->foreignId('listener_my_program_id')->nullable()->onDelete('cascade');
+            $table->foreignId('my_program_corner_id')->nullable()->onDelete('cascade');
+            $table->foreignId('listener_id')->nullOnDelete('cascade')->constrained();
             $table->string('subject')->nullable();
             $table->string('content');
             $table->string('radio_name')->nullable();

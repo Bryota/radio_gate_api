@@ -501,6 +501,24 @@ class ListenerTest extends TestCase
     }
 
     /**
+     * @test
+     * App\Http\Controllers\ListenerController@destroy
+     */
+    public function アカウントを削除できる()
+    {
+        $listener = $this->loginAsListener();
+
+        $response = $this->deleteJson('api/listener');
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'アカウントが削除されました。'
+            ]);
+
+        $this->assertEquals(0, Listener::count());
+    }
+
+    /**
      * トークンを取得
      * 
      * @param Listener $listener リスナーインスタンス

@@ -164,7 +164,8 @@ class ListenerRepository
      */
     public function getAllListenerMessages(int $listener_id): object
     {
-        return $this->listener_message::ListenerIdEqual($listener_id)->get();
+        $messages = $this->listener_message::ListenerIdEqual($listener_id)->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])->get();
+        return $messages;
     }
 
     /**
@@ -178,6 +179,7 @@ class ListenerRepository
     {
         return $this->listener_message::where('id', $listener_message_id)
             ->ListenerIdEqual($listener_id)
+            ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
             ->first();
     }
 
@@ -192,5 +194,21 @@ class ListenerRepository
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->where('posted_at', null)
             ->get();
+    }
+
+    /**
+     * リスナー削除削除
+     *
+     * @param int $listener_id リスナーID
+     * @return bool|null 削除できたかどうか
+     */
+    public function deleteListener(int $listener_id)
+    {
+        $listener = $this->listener::ListenerIdEqual($listener_id)->first();
+        if ($listener) {
+            return $listener->delete();
+        } else {
+            return false;
+        }
     }
 }

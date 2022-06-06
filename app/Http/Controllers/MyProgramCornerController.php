@@ -131,7 +131,7 @@ class MyProgramCornerController extends Controller
     {
         $listener_id = $this->checkUserId();
 
-        if ($request->listener_id !== $listener_id) {
+        if (!$this->my_program_corner->checkLoginListener(intval($listener_id), $request->integer('listener_my_program_id'))) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -167,8 +167,7 @@ class MyProgramCornerController extends Controller
     {
         $listener_id = $this->checkUserId();
 
-        $request_listener_id = intval($request->input('listener'));
-        if ($request_listener_id !== $listener_id) {
+        if (!$this->my_program_corner->checkLoginListener(intval($listener_id), intval($request->get('listener_my_program')))) {
             return response()->json([
                 'message' => 'ログインし直してください。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listeners', [ListenerController::class, 'index']);
     Route::get('/listener', [ListenerController::class, 'show']);
     Route::put('/listener', [ListenerController::class, 'update']);
+    Route::delete('/listener', [ListenerController::class, 'destroy']);
     Route::apiResource('radio_stations', RadioStationController::class);
     Route::get('/radio_station_name/{id}', [RadioStationController::class, 'getRadioStationName']);
     Route::apiResource('radio_programs', RadioProgramController::class);

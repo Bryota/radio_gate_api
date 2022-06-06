@@ -162,8 +162,8 @@ class ListenerService
         $listener = $this->listener->getSingleListener($listener_id);
 
         if ($listener) {
-            $full_name = $listener->last_name ? "%{$listener->last_name}　%{$listener->first_name}" : null;
-            $full_name_kana = $listener->last_name_kana ? "%{$listener->last_name_kana}　%{$listener->first_name_kana}" : null;
+            $full_name = $listener->last_name ? "{$listener->last_name}　{$listener->first_name}" : null;
+            $full_name_kana = $listener->last_name_kana ? "{$listener->last_name_kana}　{$listener->first_name_kana}" : null;
             $post_code = $listener->post_code ? $listener->post_code : null;
             $prefecture = $listener->prefecture ? $listener->prefecture : null;
             $city = $listener->city ? $listener->city : null;
@@ -289,5 +289,16 @@ class ListenerService
             $corner = $subject;
         }
         return $corner;
+    }
+
+    /**
+     * リスナー削除削除
+     *
+     * @param int $listener_id リスナーID
+     * @return bool|null 削除できたかどうか
+     */
+    public function deleteListener(int $listener_id)
+    {
+        return $this->listener->deleteListener($listener_id);
     }
 }

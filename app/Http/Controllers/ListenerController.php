@@ -104,6 +104,27 @@ class ListenerController extends Controller
         }
     }
 
+    /**
+     * リスナー削除
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy()
+    {
+        $listener_id = $this->checkUserId();
+
+        try {
+            $this->listener->deleteListener(intval($listener_id));
+            return response()->json([
+                'message' => 'アカウントが削除されました。'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'アカウントの削除に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
     // TODO: どっかで共通化したい
     /**
      * リスナーIDが取得できるかどうかの確認

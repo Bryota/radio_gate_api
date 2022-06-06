@@ -45,7 +45,7 @@ class MyProgramCornerTest extends TestCase
      * @test
      * App\Http\Controllers\MyProgramCornerController@store
      */
-    public function 番組コーナー作に失敗する（名前関連）()
+    public function 番組コーナー作成に失敗する（名前関連）()
     {
         $response1 = $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => '', 'listener_id' => $this->listener->id]);
         $response1->assertStatus(422)
@@ -179,7 +179,7 @@ class MyProgramCornerTest extends TestCase
         $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $my_program_corner = MyProgramCorner::first();
 
-        $response = $this->putJson('api/my_program_corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'ザワニュー', 'listener_id' => 11111111]);
+        $response = $this->putJson('api/my_program_corners/' . $my_program_corner->id, ['listener_my_program_id' => 11111111, 'name' => 'ザワニュー']);
         $response->assertStatus(409)
             ->assertJson([
                 'message' => 'ログインし直してください。'
@@ -198,16 +198,10 @@ class MyProgramCornerTest extends TestCase
         $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $program_corner = MyProgramCorner::first();
 
-        $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener=' . $this->listener->id);
+        $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener_my_program=' . $this->listener_my_program->id);
         $response->assertStatus(200)
             ->assertJson([
                 'message' => 'マイ番組コーナーが削除されました。'
-            ]);
-
-        $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener=100000');
-        $response->assertStatus(409)
-            ->assertJson([
-                'message' => 'ログインし直してください。'
             ]);
 
         $this->assertEquals(0, MyProgramCorner::count());
