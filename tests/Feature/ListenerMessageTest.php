@@ -49,6 +49,8 @@ class ListenerMessageTest extends TestCase
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response->assertStatus(201)
@@ -84,7 +86,9 @@ class ListenerMessageTest extends TestCase
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
             'content' => 'こんにちは。こんばんは。',
-            'radio_name' => 'ハイキングベアー'
+            'radio_name' => 'ハイキングベアー',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response->assertStatus(201)
@@ -119,7 +123,9 @@ class ListenerMessageTest extends TestCase
             'my_program_corner_id' => $this->my_program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
-            'radio_name' => 'ハイキングベアー'
+            'radio_name' => 'ハイキングベアー',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response->assertStatus(201)
@@ -155,6 +161,8 @@ class ListenerMessageTest extends TestCase
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response->assertStatus(201)
@@ -187,6 +195,8 @@ class ListenerMessageTest extends TestCase
             'my_program_corner_id' => $this->my_program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response->assertStatus(422)
@@ -213,6 +223,8 @@ class ListenerMessageTest extends TestCase
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response1->assertStatus(422)
@@ -252,6 +264,8 @@ class ListenerMessageTest extends TestCase
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response1->assertStatus(422)
@@ -324,7 +338,9 @@ class ListenerMessageTest extends TestCase
             '100',
             '000-0000-0000',
             'test@example.com',
-            'こんにちは、これはテストです'
+            'こんにちは、これはテストです',
+            true,
+            true
         );
 
         $mailable->assertSeeInOrderInHtml([
@@ -355,13 +371,17 @@ class ListenerMessageTest extends TestCase
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
         $this->postJson('api/listener_messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
             'content' => 'こんにちは。',
-            'radio_name' => 'ハイキングベアー'
+            'radio_name' => 'ハイキングベアー',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
 
@@ -387,6 +407,8 @@ class ListenerMessageTest extends TestCase
             'subject' => 'ふつおた',
             'radio_name' => 'ハイキングベアー',
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
         $listener_message = ListenerMessage::first();
 
@@ -410,6 +432,8 @@ class ListenerMessageTest extends TestCase
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
         $response->assertStatus(201)
@@ -440,20 +464,26 @@ class ListenerMessageTest extends TestCase
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
         $this->postJson('api/listener_messages/save', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた1',
             'content' => 'こんにちは1',
-            'radio_name' => 'ハイキングベアー'
+            'radio_name' => 'ハイキングベアー',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
         $this->postJson('api/listener_messages/save', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた2',
             'content' => 'こんにちは2',
-            'radio_name' => 'ハイキングベアー'
+            'radio_name' => 'ハイキングベアー',
+            'listener_info_flag' => true,
+            'tel_flag' => true
         ]);
 
 

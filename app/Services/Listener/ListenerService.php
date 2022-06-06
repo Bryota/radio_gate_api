@@ -173,6 +173,8 @@ class ListenerService
             $tel = $listener->tel ? $listener->tel : null;
             $email = $listener->email;
             $content = $request->string('content');
+            $listener_info_flag = $request->bool('listener_info_flag');
+            $tel_flag = $request->bool('tel_flag');
             if ($request->radio_name) {
                 $radio_name = $request->string('radio_name');
             } else if ($listener->radio_name) {
@@ -195,7 +197,9 @@ class ListenerService
                 $room_number,
                 $tel,
                 $email,
-                $content
+                $content,
+                $listener_info_flag,
+                $tel_flag
             ));
         }
     }

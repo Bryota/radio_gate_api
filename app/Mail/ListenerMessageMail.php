@@ -77,6 +77,16 @@ class ListenerMessageMail extends Mailable
     private ?string $content;
 
     /**
+     * @var bool|null $listener_info_flag 個人情報送信フラグ
+     */
+    private ?bool $listener_info_flag;
+
+    /**
+     * @var bool|null $tel_flag 電話番号送信フラグ
+     */
+    private ?bool $tel_flag;
+
+    /**
      * Create a new message instance.
      *
      * @param string|null $corner コーナー（件名）
@@ -92,6 +102,8 @@ class ListenerMessageMail extends Mailable
      * @param string|null $tel 電話番号
      * @param string|null $email メールアドレス
      * @param string|null $content 本文
+     * @param boolean|null $listener_info_flag 個人情報送信フラグ
+     * @param boolean|null $tel_flag 電話番号送信フラグ
      * @return void
      */
     public function __construct(
@@ -107,7 +119,9 @@ class ListenerMessageMail extends Mailable
         ?string $room_number = null,
         ?string $tel = null,
         ?string $email = null,
-        ?string $content = null
+        ?string $content = null,
+        ?bool $listener_info_flag = null,
+        ?bool $tel_flag = null
     ) {
         $this->corner = $corner;
         $this->full_name = $full_name;
@@ -122,6 +136,8 @@ class ListenerMessageMail extends Mailable
         $this->tel = $tel;
         $this->email = $email;
         $this->content = $content;
+        $this->listener_info_flag = $listener_info_flag;
+        $this->tel_flag = $tel_flag;
     }
 
     /**
@@ -149,6 +165,8 @@ class ListenerMessageMail extends Mailable
                     'tel' => $this->tel,
                     'email' => $this->email,
                     'content' => $this->content,
+                    'listener_info_flag' => $this->listener_info_flag,
+                    'tel_flag' => $this->tel_flag,
                 ]);
         } else {
             return $this->from(strval(config('mail.from.address')))
@@ -167,6 +185,8 @@ class ListenerMessageMail extends Mailable
                     'tel' => $this->tel,
                     'email' => $this->email,
                     'content' => $this->content,
+                    'listener_info_flag' => $this->listener_info_flag,
+                    'tel_flag' => $this->tel_flag,
                 ]);
         }
     }
@@ -187,6 +207,8 @@ class ListenerMessageMail extends Mailable
      * @param string|null $tel 電話番号
      * @param string|null $email メールアドレス
      * @param string|null $content 本文
+     * @param boolean|null $listener_info_flag 個人情報送信フラグ
+     * @param boolean|null $tel_flag 電話番号送信フラグ
      * @return ListenerMessageMail ListenerMessageMailインスタンス
      */
     public function getSelf(
@@ -202,7 +224,9 @@ class ListenerMessageMail extends Mailable
         string|null $room_number,
         string|null $tel,
         string|null $email,
-        string|null $content
+        string|null $content,
+        bool|null $listener_info_flag,
+        bool|null $tel_flag
     ) {
         return new ListenerMessageMail(
             $corner,
@@ -217,7 +241,9 @@ class ListenerMessageMail extends Mailable
             $room_number,
             $tel,
             $email,
-            $content
+            $content,
+            $listener_info_flag,
+            $tel_flag
         );
     }
 }

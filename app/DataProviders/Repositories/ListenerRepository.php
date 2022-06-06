@@ -131,6 +131,8 @@ class ListenerRepository
             'subject' => $request->subject ? $request->subject : null,
             'content' => $request->content,
             'radio_name' => $request->radio_name ? $request->radio_name : null,
+            'listener_info_flag' => $request->listener_info_flag,
+            'tel_flag' => $request->tel_flag,
             'posted_at' => Carbon::now()
         ]);
     }
@@ -153,6 +155,8 @@ class ListenerRepository
             'subject' => $request->subject ? $request->subject : null,
             'content' => $request->content,
             'radio_name' => $request->radio_name ? $request->radio_name : null,
+            'listener_info_flag' => $request->listener_info_flag,
+            'tel_flag' => $request->tel_flag
         ]);
     }
 
