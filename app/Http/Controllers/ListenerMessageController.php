@@ -127,6 +127,7 @@ class ListenerMessageController extends Controller
                 'message' => 'メッセージが投稿されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            logger('err', ['err', $th]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの投稿に失敗しました。'

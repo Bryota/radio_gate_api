@@ -23,6 +23,8 @@ class ListenerMessageFactory extends Factory
             'listener_id' => mt_rand(1, 10),
             'content' => $this->faker->text,
             'radio_name' => $this->faker->title,
+            'listener_info_flag' => $this->boolean,
+            'tel_flag' => $this->boolean,
             'posted_at' => $this->faker->dateTime
         ];
     }

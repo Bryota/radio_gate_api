@@ -25,6 +25,8 @@ class ListenerMessage extends Model
         'subject',
         'content',
         'radio_name',
+        'listener_info_flag',
+        'tel_flag',
         'posted_at'
     ];
 

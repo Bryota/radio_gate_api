@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('listener_messages', function (Blueprint $table) {
-            $table->boolean('user_info_flag')->default(false)->after('radio_name');
-            $table->boolean('tel_flag')->default(false)->after('user_info_flag');
+            $table->boolean('listener_info_flag')->default(false)->after('radio_name');
+            $table->boolean('tel_flag')->default(false)->after('listener_info_flag');
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('listener_messages', function (Blueprint $table) {
-            $table->dropColumn('user_info_flag');
+            $table->dropColumn('listener_info_flag');
             $table->dropColumn('tel_flag');
         });
     }
