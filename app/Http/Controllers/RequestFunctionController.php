@@ -88,9 +88,11 @@ class RequestFunctionController extends Controller
      */
     public function store(RequestFunctionRequest $request)
     {
+        $listener_id = $this->checkUserId();
+
         try {
             $this->db_connection->beginTransaction();
-            $this->request_function->storeRequestFunction($request);
+            $this->request_function->storeRequestFunction($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => 'リクエスト機能が作成されました。'

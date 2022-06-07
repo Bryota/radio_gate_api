@@ -65,11 +65,12 @@ class RequestFunctionService
      * リクエスト機能作成
      * 
      * @param RequestFunctionRequest $request リクエスト機能登録用のリクエストデータ
+     * @param int $listener_id リスナーID
      * @return RequestFunction 作成されたリクエスト機能情報
      */
-    public function storeRequestFunction(RequestFunctionRequest $request): RequestFunction
+    public function storeRequestFunction(RequestFunctionRequest $request, int $listener_id): RequestFunction
     {
-        return $this->request_function->storeRequestFunction($request);
+        return $this->request_function->storeRequestFunction($request, $listener_id);
     }
 
     /**

@@ -73,11 +73,16 @@ class RequestFunctionRepository
      * リクエスト機能作成
      *
      * @param RequestFunctionRequest $request リクエスト機能作成リクエストデータ
+     * @param int $listener_id リスナーID
      * @return RequestFunction リクエスト機能生成データ
      */
-    public function storeRequestFunction(RequestFunctionRequest $request): RequestFunction
+    public function storeRequestFunction(RequestFunctionRequest $request, int $listener_id): RequestFunction
     {
-        return $this->request_function::create($request->all());
+        return $this->request_function::create([
+            'listener_id' => $listener_id,
+            'name' => $request->name,
+            'detail' => $request->detail
+        ]);
     }
 
     /**

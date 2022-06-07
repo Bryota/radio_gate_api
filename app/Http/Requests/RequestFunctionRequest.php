@@ -27,7 +27,6 @@ class RequestFunctionRequest extends TypeCastedFormRequest
         return [
             'name' => 'required|max: 150',
             'detail' => 'required',
-            'listener_id' => 'required'
         ];
     }
 
