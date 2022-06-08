@@ -50,6 +50,17 @@ class RadioStationRepository
     }
 
     /**
+     * 個別のラジオ局取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return RadioStation ラジオ局データ
+     */
+    public function getSingleRadioStation(int $radio_station_id): RadioStation
+    {
+        return $this->radio_station::find($radio_station_id);
+    }
+
+    /**
      * ラジオ局作成
      *
      * @param RadioStationRequest $request ラジオ局作成リクエストデータ

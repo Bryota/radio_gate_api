@@ -49,6 +49,30 @@ class RadioStationController extends Controller
     }
 
     /**
+     * 個別のラジオ局取得
+     * 
+     * @param int $radio_station_id ラジオ局ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $radio_station_id)
+    {
+        try {
+            $radio_station = $this->radio_station->getSingleRadioStation($radio_station_id);
+            return response()->json([
+                'radio_station' => $radio_station
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'ラジオ番組の取得に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * ラジオ局作成
      *
      * @param  RadioStationRequest $request ラジオ局作成リクエストデータ
