@@ -79,6 +79,25 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\Admin\RadioStationController@show
+     */
+    public function 個別のラジオ番組を取得できる()
+    {
+        $this->postJson('api/admin/radio_stations', ['name' => 'テスト局1']);
+        $radio_station = RadioStation::first();
+
+        $response = $this->getJson('api/admin/radio_stations/' . $radio_station->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'radio_station' => [
+                    'name' => 'テスト局1',
+                ]
+            ]);
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\Listener\RadioStationController@update
      */
     public function ラジオ局を更新できる()
