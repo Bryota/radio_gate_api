@@ -20,7 +20,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@store
+     * App\Http\Controllers\Listener\RequestFunctionController@store
      */
     public function リクエスト機能が作成できる()
     {
@@ -40,7 +40,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@store
+     * App\Http\Controllers\Listener\RequestFunctionController@store
      */
     public function リクエスト機能に失敗する（名前関連）()
     {
@@ -65,7 +65,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@store
+     * App\Http\Controllers\Listener\RequestFunctionController@store
      */
     public function リクエスト機能作成に失敗する（本文関連）()
     {
@@ -82,7 +82,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@index
+     * App\Http\Controllers\Listener\RequestFunctionController@index
      */
     public function リクエスト機能一覧を取得できる()
     {
@@ -100,7 +100,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@show
+     * App\Http\Controllers\Listener\RequestFunctionController@show
      */
     public function 個別のリクエスト機能を取得できる()
     {
@@ -118,7 +118,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@update
+     * App\Http\Controllers\Listener\RequestFunctionController@update
      */
     public function リクエスト機能を更新できる()
     {
@@ -138,7 +138,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@store
+     * App\Http\Controllers\Listener\RequestFunctionController@store
      */
     public function リクエスト機能の更新に失敗する（名前関連）()
     {
@@ -168,7 +168,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@store
+     * App\Http\Controllers\Listener\RequestFunctionController@store
      */
     public function リクエスト機能更新に失敗する（本文関連）()
     {
@@ -190,7 +190,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@submitListenerPoint
+     * App\Http\Controllers\Listener\RequestFunctionController@submitListenerPoint
      */
     public function リスナーがリクエスト機能に投票できる()
     {
@@ -212,7 +212,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@submitListenerPoint
+     * App\Http\Controllers\Listener\RequestFunctionController@submitListenerPoint
      */
     public function リスナーがリクエスト機能の投稿に失敗する（ポイント関連）()
     {
@@ -236,7 +236,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@submitListenerPoint
+     * App\Http\Controllers\Listener\RequestFunctionController@submitListenerPoint
      */
     public function リスナーがリクエスト機能の投稿に失敗する（リスナー関連）()
     {
@@ -262,7 +262,7 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RequestFunctionController@destory
+     * App\Http\Controllers\Listener\RequestFunctionController@destory
      */
     public function リクエスト機能を削除できる()
     {

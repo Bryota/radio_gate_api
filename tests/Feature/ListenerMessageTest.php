@@ -38,7 +38,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function ラジオ番組にメッセージが投稿できる（コーナー指定）()
     {
@@ -75,7 +75,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function ラジオ番組にメッセージが投稿できる（コーナー指定なし）()
     {
@@ -112,7 +112,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function マイラジオ番組にメッセージが投稿できる（コーナー指定）()
     {
@@ -150,7 +150,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function マイラジオ番組にメッセージが投稿できる（コーナー指定なし）()
     {
@@ -185,7 +185,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function ラジオ番組へのメッセージ投稿に失敗する（番組関連）()
     {
@@ -213,7 +213,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function ラジオ番組へのメッセージ投稿に失敗する（コーナー関連）()
     {
@@ -254,7 +254,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function ラジオ番組へのメッセージ投稿に失敗する（本文関連）()
     {
@@ -321,7 +321,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@store
+     * App\Http\Controllers\Listener\ListenerMessageController@store
      */
     public function 投稿メッセージの本文チェック()
     {
@@ -361,7 +361,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@index
+     * App\Http\Controllers\Listener\ListenerMessageController@index
      */
     public function 投稿一覧を取得できる()
     {
@@ -396,7 +396,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@show
+     * App\Http\Controllers\Listener\ListenerMessageController@show
      */
     public function 個別の投稿テンプレートを取得できる()
     {
@@ -423,7 +423,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@save
+     * App\Http\Controllers\Listener\ListenerMessageController@save
      */
     public function 投稿を保存できる()
     {
@@ -454,7 +454,7 @@ class ListenerMessageTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMessageController@savedMessage
+     * App\Http\Controllers\Listener\ListenerMessageController@savedMessage
      */
     public function 一時保存してある投稿一覧を取得できる()
     {

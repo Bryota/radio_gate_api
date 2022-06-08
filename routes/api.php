@@ -1,18 +1,24 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\ListenerController;
-use App\Http\Controllers\RadioStationController;
-use App\Http\Controllers\RadioProgramController;
-use App\Http\Controllers\ProgramCornerController;
-use App\Http\Controllers\MessageTemplateController;
-use App\Http\Controllers\ListenerMyProgramController;
-use App\Http\Controllers\MyProgramCornerController;
-use App\Http\Controllers\ListenerMessageController;
-use App\Http\Controllers\RequestFunctionController;
+use App\Http\Controllers\Listener\RegisterController;
+use App\Http\Controllers\Listener\LoginController;
+use App\Http\Controllers\Listener\ForgotPasswordController;
+use App\Http\Controllers\Listener\PasswordResetController;
+use App\Http\Controllers\Listener\ListenerController;
+use App\Http\Controllers\Listener\RadioStationController;
+use App\Http\Controllers\Listener\RadioProgramController;
+use App\Http\Controllers\Listener\ProgramCornerController;
+use App\Http\Controllers\Listener\MessageTemplateController;
+use App\Http\Controllers\Listener\ListenerMyProgramController;
+use App\Http\Controllers\Listener\MyProgramCornerController;
+use App\Http\Controllers\Listener\ListenerMessageController;
+use App\Http\Controllers\Listener\RequestFunctionController;
+use App\Http\Controllers\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\ForgotPasswordController as AdminForgotPasswordController;
+use App\Http\Controllers\Admin\PasswordResetController as AdminPasswordResetController;
+use App\Http\Controllers\Admin\RadioStationController as AdminRadioStationController;
+use App\Http\Controllers\Admin\RadioProgramController as AdminRadioProgramController;
+use App\Http\Controllers\Admin\ProgramCornerController as AdminProgramCornerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+// リスナー
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -52,4 +58,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/saved_messages', [ListenerMessageController::class, 'savedMessages']);
     Route::apiResource('request_functions', RequestFunctionController::class);
     Route::post('/request_functions/submit_point', [RequestFunctionController::class, 'submitListenerPoint']);
+});
+
+// 管理者
+Route::post('admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
+Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+Route::post('admin/forgot_password', [AdminForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('admin/password/reset/{token}', [AdminPasswordResetController::class, 'resetPassword']);
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::apiResource('radio_stations', AdminRadioStationController::class);
+    Route::apiResource('radio_programs', AdminRadioProgramController::class);
+    Route::apiResource('program_corners', AdminProgramCornerController::class);
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Listener;
 
 use App\Services\Radio\ProgramCornerService;
 use App\Http\Requests\ProgramCornerRequest;

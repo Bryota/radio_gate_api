@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Listener;
 
-use App\Services\Listener\ListenerMyProgramService;
-use App\Http\Requests\ListenerMyProgramRequest;
+use App\Services\Listener\MessageTemplateService;
+use App\Http\Requests\MessageTemplateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
 
-class ListenerMyProgramController extends Controller
+class MessageTemplateController extends Controller
 {
     /**
-     * @var ListenerMyProgramService $listener_my_program ListenerMyProgramServiceインスタンス
+     * @var MessageTemplateService $message_template MessageTemplateServiceインスタンス
      */
-    private $listener_my_program;
+    private $message_template;
 
     /**
      * @var Connection $db_connection Connectionインスタンス
@@ -25,15 +25,15 @@ class ListenerMyProgramController extends Controller
      */
     private $request;
 
-    public function __construct(ListenerMyProgramService $listener_my_program, Connection $db_connection, Request $request)
+    public function __construct(MessageTemplateService $message_template, Connection $db_connection, Request $request)
     {
-        $this->listener_my_program = $listener_my_program;
+        $this->message_template = $message_template;
         $this->db_connection = $db_connection;
         $this->request = $request;
     }
 
     /**
-     * リスナーに紐づいたマイ番組一覧の取得
+     * リスナーに紐づいた投稿テンプレート一覧の取得
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -42,31 +42,35 @@ class ListenerMyProgramController extends Controller
         $listener_id = $this->checkUserId();
 
         try {
-            $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms(intval($listener_id));
+            $message_templates = $this->message_template->getAllMessageTemplates(intval($listener_id));
             return response()->json([
-                'listener_my_programs' => $listener_my_programs
+                'message_templates' => $message_templates
             ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => '該当のデータが見つかりませんでした。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'マイ番組一覧の取得に失敗しました。'
+                'message' => '投稿テンプレート一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * リスナーに紐づいたマイ番組個別の取得
+     * リスナーに紐づいた投稿テンプレート個別の取得
      * 
-     * @param int $listener_my_program_id マイ番組ID
+     * @param int $message_template_id 投稿テンプレートID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $listener_my_program_id)
+    public function show(int $message_template_id)
     {
         $listener_id = $this->checkUserId();
 
         try {
-            $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram(intval($listener_id), $listener_my_program_id);
+            $message_template = $this->message_template->getSingleMessageTemplate(intval($listener_id), $message_template_id);
             return response()->json([
-                'listener_my_program' => $listener_my_program
+                'message_template' => $message_template
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -74,53 +78,53 @@ class ListenerMyProgramController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'マイ番組個別の取得に失敗しました。'
+                'message' => '投稿テンプレート個別の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * マイ番組作成
+     * 投稿テンプレート作成
      *
-     * @param ListenerMyProgramRequest $request マイ番組作成リクエストデータ
+     * @param MessageTemplateRequest $request 投稿テンプレート作成リクエストデータ
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ListenerMyProgramRequest $request)
+    public function store(MessageTemplateRequest $request)
     {
         $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $listener_my_program = $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
+            $this->message_template->storeMessageTemplate($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
-                'listener_my_program' => $listener_my_program
+                'message' => '投稿テンプレートが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             return response()->json([
-                'message' => 'マイ番組の作成に失敗しました。'
+                'message' => '投稿テンプレートの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * マイ番組更新
+     * 投稿テンプレート更新
      *
-     * @param ListenerMyProgramRequest $request マイ番組更新リクエストデータ
-     * @param int $listener_my_program_id マイ番組ID
+     * @param MessageTemplateRequest $request 投稿テンプレート更新リクエストデータ
+     * @param int $message_template_id 投稿テンプレートID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ListenerMyProgramRequest $request, int $listener_my_program_id)
+    public function update(MessageTemplateRequest $request, int $message_template_id)
     {
         $listener_id = $this->checkUserId();
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener_my_program->updateListenerMyProgram($request, intval($listener_id), $listener_my_program_id);
+            $this->message_template->updateMessageTemplate($request, intval($listener_id), $message_template_id);
             $this->db_connection->commit();
             return response()->json([
-                'message' => 'マイ番組が更新されました。'
+                'message' => '投稿テンプレートが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -129,30 +133,29 @@ class ListenerMyProgramController extends Controller
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             return response()->json([
-                'message' => 'マイ番組の更新に失敗しました。'
+                'message' => '投稿テンプレートの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * マイ番組削除（1つのみ）
+     * 投稿テンプレート削除（1つのみ）
      *
-     * @param int $listener_my_program_id マイ番組ID
+     * @param int $message_template_id 投稿テンプレートID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $listener_my_program_id)
+    public function destroy(int $message_template_id)
     {
         $listener_id = $this->checkUserId();
 
         try {
-            $this->listener_my_program->deleteListenerMyProgram(intval($listener_id), $listener_my_program_id);
+            $this->message_template->deleteMessageTemplate(intval($listener_id), $message_template_id);
             return response()->json([
-                'message' => 'マイ番組が削除されました。'
+                'message' => '投稿テンプレートが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            logger('err', ['err', $th]);
             return response()->json([
-                'message' => 'マイ番組の削除に失敗しました。'
+                'message' => '投稿テンプレートの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
