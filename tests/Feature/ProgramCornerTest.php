@@ -27,7 +27,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@store
+     * App\Http\Controllers\Listener\ProgramCornerController@store
      */
     public function 番組コーナーを作成できる()
     {
@@ -46,7 +46,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@store
+     * App\Http\Controllers\Listener\ProgramCornerController@store
      */
     public function 番組コーナー作成に失敗する()
     {
@@ -71,7 +71,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@index
+     * App\Http\Controllers\Listener\ProgramCornerController@index
      */
     public function 番組コーナー一覧を取得できる()
     {
@@ -93,7 +93,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@show
+     * App\Http\Controllers\Listener\ProgramCornerController@show
      */
     public function 個別の番組コーナーを取得できる()
     {
@@ -112,7 +112,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@update
+     * App\Http\Controllers\Listener\ProgramCornerController@update
      */
     public function 番組コーナーを更新できる()
     {
@@ -131,7 +131,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@update
+     * App\Http\Controllers\Listener\ProgramCornerController@update
      */
     public function 番組コーナーの更新に失敗する()
     {
@@ -163,7 +163,7 @@ class ProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ProgramCornerController@destroy
+     * App\Http\Controllers\Listener\ProgramCornerController@destroy
      */
     public function 番組コーナーを削除できる()
     {

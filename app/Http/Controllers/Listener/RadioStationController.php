@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Listener;
 
 use App\Services\Radio\RadioStationService;
 use App\Http\Requests\RadioStationRequest;

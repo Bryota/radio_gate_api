@@ -1,44 +1,44 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Services\Radio\RadioProgramService;
-use App\Http\Requests\RadioProgramRequest;
+use App\Services\Radio\ProgramCornerService;
+use App\Http\Requests\ProgramCornerRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
 
-class RadioProgramController extends Controller
+class ProgramCornerController extends Controller
 {
     /**
-     * @var RadioProgramService $radio_program RadioProgramServiceインスタンス
+     * @var ProgramCornerService $program_corner ProgramCornerServiceインスタンス
      */
-    private $radio_program;
+    private $program_corner;
 
     /**
      * @var Connection $db_connection Connectionインスタンス
      */
     private $db_connection;
 
-    public function __construct(RadioProgramService $radio_program, Connection $db_connection)
+    public function __construct(ProgramCornerService $program_corner, Connection $db_connection)
     {
-        $this->radio_program = $radio_program;
+        $this->program_corner = $program_corner;
         $this->db_connection = $db_connection;
     }
 
     /**
-     * ラジオ局に紐づいたラジオ番組一覧取得
+     * ラジオ番組に紐づいたコーナーの取得
      *
-     * @param Request $request ラジオ局ID用のgetパラメーター
+     * @param Request $request ラジオ番組ID用のgetパラメーター
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $radio_station_id = intval($request->input('radio_station'));
+        $radio_program_id = intval($request->input('radio_program'));
         try {
-            $radio_programs = $this->radio_program->getAllRadioPrograms($radio_station_id);
+            $program_corners = $this->program_corner->getAllProgramCorners($radio_program_id);
             return response()->json([
-                'radio_programs' => $radio_programs
+                'program_corners' => $program_corners
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -46,23 +46,23 @@ class RadioProgramController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'ラジオ番組一覧の取得に失敗しました。'
+                'message' => '番組コーナー一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * 個別のラジオ番組取得
+     * 個別の番組コーナー取得
      * 
-     * @param int $radio_program_id ラジオ番組ID
+     * @param int $program_corner_id 番組コーナーID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $radio_program_id)
+    public function show(int $program_corner_id)
     {
         try {
-            $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
+            $program_corner = $this->program_corner->getSingleProgramCorner($program_corner_id);
             return response()->json([
-                'radio_program' => $radio_program
+                'program_corner' => $program_corner
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -70,49 +70,49 @@ class RadioProgramController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'ラジオ番組の取得に失敗しました。'
+                'message' => '番組コーナーの取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * ラジオ番組作成
+     * 番組コーナー作成
      *
-     * @param RadioProgramRequest $request ラジオ番組作成リクエストデータ
+     * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(RadioProgramRequest $request)
+    public function store(ProgramCornerRequest $request)
     {
         try {
             $this->db_connection->beginTransaction();
-            $this->radio_program->storeRadioProgram($request);
+            $this->program_corner->storeProgramCorner($request);
             $this->db_connection->commit();
             return response()->json([
-                'message' => 'ラジオ番組が作成されました。'
+                'message' => '番組コーナーが作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             return response()->json([
-                'message' => 'ラジオ番組の作成に失敗しました。'
+                'message' => '番組コーナーの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * ラジオ番組更新
+     * 番組コーナ更新
      *
-     * @param RadioProgramRequest $request ラジオ番組更新リクエストデータ
-     * @param int $radio_program_id ラジオ番組ID
+     * @param ProgramCornerRequest $request 番組コーナー作成リクエストデータ
+     * @param int $program_corner_id 番組コーナーID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(RadioProgramRequest $request, int $radio_program_id)
+    public function update(ProgramCornerRequest $request, $program_corner_id)
     {
         try {
             $this->db_connection->beginTransaction();
-            $this->radio_program->updateRadioProgram($request, $radio_program_id);
+            $this->program_corner->updateProgramCorner($request, $program_corner_id);
             $this->db_connection->commit();
             return response()->json([
-                'message' => 'ラジオ番組が更新されました。'
+                'message' => '番組コーナーが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
             return response()->json([
@@ -121,27 +121,27 @@ class RadioProgramController extends Controller
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             return response()->json([
-                'message' => 'ラジオ番組の更新に失敗しました。'
+                'message' => '番組コーナーの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
     /**
-     * ラジオ番組削除（1番組のみ）
+     * 番組コーナー削除（1番組のみ）
      *
-     * @param int $radio_program_id ラジオ番組ID
+     * @param int $program_corner_id 番組コーナーID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $radio_program_id)
+    public function destroy(int $program_corner_id)
     {
         try {
-            $this->radio_program->deleteRadioProgram($radio_program_id);
+            $this->program_corner->deleteProgramCorner($program_corner_id);
             return response()->json([
-                'message' => 'ラジオ番組が削除されました。'
+                'message' => '番組コーナーが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'ラジオ番組の削除に失敗しました。'
+                'message' => '番組コーナーの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }

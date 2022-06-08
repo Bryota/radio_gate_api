@@ -19,7 +19,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@store
+     * App\Http\Controllers\Listener\RadioStationController@store
      */
     public function ラジオ局を作成できる()
     {
@@ -36,7 +36,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@store
+     * App\Http\Controllers\Listener\RadioStationController@store
      */
     public function ラジオ局作成に失敗する()
     {
@@ -63,7 +63,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@index
+     * App\Http\Controllers\Listener\RadioStationController@index
      */
     public function ラジオ局一覧を取得できる()
     {
@@ -79,7 +79,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@update
+     * App\Http\Controllers\Listener\RadioStationController@update
      */
     public function ラジオ局を更新できる()
     {
@@ -98,7 +98,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@update
+     * App\Http\Controllers\Listener\RadioStationController@update
      */
     public function ラジオ局を更新に失敗する()
     {
@@ -129,7 +129,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@destroy
+     * App\Http\Controllers\Listener\RadioStationController@destroy
      */
     public function ラジオ局を削除できる()
     {
@@ -148,7 +148,7 @@ class RadioStationTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioStationController@getRadioStationName
+     * App\Http\Controllers\Listener\RadioStationController@getRadioStationName
      */
     public function ラジオ局名を取得できる()
     {

@@ -24,7 +24,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@store
+     * App\Http\Controllers\Listener\MyProgramCornerController@store
      */
     public function 番組コーナーを作成できる()
     {
@@ -43,7 +43,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@store
+     * App\Http\Controllers\Listener\MyProgramCornerController@store
      */
     public function 番組コーナー作成に失敗する（名前関連）()
     {
@@ -68,7 +68,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@store
+     * App\Http\Controllers\Listener\MyProgramCornerController@store
      */
     public function 番組コーナー作成に失敗する（ログイン関連）()
     {
@@ -83,7 +83,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@index
+     * App\Http\Controllers\Listener\MyProgramCornerController@index
      */
     public function 番組コーナー一覧を取得できる()
     {
@@ -105,7 +105,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@show
+     * App\Http\Controllers\Listener\MyProgramCornerController@show
      */
     public function 個別のマイラジオ番組を取得できる()
     {
@@ -124,7 +124,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@update
+     * App\Http\Controllers\Listener\MyProgramCornerController@update
      */
     public function 番組コーナーを更新できる()
     {
@@ -143,7 +143,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@update
+     * App\Http\Controllers\Listener\MyProgramCornerController@update
      */
     public function 番組コーナー更新に失敗する（名前関連）()
     {
@@ -172,7 +172,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@update
+     * App\Http\Controllers\Listener\MyProgramCornerController@update
      */
     public function 番組コーナー更新に失敗する（ログイン関連）()
     {
@@ -191,7 +191,7 @@ class MyProgramCornerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MyProgramCornerController@destroy
+     * App\Http\Controllers\Listener\MyProgramCornerController@destroy
      */
     public function 番組コーナーを削除できる()
     {

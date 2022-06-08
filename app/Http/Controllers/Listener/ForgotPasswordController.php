@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Listener;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotPasswordRequest;
 use Illuminate\Support\Facades\Password;
 

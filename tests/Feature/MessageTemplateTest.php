@@ -19,7 +19,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@store
+     * App\Http\Controllers\Listener\MessageTemplateController@store
      */
     public function 投稿テンプレートが作成できる()
     {
@@ -39,7 +39,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@store
+     * App\Http\Controllers\Listener\MessageTemplateController@store
      */
     public function 投稿テンプレート作成に失敗する（名前関連）()
     {
@@ -64,7 +64,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@store
+     * App\Http\Controllers\Listener\MessageTemplateController@store
      */
     public function 投稿テンプレート作成に失敗する（本文関連）()
     {
@@ -89,7 +89,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@index
+     * App\Http\Controllers\Listener\MessageTemplateController@index
      */
     public function 投稿テンプレート一覧を取得できる()
     {
@@ -107,7 +107,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@show
+     * App\Http\Controllers\Listener\MessageTemplateController@show
      */
     public function 個別の投稿テンプレートを取得できる()
     {
@@ -128,7 +128,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@update
+     * App\Http\Controllers\Listener\MessageTemplateController@update
      */
     public function 投稿テンプレートを更新できる()
     {
@@ -148,7 +148,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@update
+     * App\Http\Controllers\Listener\MessageTemplateController@update
      */
     public function 投稿テンプレート更新に失敗する（名前関連）()
     {
@@ -178,7 +178,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@update
+     * App\Http\Controllers\Listener\MessageTemplateController@update
      */
     public function 投稿テンプレート更新に失敗する（コンテンツ関連）()
     {
@@ -209,7 +209,7 @@ class MessageTemplateTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\MessageTemplateController@destory
+     * App\Http\Controllers\Listener\MessageTemplateController@destory
      */
     public function 投稿テンプレートを削除できる()
     {

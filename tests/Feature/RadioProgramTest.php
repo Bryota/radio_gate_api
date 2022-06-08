@@ -24,7 +24,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@store
+     * App\Http\Controllers\Listener\RadioProgramController@store
      */
     public function ラジオ番組を追加できる()
     {
@@ -44,7 +44,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@store
+     * App\Http\Controllers\Listener\RadioProgramController@store
      */
     public function ラジオ番組作成に失敗する（名前関連）()
     {
@@ -69,7 +69,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@store
+     * App\Http\Controllers\Listener\RadioProgramController@store
      */
     public function ラジオ番組作成に失敗する（メールアドレス関連）()
     {
@@ -95,7 +95,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@index
+     * App\Http\Controllers\Listener\RadioProgramController@index
      */
     public function ラジオ番組一覧を取得できる()
     {
@@ -117,7 +117,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@show
+     * App\Http\Controllers\Listener\RadioProgramController@show
      */
     public function 個別のラジオ番組を取得できる()
     {
@@ -137,7 +137,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@update
+     * App\Http\Controllers\Listener\RadioProgramController@update
      */
     public function ラジオ番組を更新できる()
     {
@@ -157,7 +157,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@update
+     * App\Http\Controllers\Listener\RadioProgramController@update
      */
     public function ラジオ番組更新に失敗する（番組名）()
     {
@@ -187,7 +187,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@update
+     * App\Http\Controllers\Listener\RadioProgramController@update
      */
     public function ラジオ番組更新に失敗する（メールアドレス）()
     {
@@ -218,7 +218,7 @@ class RadioProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\RadioProgramController@destroy
+     * App\Http\Controllers\Listener\RadioProgramController@destroy
      */
     public function ラジオ局を削除できる()
     {

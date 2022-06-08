@@ -16,7 +16,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\RegisterController@create
+     * App\Http\Controllers\Listener\Auth\RegisterController@create
      */
     public function リスナーを登録できる()
     {
@@ -75,7 +75,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\RegisterController@create
+     * App\Http\Controllers\Listener\Auth\RegisterController@create
      */
     public function リスナー登録に失敗する（メール関連）()
     {
@@ -121,7 +121,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\RegisterController@create
+     * App\Http\Controllers\Listener\Auth\RegisterController@create
      */
     public function リスナー登録に失敗する（パスワード関連）()
     {
@@ -141,7 +141,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\RegisterController@create
+     * App\Http\Controllers\Listener\Auth\RegisterController@create
      */
     public function リスナー登録に失敗する（郵便番号関連）()
     {
@@ -162,7 +162,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\ListenerController@update
+     * App\Http\Controllers\Listener\Auth\ListenerController@update
      */
     public function リスナー情報を更新できる()
     {
@@ -188,7 +188,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\loginController@login
+     * App\Http\Controllers\Listener\Auth\loginController@login
      */
     public function ログインできる()
     {
@@ -214,7 +214,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\loginController@login
+     * App\Http\Controllers\Listener\Auth\loginController@login
      */
     public function ログインに失敗する（バリデーション関連）()
     {
@@ -260,7 +260,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\loginController@login
+     * App\Http\Controllers\Listener\Auth\loginController@login
      */
     public function ログインに失敗する（認証関連）()
     {
@@ -291,7 +291,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\Auth\loginController@logout
+     * App\Http\Controllers\Listener\Auth\loginController@logout
      */
     public function ログアウトに成功する()
     {
@@ -310,7 +310,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerController@index
+     * App\Http\Controllers\Listener\ListenerController@index
      */
     public function リスナー一覧を取得できる()
     {
@@ -340,7 +340,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerController@show
+     * App\Http\Controllers\Listener\ListenerController@show
      */
     public function リスナー情報を取得できる()
     {
@@ -374,7 +374,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ForgotPasswordController@sendResetLinkEmail
+     * App\Http\Controllers\Listener\ForgotPasswordController@sendResetLinkEmail
      */
     public function パスワード再設定用のメールを送信できる()
     {
@@ -398,7 +398,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ForgotPasswordController@sendResetLinkEmail
+     * App\Http\Controllers\Listener\ForgotPasswordController@sendResetLinkEmail
      */
     public function パスワード再設定用のメール送信に失敗する()
     {
@@ -441,7 +441,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\PasswordResetController@resetPassword
+     * App\Http\Controllers\Listener\PasswordResetController@resetPassword
      */
     public function パスワードを更新できる()
     {
@@ -472,7 +472,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\PasswordResetController@resetPassword
+     * App\Http\Controllers\Listener\PasswordResetController@resetPassword
      */
     public function パスワード更新に失敗する()
     {
@@ -502,7 +502,7 @@ class ListenerTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerController@destroy
+     * App\Http\Controllers\Listener\ListenerController@destroy
      */
     public function アカウントを削除できる()
     {

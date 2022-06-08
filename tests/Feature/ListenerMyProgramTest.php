@@ -19,7 +19,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@store
+     * App\Http\Controllers\Listener\ListenerMyProgramController@store
      */
     public function マイ番組が作成できる()
     {
@@ -38,7 +38,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@store
+     * App\Http\Controllers\Listener\ListenerMyProgramController@store
      */
     public function マイ番組作成に失敗する（名前関連）()
     {
@@ -63,7 +63,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@store
+     * App\Http\Controllers\Listener\ListenerMyProgramController@store
      */
     public function マイ番組作成に失敗する（メールアドレス関連）()
     {
@@ -89,7 +89,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@index
+     * App\Http\Controllers\Listener\ListenerMyProgramController@index
      */
     public function マイ番組一覧を取得できる()
     {
@@ -108,7 +108,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@show
+     * App\Http\Controllers\Listener\ListenerMyProgramController@show
      */
     public function 個別の投稿テンプレートを取得できる()
     {
@@ -129,7 +129,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@update
+     * App\Http\Controllers\Listener\ListenerMyProgramController@update
      */
     public function マイ番組を更新できる()
     {
@@ -149,7 +149,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@update
+     * App\Http\Controllers\Listener\ListenerMyProgramController@update
      */
     public function マイ番組更新に失敗する（名前関連）()
     {
@@ -179,7 +179,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@update
+     * App\Http\Controllers\Listener\ListenerMyProgramController@update
      */
     public function マイ番組更新に失敗する（メールアドレス関連）()
     {
@@ -210,7 +210,7 @@ class ListenerMyProgramTest extends TestCase
 
     /**
      * @test
-     * App\Http\Controllers\ListenerMyProgramController@destory
+     * App\Http\Controllers\Listener\ListenerMyProgramController@destory
      */
     public function マイ番組を削除できる()
     {
