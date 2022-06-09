@@ -69,4 +69,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::apiResource('radio_stations', AdminRadioStationController::class);
     Route::apiResource('radio_programs', AdminRadioProgramController::class);
     Route::apiResource('program_corners', AdminProgramCornerController::class);
+    Route::get('/radio_station_name/{id}', [AdminRadioStationController::class, 'getRadioStationName']);
 });
