@@ -58,7 +58,7 @@ class RadioProgramRepository
      */
     public function getSingleRadioProgram(int $radio_program_id): RadioProgram
     {
-        return $this->radio_program::find($radio_program_id);
+        return $this->radio_program::where('id', $radio_program_id)->with(['radioStation'])->firstOrFail();
     }
 
     /**
