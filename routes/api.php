@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PasswordResetController as AdminPasswordResetCont
 use App\Http\Controllers\Admin\RadioStationController as AdminRadioStationController;
 use App\Http\Controllers\Admin\RadioProgramController as AdminRadioProgramController;
 use App\Http\Controllers\Admin\ProgramCornerController as AdminProgramCornerController;
+use App\Http\Controllers\Admin\RequestFunctionController as AdminRequestFunctionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,4 +71,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::apiResource('radio_programs', AdminRadioProgramController::class);
     Route::apiResource('program_corners', AdminProgramCornerController::class);
     Route::get('/radio_station_name/{id}', [AdminRadioStationController::class, 'getRadioStationName']);
+    Route::apiResource('request_functions', AdminRequestFunctionController::class);
 });
