@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Listener;
 
 use App\Services\Listener\RequestFunctionService;
-use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
@@ -81,61 +80,6 @@ class RequestFunctionController extends Controller
     }
 
     /**
-     * リクエスト機能作成
-     *
-     * @param RequestFunctionRequest $request リクエスト機能登録用のリクエストデータ
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(RequestFunctionRequest $request)
-    {
-        $listener_id = $this->checkUserId();
-
-        try {
-            $this->db_connection->beginTransaction();
-            $this->request_function->storeRequestFunction($request, intval($listener_id));
-            $this->db_connection->commit();
-            return response()->json([
-                'message' => 'リクエスト機能が作成されました。'
-            ], 201, [], JSON_UNESCAPED_UNICODE);
-        } catch (\Throwable $th) {
-            $this->db_connection->rollBack();
-            return response()->json([
-                'message' => 'リクエスト機能の作成に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
-        }
-    }
-
-    /**
-     * リクエスト機能更新
-     *
-     * @param RequestFunctionRequest $request リクエスト機能更新リクエストデータ
-     * @param int $request_function_id リクエスト機能ID
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(RequestFunctionRequest $request, int $request_function_id)
-    {
-        $listener_id = $this->checkUserId();
-
-        try {
-            $this->db_connection->beginTransaction();
-            $this->request_function->updateRequestFunction($request, intval($listener_id), $request_function_id);
-            $this->db_connection->commit();
-            return response()->json([
-                'message' => 'リクエスト機能が更新されました。'
-            ], 201, [], JSON_UNESCAPED_UNICODE);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
-        } catch (\Throwable $th) {
-            $this->db_connection->rollBack();
-            return response()->json([
-                'message' => 'リクエスト機能の更新に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
-        }
-    }
-
-    /**
      * リクエスト機能リスナー投票
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
@@ -162,28 +106,6 @@ class RequestFunctionController extends Controller
             return response()->json([
                 'message' => '投票に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
-        }
-    }
-
-    /**
-     * リクエスト機能削除（1つのみ）
-     *
-     * @param int $request_function_id リクエスト機能ID
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(int $request_function_id)
-    {
-        $listener_id = $this->checkUserId();
-
-        try {
-            $this->request_function->deleteRequestFunction(intval($listener_id), $request_function_id);
-            return response()->json([
-                'message' => 'リクエスト機能が削除されました。'
-            ], 200, [], JSON_UNESCAPED_UNICODE);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'リクエスト機能の削除に失敗しました。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
