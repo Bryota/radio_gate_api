@@ -13,6 +13,7 @@ use App\Http\Controllers\Listener\ListenerMyProgramController;
 use App\Http\Controllers\Listener\MyProgramCornerController;
 use App\Http\Controllers\Listener\ListenerMessageController;
 use App\Http\Controllers\Listener\RequestFunctionController;
+use App\Http\Controllers\Listener\RequestFunctionRequestController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\ForgotPasswordController as AdminForgotPasswordController;
 use App\Http\Controllers\Admin\PasswordResetController as AdminPasswordResetController;
@@ -58,6 +59,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/listener_messages/save', [ListenerMessageController::class, 'save']);
     Route::get('/saved_messages', [ListenerMessageController::class, 'savedMessages']);
     Route::apiResource('request_functions', RequestFunctionController::class, ['only' => ['index', 'show']]);
+    Route::apiResource('request_function_requests', RequestFunctionRequestController::class, ['only' => ['store']]);
     Route::post('/request_functions/submit_point', [RequestFunctionController::class, 'submitListenerPoint']);
 });
 
