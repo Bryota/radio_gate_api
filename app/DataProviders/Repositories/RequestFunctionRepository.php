@@ -16,6 +16,7 @@ use App\DataProviders\Models\RequestFunction;
 use App\DataProviders\Models\RequestFunctionListenerSubmit;
 use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * リクエスト機能リポジトリクラス
@@ -49,10 +50,10 @@ class RequestFunctionRepository
 
     /**
      * リクエスト機能一覧の取得
-     * 
-     * @return object リクエスト機能一覧
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunction> リクエスト機能一覧
      */
-    public function getAllRequestFunctions(): object
+    public function getAllRequestFunctions(): Collection
     {
         return $this->request_function::where('is_open', true)->get(['id', 'name', 'point']);
     }
