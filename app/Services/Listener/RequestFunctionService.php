@@ -42,12 +42,25 @@ class RequestFunctionService
 
     /**
      * リクエスト機能一覧の取得
-     * 
-     * @return object リクエスト機能一覧
+     *
+     * @param int $listener_id リスナーID
+     * @return array リクエスト機能一覧
      */
-    public function getAllRequestFunctions(): object
+    public function getAllRequestFunctions(int $listener_id = 0): array
     {
-        return $this->request_function->getAllRequestFunctions();
+        $request_functions_array = [];
+
+        $request_functions = $this->request_function->getAllRequestFunctions();
+        $request_functions->each(function ($request_function) use (&$request_functions_array, $listener_id) {
+            array_push($request_functions_array, [
+                'id' => $request_function->id,
+                'name' => $request_function->name,
+                'point' => $request_function->point,
+                'is_voted' => $this->request_function->isSubmittedListener($request_function->id, $listener_id)
+            ]);
+        });
+
+        return $request_functions_array;
     }
 
     /**
