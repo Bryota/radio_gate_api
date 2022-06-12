@@ -18,10 +18,10 @@ class RequestFunction extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'listener_id',
         'name',
         'detail',
         'point',
+        'is_open'
     ];
 
     /**

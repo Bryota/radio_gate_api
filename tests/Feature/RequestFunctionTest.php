@@ -22,8 +22,8 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能一覧を取得できる()
     {
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
+        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => true]);
 
         $response = $this->getJson('api/request_functions');
 
@@ -40,7 +40,7 @@ class RequestFunctionTest extends TestCase
      */
     public function 個別のリクエスト機能を取得できる()
     {
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $request_function = RequestFunction::first();
 
@@ -48,8 +48,7 @@ class RequestFunctionTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト機能1'])
-            ->assertJsonFragment(['detail' => str_repeat('いい機能ですね', 100)])
-            ->assertJsonFragment(['listener_id' => $this->listener->id]);
+            ->assertJsonFragment(['detail' => str_repeat('いい機能ですね', 100)]);
     }
 
     /**
@@ -58,7 +57,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リスナーがリクエスト機能に投票できる()
     {
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $request_function = RequestFunction::first();
         $this->assertEquals(0, $request_function->point);
