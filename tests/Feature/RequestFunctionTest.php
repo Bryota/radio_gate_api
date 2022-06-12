@@ -24,6 +24,8 @@ class RequestFunctionTest extends TestCase
     {
         $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
         $this->postJson('api/admin/request_functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => true]);
+        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能3', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => false]);
+        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能4', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => false]);
 
         $response = $this->getJson('api/request_functions');
 
@@ -31,7 +33,8 @@ class RequestFunctionTest extends TestCase
             ->assertJsonFragment(['name' => 'テスト機能1'])
             ->assertJsonFragment(['name' => 'テスト機能2'])
             ->assertJsonMissing(['detail' => str_repeat('いい機能ですね', 100)])
-            ->assertJsonMissing(['detail' => str_repeat('本当にいい機能ですね', 100)]);
+            ->assertJsonMissing(['name' => 'テスト機能3'])
+            ->assertJsonMissing(['name' => 'テスト機能4']);
     }
 
     /**
