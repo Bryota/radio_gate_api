@@ -65,9 +65,16 @@ class RequestFunctionController extends Controller
     {
         try {
             $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
-            return response()->json([
-                'request_function' => $request_function
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            if ($request_function && $request_function->is_open) {
+                return response()->json([
+                    'status' => 'success',
+                    'request_function' => $request_function
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json([
+                    'status' => 'failed'
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            }
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
