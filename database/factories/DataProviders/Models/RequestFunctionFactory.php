@@ -23,6 +23,7 @@ class RequestFunctionFactory extends Factory
             'name' => $this->faker->title,
             'detail' => $this->faker->text,
             'point' => mt_rand(0, 50),
+            'is_open' => $this->faker->boolean
         ];
     }
 }
