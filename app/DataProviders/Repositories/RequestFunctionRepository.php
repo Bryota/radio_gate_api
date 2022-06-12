@@ -54,7 +54,7 @@ class RequestFunctionRepository
      */
     public function getAllRequestFunctions(): object
     {
-        return $this->request_function::get(['id', 'name', 'point']);
+        return $this->request_function::where('is_open', true)->get(['id', 'name', 'point']);
     }
 
     /**
@@ -73,15 +73,14 @@ class RequestFunctionRepository
      * リクエスト機能作成
      *
      * @param RequestFunctionRequest $request リクエスト機能作成リクエストデータ
-     * @param int $listener_id リスナーID
      * @return RequestFunction リクエスト機能生成データ
      */
-    public function storeRequestFunction(RequestFunctionRequest $request, int $listener_id): RequestFunction
+    public function storeRequestFunction(RequestFunctionRequest $request): RequestFunction
     {
         return $this->request_function::create([
-            'listener_id' => $listener_id,
             'name' => $request->name,
-            'detail' => $request->detail
+            'detail' => $request->detail,
+            'is_open' => $request->is_open
         ]);
     }
 
@@ -89,18 +88,17 @@ class RequestFunctionRepository
      * リクエスト機能更新
      *
      * @param RequestFunctionRequest $request リクエスト機能更新リクエストデータ
-     * @param int $listener_id リスナーID
      * @param int $request_function_id リクエスト機能ID
      * @return bool 更新できたかどうか
      */
-    public function updateRequestFunction(RequestFunctionRequest $request, int $listener_id, int $request_function_id): bool
+    public function updateRequestFunction(RequestFunctionRequest $request, int $request_function_id): bool
     {
         $request_function = $this->request_function::where('id', $request_function_id)
-            ->ListenerIdEqual($listener_id)
             ->first();
         if ($request_function) {
             $request_function->name = $request->string('name');
             $request_function->detail = $request->string('detail');
+            $request_function->is_open = $request->boolean('is_open');
             return $request_function->save();
         } else {
             return false;
@@ -146,14 +144,12 @@ class RequestFunctionRepository
     /**
      * リクエスト機能削除
      *
-     * @param int $listener_id リスナーID
      * @param int $request_function_id リクエスト機能ID
      * @return bool|null 削除できたかどうか
      */
-    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool|null
+    public function deleteRequestFunction(int $request_function_id): bool|null
     {
         $request_function = $this->request_function::where('id', $request_function_id)
-            ->ListenerIdEqual($listener_id)
             ->first();
         if ($request_function) {
             return $request_function->delete();

@@ -11,6 +11,7 @@ use App\DataProviders\Models\ListenerMyProgram;
 use App\DataProviders\Models\MyProgramCorner;
 use App\DataProviders\Models\MessageTemplate;
 use App\DataProviders\Models\RequestFunction;
+use App\DataProviders\Models\RequestFunctionRequest;
 use App\DataProviders\Models\RequestFunctionListenerSubmit;
 use App\DataProviders\Models\ListenerMessage;
 
@@ -43,11 +44,15 @@ class DatabaseSeeder extends Seeder
                     ->count(5)
                     ->create();
 
-                RequestFunction::factory(['listener_id' => $this->listener_id])
+                RequestFunctionRequest::factory(['listener_id' => $this->listener_id])
+                    ->count(5)
+                    ->create();
+
+                RequestFunction::factory()
                     ->count(5)
                     ->create()
                     ->each(function ($request_function) {
-                        RequestFunctionListenerSubmit::factory(['listener_id' => $request_function->listener_id, 'request_function_id' => $request_function->id])
+                        RequestFunctionListenerSubmit::factory(['listener_id' => $this->listener_id, 'request_function_id' => $request_function->id])
                             ->count(1)
                             ->create();
                     });

@@ -65,32 +65,30 @@ class RequestFunctionService
      * リクエスト機能作成
      * 
      * @param RequestFunctionRequest $request リクエスト機能登録用のリクエストデータ
-     * @param int $listener_id リスナーID
      * @return RequestFunction 作成されたリクエスト機能情報
      */
-    public function storeRequestFunction(RequestFunctionRequest $request, int $listener_id): RequestFunction
+    public function storeRequestFunction(RequestFunctionRequest $request): RequestFunction
     {
-        return $this->request_function->storeRequestFunction($request, $listener_id);
+        return $this->request_function->storeRequestFunction($request);
     }
 
     /**
      * リクエスト機能更新
      *
      * @param RequestFunctionRequest $request リクエスト機能更新リクエストデータ
-     * @param int $listener_id リスナーID
      * @param int $request_function_id リクエスト機能ID
      * @return bool 更新できたかどうか
      */
-    public function updateRequestFunction(RequestFunctionRequest $request, int $listener_id, int $request_function_id): bool
+    public function updateRequestFunction(RequestFunctionRequest $request, int $request_function_id): bool
     {
-        return $this->request_function->updateRequestFunction($request, $listener_id, $request_function_id);
+        return $this->request_function->updateRequestFunction($request, $request_function_id);
     }
 
     /**
      * リクエスト機能リスナー投票
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
-     * @param int $listener_id リスナーIDx
+     * @param int $listener_id リスナーID
      * @return void
      */
     public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $listener_id)
@@ -113,12 +111,11 @@ class RequestFunctionService
     /**
      * リクエスト機能削除
      *
-     * @param int $listener_id リスナーID
      * @param int $request_function_id  リクエスト機能ID
      * @return bool|null 削除できたかどうか
      */
-    public function deleteRequestFunction(int $listener_id, int $request_function_id): bool|null
+    public function deleteRequestFunction(int $request_function_id): bool|null
     {
-        return $this->request_function->deleteRequestFunction($listener_id, $request_function_id);
+        return $this->request_function->deleteRequestFunction($request_function_id);
     }
 }
