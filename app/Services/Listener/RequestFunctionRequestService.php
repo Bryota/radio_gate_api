@@ -40,6 +40,16 @@ class RequestFunctionRequestService
     }
 
     /**
+     * 機能リクエスト申請一覧
+     * 
+     * @return object 機能リクエスト一覧
+     */
+    public function getAllRequestFunctionRequests(): object
+    {
+        return $this->request_function_request->getAllRequestFunctionRequests();
+    }
+
+    /**
      * リクエスト機能申請作成
      * 
      * @param RequestFunctionRequestRequest $request リクエスト機能申請用のリクエストデータ

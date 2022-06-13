@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionRequestRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * リクエスト機能リポジトリクラス
@@ -37,6 +38,16 @@ class RequestFunctionRequestRepository
     public function __construct(RequestFunctionRequest $request_function_request)
     {
         $this->request_function_request = $request_function_request;
+    }
+
+    /**
+     * 機能リクエスト申請一覧の取得
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunctionRequest> 機能リクエスト申請一覧
+     */
+    public function getAllRequestFunctionRequests(): Collection
+    {
+        return $this->request_function_request::where('is_open', true)->get(['id', 'name']);
     }
 
     /**
