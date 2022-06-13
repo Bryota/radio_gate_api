@@ -56,6 +56,66 @@ class RequestFunctionTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\Admin\RequestFunctionController@store
+     */
+    public function 管理者がリクエスト機能が作成できる()
+    {
+        $response = $this->postJson('api/admin/request_functions', ['name' => 'テスト機能', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'リクエスト機能が作成されました。'
+            ]);
+
+        $request_function = RequestFunction::first();
+        $this->assertEquals('テスト機能', $request_function->name);
+        $this->assertEquals(str_repeat('いい機能ですね', 100), $request_function->detail);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Admin\RequestFunctionController@store
+     */
+    public function リクエスト機能に失敗する（名前関連）()
+    {
+        $response1 = $this->postJson('api/admin/request_functions', ['name' => '', 'detail' => 'テスト機能ですね', 'is_open' => true]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'name' => [
+                    '機能名を入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/admin/request_functions', ['name' => str_repeat('あ', 151), 'detail' => 'テスト機能ですね', 'is_open' => true]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'name' => [
+                    '機能名は150文字以下で入力してください。'
+                ]
+            ]);
+
+        $this->assertEquals(0, RequestFunction::count());
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Admin\RequestFunctionController@store
+     */
+    public function リクエスト機能作成に失敗する（本文関連）()
+    {
+        $response1 = $this->postJson('api/admin/request_functions', ['name' => 'テスト機能', 'detail' => '', 'is_open' => true]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'detail' => [
+                    '機能詳細を入力してください。'
+                ]
+            ]);
+
+        $this->assertEquals(0, RequestFunction::count());
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\Listener\RequestFunctionController@submitListenerPoint
      */
     public function リスナーがリクエスト機能に投票できる()
