@@ -47,7 +47,7 @@ class RequestFunctionRequestRepository
      */
     public function getAllRequestFunctionRequests(): Collection
     {
-        return $this->request_function_request::where('is_open', true)->get(['id', 'name']);
+        return $this->request_function_request::where('is_open', true)->get(['id', 'name', 'created_at']);
     }
 
     /**
