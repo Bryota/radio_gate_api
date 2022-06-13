@@ -49,11 +49,21 @@ class RequestFunctionRepository
     }
 
     /**
-     * リクエスト機能一覧の取得
+     * 機能リクエスト一覧の取得
      *
      * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunction> リクエスト機能一覧
      */
     public function getAllRequestFunctions(): Collection
+    {
+        return $this->request_function::get(['id', 'name', 'point']);
+    }
+
+    /**
+     * 公開状態の機能リクエスト一覧の取得
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunction> リクエスト機能一覧
+     */
+    public function getAllOpenRequestFunctions(): Collection
     {
         return $this->request_function::where('is_open', true)->get(['id', 'name', 'point']);
     }

@@ -42,7 +42,7 @@ class RequestFunctionController extends Controller
         $listener_id = $this->checkUserId();
 
         try {
-            $request_functions = $this->request_function->getAllRequestFunctions(intval($listener_id));
+            $request_functions = $this->request_function->getAllOpenRequestFunctions(intval($listener_id));
             return response()->json([
                 'request_functions' => $request_functions
             ], 200, [], JSON_UNESCAPED_UNICODE);

@@ -41,16 +41,26 @@ class RequestFunctionService
     }
 
     /**
-     * リクエスト機能一覧の取得
+     * 機能リクエスト一覧の取得
+     *
+     * @return object 機能リクエスト一覧
+     */
+    public function getAllRequestFunctions(): object
+    {
+        return $this->request_function->getAllRequestFunctions();
+    }
+
+    /**
+     * 公開状態の機能リクエスト一覧の取得
      *
      * @param int $listener_id リスナーID
      * @return array リクエスト機能一覧
      */
-    public function getAllRequestFunctions(int $listener_id = 0): array
+    public function getAllOpenRequestFunctions(int $listener_id = 0): array
     {
         $request_functions_array = [];
 
-        $request_functions = $this->request_function->getAllRequestFunctions();
+        $request_functions = $this->request_function->getAllOpenRequestFunctions();
         $request_functions->each(function ($request_function) use (&$request_functions_array, $listener_id) {
             array_push($request_functions_array, [
                 'id' => $request_function->id,
