@@ -35,6 +35,23 @@ class RequestFunctionRequestTest extends TestCase
 
     /**
      * @test
+     * App\Http\Controllers\Admin\RequestFunctionRequestController@show
+     */
+    public function 個別のリクエスト機能申請を取得できる()
+    {
+        $this->postJson('api/request_function_requests', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true, 'listener_id' => $this->listener->id]);
+
+        $request_function_request = RequestFunctionRequest::first();
+
+        $response = $this->getJson('api/admin/request_function_requests/' . $request_function_request->id);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト機能1'])
+            ->assertJsonFragment(['detail' => str_repeat('いい機能ですね', 100)]);
+    }
+
+    /**
+     * @test
      * App\Http\Controllers\Listener\RequestFunctionRequestController@store
      */
     public function リクエスト機能申請が作成できる()
