@@ -111,4 +111,24 @@ class RequestFunctionRequestTest extends TestCase
 
         $this->assertEquals(0, RequestFunctionRequest::count());
     }
+
+    /**
+     * @test
+     * App\Http\Controllers\Admin\RequestFunctionRequestController@close
+     */
+    public function 機能リクエスト申請を非公開にできる()
+    {
+        $this->postJson('api/request_function_requests', ['name' => 'テスト機能', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
+        $request_function_request = RequestFunctionRequest::first();
+
+        $response = $this->postJson('api/admin/request_function_requests/close/' . $request_function_request->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => '機能リクエスト申請を非公開にしました。'
+            ]);
+
+        $request_function_request = RequestFunctionRequest::first();
+        $this->assertEquals(false, $request_function_request->is_open);
+    }
 }

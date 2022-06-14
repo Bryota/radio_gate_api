@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('request_function_listener_submits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listener_id')->nullOnDelete('cascade')->constrained('listeners');
-            $table->foreignId('request_function_id')->nullOnDelete('cascade')->constrained('request_functions');
+            $table->foreignId('listener_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('request_function_id')->constrained()->cascadeOnDelete();
             $table->integer('point');
             $table->unique(['listener_id', 'request_function_id'], 'request_function_listener_id');
             $table->timestamps();

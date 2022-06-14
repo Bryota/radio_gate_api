@@ -71,4 +71,15 @@ class RequestFunctionRequestService
     {
         return $this->request_function_request->storeRequestFunctionRequest($request, $listener_id);
     }
+
+    /**
+     * リクエスト機能申請を非公開にする
+     * 
+     * @param int $request_function_request_id リクエスト機能申請ID
+     * @return bool 非公開にできたかどうか
+     */
+    public function closeRequestFunctionRequest(int $request_function_request_id): bool
+    {
+        return $this->request_function_request->closeRequestFunctionRequest($request_function_request_id);
+    }
 }
