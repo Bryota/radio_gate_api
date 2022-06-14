@@ -77,4 +77,22 @@ class RequestFunctionRequestRepository
             'detail' => $request->detail
         ]);
     }
+
+    /**
+     * リクエスト機能申請を非公開にする
+     * 
+     * @param int $request_function_request_id リクエスト機能申請ID
+     * @return bool 非公開にできたかどうか
+     */
+    public function closeRequestFunctionRequest(int $request_function_request_id): bool
+    {
+        $request_function_request = $this->request_function_request::where('id', $request_function_request_id)
+            ->first();
+        if ($request_function_request) {
+            $request_function_request->is_open = false;
+            return $request_function_request->save();
+        } else {
+            return false;
+        }
+    }
 }

@@ -76,4 +76,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/radio_station_name/{id}', [AdminRadioStationController::class, 'getRadioStationName']);
     Route::apiResource('request_functions', AdminRequestFunctionController::class);
     Route::apiResource('request_function_requests', AdminRequestFunctionRequestController::class, ['only' => ['index', 'show']]);
+    Route::post('/request_function_requests/close/{id}', [AdminRequestFunctionRequestController::class, 'close']);
 });
