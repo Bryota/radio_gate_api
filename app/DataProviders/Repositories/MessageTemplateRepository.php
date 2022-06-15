@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\MessageTemplate;
 use App\Http\Requests\MessageTemplateRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * 投稿テンプレートリポジトリクラス
@@ -43,11 +44,11 @@ class MessageTemplateRepository
      * リスナーに紐づいた投稿テンプレート一覧の取得
      * 
      * @param int $listener_id リスナーID
-     * @return object 投稿テンプレート一覧
+     * @return LengthAwarePaginator 投稿テンプレート一覧
      */
-    public function getAllMessageTemplates(int $listener_id): object
+    public function getAllMessageTemplates(int $listener_id): LengthAwarePaginator
     {
-        return $this->message_template::ListenerIdEqual($listener_id)->get();
+        return $this->message_template::ListenerIdEqual($listener_id)->paginate(8);;
     }
 
     /**

@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\ProgramCorner;
 use App\Http\Requests\ProgramCornerRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * 番組コーナーリポジトリクラス
@@ -43,11 +44,11 @@ class ProgramCornerRepository
      * ラジオ番組に紐づいた番組コーナー一覧取得
      * 
      * @param int $radio_program_id ラジオ番組ID
-     * @return object 番組コーナー一覧
+     * @return LengthAwarePaginator 番組コーナー一覧
      */
-    public function getAllProgramCorners(int $radio_program_id): object
+    public function getAllProgramCorners(int $radio_program_id): LengthAwarePaginator
     {
-        return $this->program_corner::where('radio_program_id', $radio_program_id)->get();
+        return $this->program_corner::where('radio_program_id', $radio_program_id)->paginate(8);
     }
 
     /**

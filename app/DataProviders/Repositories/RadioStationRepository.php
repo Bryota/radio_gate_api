@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\RadioStation;
 use App\Http\Requests\RadioStationRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * ラジオ局リポジトリクラス
@@ -42,11 +43,11 @@ class RadioStationRepository
     /**
      * ラジオ局一覧取得
      * 
-     * @return object ラジオ局一覧
+     * @return LengthAwarePaginator ラジオ局一覧
      */
-    public function getAllRadioStations(): object
+    public function getAllRadioStations(): LengthAwarePaginator
     {
-        return $this->radio_station::get();
+        return $this->radio_station::paginate(8);
     }
 
     /**

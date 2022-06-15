@@ -30,7 +30,7 @@ class RequestFunctionRequestTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト機能1'])
             ->assertJsonFragment(['name' => 'テスト機能2'])
-            ->assertJsonMissing(['detail' => str_repeat('いい機能ですね', 100)]);
+            ->assertJsonFragment(['detail' => str_repeat('いい機能ですね', 100)]);
     }
 
     /**

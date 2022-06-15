@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\ListenerMyProgram;
 use App\Http\Requests\ListenerMyProgramRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * マイ番組リポジトリクラス
@@ -43,11 +44,11 @@ class ListenerMyProgramRepository
      * リスナーに紐づいたマイ番組一覧の取得
      * 
      * @param int $listener_id リスナーID
-     * @return object マイ番組一覧
+     * @return LengthAwarePaginator マイ番組一覧
      */
-    public function getAllListenerMyPrograms(int $listener_id): object
+    public function getAllListenerMyPrograms(int $listener_id): LengthAwarePaginator
     {
-        return $this->listener_my_program::ListenerIdEqual($listener_id)->get();
+        return $this->listener_my_program::ListenerIdEqual($listener_id)->paginate(8);
     }
 
     /**

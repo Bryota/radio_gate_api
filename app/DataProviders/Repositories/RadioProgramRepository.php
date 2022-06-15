@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\RadioProgram;
 use App\Http\Requests\RadioProgramRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * ラジオ番組リポジトリクラス
@@ -43,11 +44,11 @@ class RadioProgramRepository
      * ラジオ局に紐づいたラジオ番組一覧取得
      * 
      * @param int $radio_station_id ラジオ局ID
-     * @return object ラジオ番組一覧
+     * @return LengthAwarePaginator ラジオ番組一覧
      */
-    public function getAllRadioPrograms(int $radio_station_id): object
+    public function getAllRadioPrograms(int $radio_station_id): LengthAwarePaginator
     {
-        return $this->radio_program::where('radio_station_id', $radio_station_id)->get();
+        return $this->radio_program::where('radio_station_id', $radio_station_id)->paginate(8);
     }
 
     /**
