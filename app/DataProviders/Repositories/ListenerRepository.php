@@ -19,6 +19,7 @@ use App\Http\Requests\ListenerMessageRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * リスナーリポジトリクラス
@@ -94,11 +95,11 @@ class ListenerRepository
     /**
      * リスナー一覧取得
      * 
-     * @return object リスナー一覧データ
+     * @return LengthAwarePaginator リスナー一覧データ
      */
-    public function getAllListeners(): object
+    public function getAllListeners(): LengthAwarePaginator
     {
-        return $this->listener::get();
+        return $this->listener::paginate(8);;
     }
 
     /**
@@ -164,11 +165,11 @@ class ListenerRepository
      * リスナーに紐づいた投稿一覧の取得
      * 
      * @param int $listener_id リスナーID
-     * @return object 投稿一覧
+     * @return LengthAwarePaginator 投稿一覧
      */
-    public function getAllListenerMessages(int $listener_id): object
+    public function getAllListenerMessages(int $listener_id): LengthAwarePaginator
     {
-        $messages = $this->listener_message::ListenerIdEqual($listener_id)->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])->get();
+        $messages = $this->listener_message::ListenerIdEqual($listener_id)->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])->paginate(8);
         return $messages;
     }
 
@@ -197,7 +198,7 @@ class ListenerRepository
     {
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->where('posted_at', null)
-            ->get();
+            ->paginate(8);;
     }
 
     /**

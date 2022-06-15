@@ -16,7 +16,7 @@ use App\DataProviders\Models\RequestFunction;
 use App\DataProviders\Models\RequestFunctionListenerSubmit;
 use App\Http\Requests\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionListenerSubmitRequest;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * リクエスト機能リポジトリクラス
@@ -51,21 +51,21 @@ class RequestFunctionRepository
     /**
      * 機能リクエスト一覧の取得
      *
-     * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunction> リクエスト機能一覧
+     * @return LengthAwarePaginator リクエスト機能一覧
      */
-    public function getAllRequestFunctions(): Collection
+    public function getAllRequestFunctions(): LengthAwarePaginator
     {
-        return $this->request_function::get(['id', 'name', 'point']);
+        return $this->request_function::paginate(8);
     }
 
     /**
      * 公開状態の機能リクエスト一覧の取得
      *
-     * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunction> リクエスト機能一覧
+     * @return LengthAwarePaginator リクエスト機能一覧
      */
-    public function getAllOpenRequestFunctions(): Collection
+    public function getAllOpenRequestFunctions(): LengthAwarePaginator
     {
-        return $this->request_function::where('is_open', true)->get(['id', 'name', 'point']);
+        return $this->request_function::where('is_open', true)->paginate(8);
     }
 
     /**

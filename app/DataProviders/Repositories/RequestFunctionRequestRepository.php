@@ -14,7 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\RequestFunctionRequest;
 use App\Http\Requests\RequestFunctionRequestRequest;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * リクエスト機能リポジトリクラス
@@ -43,11 +43,11 @@ class RequestFunctionRequestRepository
     /**
      * 機能リクエスト申請一覧の取得
      *
-     * @return \Illuminate\Database\Eloquent\Collection<\App\DataProviders\Models\RequestFunctionRequest> 機能リクエスト申請一覧
+     * @return LengthAwarePaginator 機能リクエスト申請一覧
      */
-    public function getAllRequestFunctionRequests(): Collection
+    public function getAllRequestFunctionRequests(): LengthAwarePaginator
     {
-        return $this->request_function_request::where('is_open', true)->get(['id', 'name', 'created_at']);
+        return $this->request_function_request::where('is_open', true)->paginate(8);
     }
 
     /**
