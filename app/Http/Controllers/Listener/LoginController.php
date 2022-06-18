@@ -69,7 +69,6 @@ class LoginController extends Controller
      */
     public function authorized()
     {
-        logger('err', ['err', $this->request->user()]);
         if ($this->request->user()) {
             return response()->json([
                 'status' => 'success'
