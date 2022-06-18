@@ -165,6 +165,7 @@ class ListenerMyProgramController extends Controller
      */
     private function checkUserId()
     {
+        logger('my_program', ['my_program', $this->request->user()]);
         if (!$this->request->user()) {
             return response()->json([
                 'message' => 'ログインしてください。'
