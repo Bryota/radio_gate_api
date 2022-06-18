@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 class LoginController extends Controller
 {
     /**
+     * @var Request $request Requestインスタンス
+     */
+    private $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
      * リスナーログイン
      *
      * @param LoginRequest $request リスナーログインリクエストデータ
@@ -50,5 +60,23 @@ class LoginController extends Controller
         return response()->json([
             'message' => 'ログアウトに成功しました。'
         ], 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * ログインチェック
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authorized()
+    {
+        if ($this->request->user()) {
+            return response()->json([
+                'status' => 'success'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'status' => 'failed'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 }

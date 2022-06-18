@@ -45,6 +45,7 @@ Route::get('/test', function () {
 Route::post('/forgot_password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('password/reset/{token}', [PasswordResetController::class, 'resetPassword']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/authorized', [LoginController::class, 'authorized'])->name('authorized');
     Route::get('/listeners', [ListenerController::class, 'index']);
     Route::get('/listener', [ListenerController::class, 'show']);
     Route::put('/listener', [ListenerController::class, 'update']);
