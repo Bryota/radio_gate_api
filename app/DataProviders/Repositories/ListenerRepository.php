@@ -169,8 +169,10 @@ class ListenerRepository
      */
     public function getAllListenerMessages(int $listener_id): LengthAwarePaginator
     {
-        $messages = $this->listener_message::ListenerIdEqual($listener_id)->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])->paginate(8);
-        return $messages;
+        return $this->listener_message::ListenerIdEqual($listener_id)
+            ->whereNotNull('posted_at')
+            ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
+            ->paginate(8);
     }
 
     /**
@@ -198,6 +200,7 @@ class ListenerRepository
     {
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->where('posted_at', null)
+            ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
             ->paginate(8);;
     }
 
