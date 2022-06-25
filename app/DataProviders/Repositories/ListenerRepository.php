@@ -219,4 +219,15 @@ class ListenerRepository
             return false;
         }
     }
+
+    /**
+     * 同じメールアドレスが保存されていないかどうか
+     *
+     * @param string $email メールアドレス
+     * @return bool|null 同じメールアドレスが保存されていないかどうか
+     */
+    public function isUniqueEmail(string $email)
+    {
+        return $this->listener::where('email', $email)->doesntExist();
+    }
 }

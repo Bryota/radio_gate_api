@@ -75,16 +75,7 @@ class ListenerMyProgramTest extends TestCase
                 ]
             ]);
 
-        $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
-        $response2 = $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
-        $response2->assertStatus(422)
-            ->assertJsonValidationErrors([
-                'email' => [
-                    '番組メールアドレスは既に保存されています。'
-                ]
-            ]);
-
-        $this->assertEquals(1, ListenerMyProgram::count());
+        $this->assertEquals(0, ListenerMyProgram::count());
     }
 
     /**
@@ -192,14 +183,6 @@ class ListenerMyProgramTest extends TestCase
             ->assertJsonValidationErrors([
                 'email' => [
                     '番組メールアドレスを入力してください。'
-                ]
-            ]);
-
-        $response2 = $this->putJson('api/listener_my_programs/' . $listener_my_program->id, ['listener_id' => $this->listener->id, 'name' => 'テストマイ番組1', 'email' => 'test2@example.com']);
-        $response2->assertStatus(422)
-            ->assertJsonValidationErrors([
-                'email' => [
-                    '番組メールアドレスは既に保存されています。'
                 ]
             ]);
 
