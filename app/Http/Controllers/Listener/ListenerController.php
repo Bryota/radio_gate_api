@@ -125,6 +125,27 @@ class ListenerController extends Controller
         }
     }
 
+    /**
+     * 同じメールアドレスが保存されていないかどうか
+     * 
+     * @param \Illuminate\Http\Request $request リクエストデータ
+     * @return \Illuminate\Http\JsonResponse|int
+     */
+    public function isUniqueEmail(Request $request)
+    {
+
+        try {
+            $is_unique_email = $this->listener->isUniqueEmail(strval($request->email));
+            return response()->json([
+                'is_unique_email' => $is_unique_email
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'メールアドレスの確認に失敗しました。'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
     // TODO: どっかで共通化したい
     /**
      * リスナーIDが取得できるかどうかの確認

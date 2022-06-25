@@ -26,7 +26,7 @@ class ListenerMyProgramRequest extends TypeCastedFormRequest
     {
         return [
             'name' => 'required|max: 150',
-            'email' => 'required|max: 150|unique:listener_my_programs',
+            'email' => 'required|max: 150',
         ];
     }
 
@@ -37,7 +37,6 @@ class ListenerMyProgramRequest extends TypeCastedFormRequest
             'name.max' => '番組名は150文字以下で入力してください。',
             'email.required' => '番組メールアドレスを入力してください。',
             'email.max' => '番組メールアドレスは150文字以下で入力してください。',
-            'email.unique' => '番組メールアドレスは既に保存されています。',
         ];
     }
 

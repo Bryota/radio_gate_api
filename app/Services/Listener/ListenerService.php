@@ -305,4 +305,15 @@ class ListenerService
     {
         return $this->listener->deleteListener($listener_id);
     }
+
+    /**
+     * 同じメールアドレスが保存されていないかどうか
+     *
+     * @param string $email メールアドレス
+     * @return bool|null 同じメールアドレスが保存されていないかどうか
+     */
+    public function isUniqueEmail(string $email)
+    {
+        return $this->listener->isUniqueEmail($email);
+    }
 }
