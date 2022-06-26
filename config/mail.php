@@ -41,6 +41,7 @@ return [
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
+            'admin_email' => env('ADMIN_EMAIL'),
             'timeout' => null,
         ],
 
@@ -77,8 +78,6 @@ return [
                 'log',
             ],
         ],
-
-        'admin_email' => env('ADMIN_EMAIL')
     ],
 
     /*

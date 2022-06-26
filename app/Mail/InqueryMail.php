@@ -12,33 +12,33 @@ class InqueryMail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var string $email メールアドレス
+     * @var string|null $email メールアドレス
      */
-    private string $email;
+    private ?string $email;
 
     /**
-     * @var string $type 問い合わせ種別
+     * @var string|null $type 問い合わせ種別
      */
-    private string $type;
+    private ?string $type;
 
     /**
-     * @var string $content 詳細
+     * @var string|null $content 詳細
      */
-    private string $content;
+    private ?string $content;
 
     /**
      * Create a new message instance.
      *
-     * @param string $email メールアドレス
-     * @param string $type 問い合わせ種別
-     * @param string $content 詳細
+     * @param string|null $email メールアドレス
+     * @param string|null $type 問い合わせ種別
+     * @param string|null $content 詳細
      * 
      * @return void
      */
     public function __construct(
-        string $email,
-        string $type,
-        string $content,
+        string $email = null,
+        string $type = null,
+        string $content = null,
     ) {
         $this->email = $email;
         $this->type = $type;

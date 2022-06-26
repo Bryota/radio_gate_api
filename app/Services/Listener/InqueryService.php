@@ -49,7 +49,7 @@ class InqueryService
     public function sendInquery(InqueryRequest $request)
     {
         // TODO: Mailファザードはどこかで怒られるかも
-        Mail::to(config('mail.mailers.admin_email'))->send($this->inquery->getSelf(
+        Mail::to(config('mail.mailers.smtp.admin_email'))->send($this->inquery->getSelf(
             $request->email,
             $request->type,
             $request->content
