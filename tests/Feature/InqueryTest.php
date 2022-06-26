@@ -47,6 +47,111 @@ class InqueryTest extends TestCase
      * @test
      * App\Http\Controllers\Listener\InqueryController@send
      */
+    public function お問い合わせ送信に失敗する（メールアドレス関連）()
+    {
+        Mail::fake();
+
+        $response1 = $this->postJson('api/inquery/send', [
+            'email' => '',
+            'type' => '機能に関する質問',
+            'content' => str_repeat('test', 10),
+        ]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスを入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/inquery/send', [
+            'email' => 'testtest',
+            'type' => '機能に関する質問',
+            'content' => str_repeat('test', 10),
+        ]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'メールアドレスは正しい形式で入力してください。'
+                ]
+            ]);
+
+        Mail::assertNotSent(InqueryMail::class);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Listener\InqueryController@send
+     */
+    public function お問い合わせ送信に失敗する（問い合わせ種別関連）()
+    {
+        Mail::fake();
+
+        $response1 = $this->postJson('api/inquery/send', [
+            'email' => 'test@example.com',
+            'type' => '',
+            'content' => str_repeat('test', 10),
+        ]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'type' => [
+                    '問い合わせ種別を入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/inquery/send', [
+            'email' => 'test@example.com',
+            'type' => str_repeat('test', 151),
+            'content' => str_repeat('test', 10),
+        ]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'type' => [
+                    '問い合わせ種別は150文字以内で入力してください。'
+                ]
+            ]);
+
+        Mail::assertNotSent(InqueryMail::class);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Listener\InqueryController@send
+     */
+    public function お問い合わせ送信に失敗する（詳細関連）()
+    {
+        Mail::fake();
+
+        $response1 = $this->postJson('api/inquery/send', [
+            'email' => 'test@example.com',
+            'type' => '機能に関する質問',
+            'content' => '',
+        ]);
+        $response1->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'content' => [
+                    '詳細を入力してください。'
+                ]
+            ]);
+
+        $response2 = $this->postJson('api/inquery/send', [
+            'email' => 'test@example.com',
+            'type' => '機能に関する質問',
+            'content' => str_repeat('test', 1501),
+        ]);
+        $response2->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'content' => [
+                    '詳細は1500文字以内で入力してください。'
+                ]
+            ]);
+
+        Mail::assertNotSent(InqueryMail::class);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Listener\InqueryController@send
+     */
     public function お問い合わせメールの本文チェック()
     {
         $mailable = new InqueryMail(
