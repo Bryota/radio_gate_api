@@ -77,6 +77,8 @@ return [
                 'log',
             ],
         ],
+
+        'admin_email' => env('ADMIN_EMAIL')
     ],
 
     /*
