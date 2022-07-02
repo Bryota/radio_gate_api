@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Listener;
 
 use App\Http\Requests\ListenerRequest;
 use App\Services\Listener\ListenerService;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -27,13 +28,23 @@ class RegisterController extends Controller
     {
 
         try {
-            $listener = $this->listener->CreateListener($request);
-            $request->session()->regenerate();
+            $this->listener->CreateListener($request);
 
-            return response()->json([
-                'message' => 'アカウントが作成されました。',
-                'listener' => $listener
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            $credentials = [
+                'email' => $request->email,
+                'password' => $request->password
+            ];
+            // TODO: 失敗時の処理リファクタ
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return response()->json([
+                    'message' => 'アカウントが作成されました。',
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json([
+                    'message' => 'アカウントの作成に失敗しました。',
+                ], 400, [], JSON_UNESCAPED_UNICODE);
+            }
         } catch (\Throwable $e) {
             return response()->json([
                 'message' => 'アカウントの作成に失敗しました。',
