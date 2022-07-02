@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Route;
 */
 // リスナー
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
+Route::get('/listener/is_unique_email', [ListenerController::class, 'isUniqueEmail']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // TODO: パスワード再設定用の画面は別で設定する
@@ -51,7 +52,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listeners', [ListenerController::class, 'index']);
     Route::get('/listener', [ListenerController::class, 'show']);
     Route::put('/listener', [ListenerController::class, 'update']);
-    Route::post('/listener/is_unique_email', [ListenerController::class, 'isUniqueEmail']);
     Route::delete('/listener', [ListenerController::class, 'destroy']);
     Route::apiResource('radio_stations', RadioStationController::class);
     Route::get('/radio_station_name/{id}', [RadioStationController::class, 'getRadioStationName']);
