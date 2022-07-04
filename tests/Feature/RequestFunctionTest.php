@@ -125,7 +125,7 @@ class RequestFunctionTest extends TestCase
         $request_function = RequestFunction::first();
         $this->assertEquals(0, $request_function->point);
 
-        $response = $this->postJson('api/request_functions/submit_point', ['listener_id' => $this->listener->id, 'request_function_id' => $request_function->id, 'point' => 1]);
+        $response = $this->postJson('api/request_functions/' . $request_function->id . '/point', ['point' => 1]);
 
         $response->assertStatus(201)
             ->assertJson([

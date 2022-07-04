@@ -427,7 +427,7 @@ class ListenerMessageTest extends TestCase
      */
     public function 投稿を保存できる()
     {
-        $response = $this->postJson('api/listener_messages/save', [
+        $response = $this->postJson('api/saved_messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
@@ -467,7 +467,7 @@ class ListenerMessageTest extends TestCase
             'listener_info_flag' => true,
             'tel_flag' => true
         ]);
-        $this->postJson('api/listener_messages/save', [
+        $this->postJson('api/saved_messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた1',
@@ -476,7 +476,7 @@ class ListenerMessageTest extends TestCase
             'listener_info_flag' => true,
             'tel_flag' => true
         ]);
-        $this->postJson('api/listener_messages/save', [
+        $this->postJson('api/saved_messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた2',

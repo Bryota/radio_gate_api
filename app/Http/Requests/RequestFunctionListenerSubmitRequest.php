@@ -25,7 +25,6 @@ class RequestFunctionListenerSubmitRequest extends TypeCastedFormRequest
     public function rules()
     {
         return [
-            'request_function_id' => 'required',
             'point' => 'required|integer',
         ];
     }

@@ -26,7 +26,7 @@ class InqueryTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/inquery/send', [
+        $response = $this->postJson('api/inquery', [
             'email' => 'test@example.com',
             'type' => '機能に関する質問',
             'content' => str_repeat('test', 10),
@@ -51,7 +51,7 @@ class InqueryTest extends TestCase
     {
         Mail::fake();
 
-        $response1 = $this->postJson('api/inquery/send', [
+        $response1 = $this->postJson('api/inquery', [
             'email' => '',
             'type' => '機能に関する質問',
             'content' => str_repeat('test', 10),
@@ -63,7 +63,7 @@ class InqueryTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/inquery/send', [
+        $response2 = $this->postJson('api/inquery', [
             'email' => 'testtest',
             'type' => '機能に関する質問',
             'content' => str_repeat('test', 10),
@@ -86,7 +86,7 @@ class InqueryTest extends TestCase
     {
         Mail::fake();
 
-        $response1 = $this->postJson('api/inquery/send', [
+        $response1 = $this->postJson('api/inquery', [
             'email' => 'test@example.com',
             'type' => '',
             'content' => str_repeat('test', 10),
@@ -98,7 +98,7 @@ class InqueryTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/inquery/send', [
+        $response2 = $this->postJson('api/inquery', [
             'email' => 'test@example.com',
             'type' => str_repeat('test', 151),
             'content' => str_repeat('test', 10),
@@ -121,7 +121,7 @@ class InqueryTest extends TestCase
     {
         Mail::fake();
 
-        $response1 = $this->postJson('api/inquery/send', [
+        $response1 = $this->postJson('api/inquery', [
             'email' => 'test@example.com',
             'type' => '機能に関する質問',
             'content' => '',
@@ -133,7 +133,7 @@ class InqueryTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/inquery/send', [
+        $response2 = $this->postJson('api/inquery', [
             'email' => 'test@example.com',
             'type' => '機能に関する質問',
             'content' => str_repeat('test', 1501),

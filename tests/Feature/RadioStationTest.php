@@ -174,7 +174,7 @@ class RadioStationTest extends TestCase
         $this->postJson('api/radio_stations', ['name' => 'テスト局1']);
         $radio_station = RadioStation::first();
 
-        $response = $this->getJson('api/radio_station_name/' . $radio_station->id);
+        $response = $this->getJson('api/radio_station/' . $radio_station->id . '/name');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['radio_station_name' => 'テスト局1']);
