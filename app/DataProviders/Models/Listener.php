@@ -2,13 +2,13 @@
 
 namespace App\DataProviders\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Notifications\ResetPasswordNotification;
 
 class Listener extends Authenticatable
 {
@@ -105,5 +105,14 @@ class Listener extends Authenticatable
     public function scopeListenerIdEqual(Builder $query, int $listener_id): Builder
     {
         return $query->where('id', $listener_id);
+    }
+
+    /**
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
