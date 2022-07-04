@@ -26,7 +26,7 @@ class DeveloperContactTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/developer_contact/send', [
+        $response = $this->postJson('api/developer-contact', [
             'email' => 'test@example.com',
             'github' => 'https://example.com',
             'languages' => 'php',
@@ -52,7 +52,7 @@ class DeveloperContactTest extends TestCase
     {
         Mail::fake();
 
-        $response1 = $this->postJson('api/developer_contact/send', [
+        $response1 = $this->postJson('api/developer-contact', [
             'email' => '',
             'github' => 'https://example.com',
             'languages' => 'php',
@@ -65,7 +65,7 @@ class DeveloperContactTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/developer_contact/send', [
+        $response2 = $this->postJson('api/developer-contact', [
             'email' => 'testtest',
             'github' => 'https://example.com',
             'content' => str_repeat('test', 10),
@@ -88,7 +88,7 @@ class DeveloperContactTest extends TestCase
     {
         Mail::fake();
 
-        $response2 = $this->postJson('api/developer_contact/send', [
+        $response2 = $this->postJson('api/developer-contact', [
             'email' => 'test@example.com',
             'github' => str_repeat('test', 101),
             'languages' => 'php',
@@ -112,7 +112,7 @@ class DeveloperContactTest extends TestCase
     {
         Mail::fake();
 
-        $response2 = $this->postJson('api/developer_contact/send', [
+        $response2 = $this->postJson('api/developer-contact', [
             'email' => 'test@example.com',
             'github' => 'https://example.com',
             'languages' => str_repeat('test', 101),
@@ -136,7 +136,7 @@ class DeveloperContactTest extends TestCase
     {
         Mail::fake();
 
-        $response2 = $this->postJson('api/developer_contact/send', [
+        $response2 = $this->postJson('api/developer-contact', [
             'email' => 'test@example.com',
             'github' => 'https://example.com',
             'languages' => 'php',

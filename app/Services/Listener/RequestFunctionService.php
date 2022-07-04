@@ -110,13 +110,14 @@ class RequestFunctionService
     /**
      * リクエスト機能リスナー投票
      * 
+     * @param int $id 機能リクエストID
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
      * @param int $listener_id リスナーID
      * @return void
      */
-    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $listener_id)
+    public function submitListenerPoint(int $id, RequestFunctionListenerSubmitRequest $request, int $listener_id)
     {
-        $this->request_function->submitListenerPoint($request, $listener_id);
+        $this->request_function->submitListenerPoint($id, $request, $listener_id);
     }
 
     /**

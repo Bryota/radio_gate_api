@@ -22,12 +22,12 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能一覧を取得できる()
     {
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => true]);
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能3', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => false]);
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能4', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => false]);
+        $this->postJson('api/admin/request-functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
+        $this->postJson('api/admin/request-functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => true]);
+        $this->postJson('api/admin/request-functions', ['name' => 'テスト機能3', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => false]);
+        $this->postJson('api/admin/request-functions', ['name' => 'テスト機能4', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => false]);
 
-        $response = $this->getJson('api/request_functions');
+        $response = $this->getJson('api/request-functions');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト機能1'])
@@ -43,11 +43,11 @@ class RequestFunctionTest extends TestCase
      */
     public function 個別のリクエスト機能を取得できる()
     {
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
+        $this->postJson('api/admin/request-functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $request_function = RequestFunction::first();
 
-        $response = $this->getJson('api/request_functions/' . $request_function->id);
+        $response = $this->getJson('api/request-functions/' . $request_function->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト機能1'])
@@ -60,7 +60,7 @@ class RequestFunctionTest extends TestCase
      */
     public function 管理者がリクエスト機能が作成できる()
     {
-        $response = $this->postJson('api/admin/request_functions', ['name' => 'テスト機能', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
+        $response = $this->postJson('api/admin/request-functions', ['name' => 'テスト機能', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -78,7 +78,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能に失敗する（名前関連）()
     {
-        $response1 = $this->postJson('api/admin/request_functions', ['name' => '', 'detail' => 'テスト機能ですね', 'is_open' => true]);
+        $response1 = $this->postJson('api/admin/request-functions', ['name' => '', 'detail' => 'テスト機能ですね', 'is_open' => true]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -86,7 +86,7 @@ class RequestFunctionTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/admin/request_functions', ['name' => str_repeat('あ', 151), 'detail' => 'テスト機能ですね', 'is_open' => true]);
+        $response2 = $this->postJson('api/admin/request-functions', ['name' => str_repeat('あ', 151), 'detail' => 'テスト機能ですね', 'is_open' => true]);
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -103,7 +103,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能作成に失敗する（本文関連）()
     {
-        $response1 = $this->postJson('api/admin/request_functions', ['name' => 'テスト機能', 'detail' => '', 'is_open' => true]);
+        $response1 = $this->postJson('api/admin/request-functions', ['name' => 'テスト機能', 'detail' => '', 'is_open' => true]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'detail' => [
@@ -120,12 +120,12 @@ class RequestFunctionTest extends TestCase
      */
     public function リスナーがリクエスト機能に投票できる()
     {
-        $this->postJson('api/admin/request_functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
+        $this->postJson('api/admin/request-functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $request_function = RequestFunction::first();
         $this->assertEquals(0, $request_function->point);
 
-        $response = $this->postJson('api/request_functions/submit_point', ['listener_id' => $this->listener->id, 'request_function_id' => $request_function->id, 'point' => 1]);
+        $response = $this->postJson('api/request-functions/' . $request_function->id . '/point', ['point' => 1]);
 
         $response->assertStatus(201)
             ->assertJson([

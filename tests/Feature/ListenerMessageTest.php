@@ -23,16 +23,16 @@ class ListenerMessageTest extends TestCase
 
         $this->listener = $this->loginAsListener();
 
-        $this->postJson('api/radio_stations', ['name' => 'テスト局']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局']);
         $this->radio_station = RadioStation::first();
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
         $this->radio_program = RadioProgram::first();
-        $this->postJson('api/program_corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
+        $this->postJson('api/program-corners', ['radio_program_id' => $this->radio_program->id, 'name' => '死んでもやめんじゃねーぞ']);
         $this->program_corner = ProgramCorner::first();
 
-        $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
+        $this->postJson('api/listener-my-programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $this->listener_my_program = ListenerMyProgram::first();
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $this->my_program_corner = MyProgramCorner::first();
     }
 
@@ -44,7 +44,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/listener_messages', [
+        $response = $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
@@ -81,7 +81,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/listener_messages', [
+        $response = $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
@@ -118,7 +118,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/listener_messages', [
+        $response = $this->postJson('api/listener-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'my_program_corner_id' => $this->my_program_corner->id,
             'listener_id' => $this->listener->id,
@@ -156,7 +156,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/listener_messages', [
+        $response = $this->postJson('api/listener-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
@@ -191,7 +191,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('api/listener_messages', [
+        $response = $this->postJson('api/listener-messages', [
             'my_program_corner_id' => $this->my_program_corner->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
@@ -219,7 +219,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response1 = $this->postJson('api/listener_messages', [
+        $response1 = $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
@@ -234,7 +234,7 @@ class ListenerMessageTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/listener_messages', [
+        $response2 = $this->postJson('api/listener-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'content' => 'こんにちは。こんばんは。',
@@ -260,7 +260,7 @@ class ListenerMessageTest extends TestCase
     {
         Mail::fake();
 
-        $response1 = $this->postJson('api/listener_messages', [
+        $response1 = $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
@@ -275,7 +275,7 @@ class ListenerMessageTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/listener_messages', [
+        $response2 = $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
@@ -288,7 +288,7 @@ class ListenerMessageTest extends TestCase
                 ]
             ]);
 
-        $response3 = $this->postJson('api/listener_messages', [
+        $response3 = $this->postJson('api/listener-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'my_program_corner_id' => $this->my_program_corner->id,
             'listener_id' => $this->listener->id,
@@ -301,7 +301,7 @@ class ListenerMessageTest extends TestCase
                 ]
             ]);
 
-        $response4 = $this->postJson('api/listener_messages', [
+        $response4 = $this->postJson('api/listener-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
@@ -366,7 +366,7 @@ class ListenerMessageTest extends TestCase
     public function 投稿一覧を取得できる()
     {
         Mail::fake();
-        $this->postJson('api/listener_messages', [
+        $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
@@ -374,7 +374,7 @@ class ListenerMessageTest extends TestCase
             'listener_info_flag' => true,
             'tel_flag' => true
         ]);
-        $this->postJson('api/listener_messages', [
+        $this->postJson('api/listener-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
@@ -385,7 +385,7 @@ class ListenerMessageTest extends TestCase
         ]);
 
 
-        $response = $this->getJson('api/listener_messages');
+        $response = $this->getJson('api/listener-messages');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['content' => 'こんにちは。こんばんは。'])
@@ -401,7 +401,7 @@ class ListenerMessageTest extends TestCase
     public function 個別の投稿テンプレートを取得できる()
     {
         Mail::fake();
-        $this->postJson('api/listener_messages', [
+        $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた',
@@ -413,7 +413,7 @@ class ListenerMessageTest extends TestCase
         $listener_message = ListenerMessage::first();
 
 
-        $response = $this->getJson('api/listener_messages/' . $listener_message->id);
+        $response = $this->getJson('api/listener-messages/' . $listener_message->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['content' => 'こんにちは。こんばんは。'])
@@ -427,7 +427,7 @@ class ListenerMessageTest extends TestCase
      */
     public function 投稿を保存できる()
     {
-        $response = $this->postJson('api/listener_messages/save', [
+        $response = $this->postJson('api/saved-messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
@@ -459,7 +459,7 @@ class ListenerMessageTest extends TestCase
     public function 一時保存してある投稿一覧を取得できる()
     {
         Mail::fake();
-        $this->postJson('api/listener_messages', [
+        $this->postJson('api/listener-messages', [
             'radio_program_id' => $this->radio_program->id,
             'program_corner_id' => $this->program_corner->id,
             'listener_id' => $this->listener->id,
@@ -467,7 +467,7 @@ class ListenerMessageTest extends TestCase
             'listener_info_flag' => true,
             'tel_flag' => true
         ]);
-        $this->postJson('api/listener_messages/save', [
+        $this->postJson('api/saved-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた1',
@@ -476,7 +476,7 @@ class ListenerMessageTest extends TestCase
             'listener_info_flag' => true,
             'tel_flag' => true
         ]);
-        $this->postJson('api/listener_messages/save', [
+        $this->postJson('api/saved-messages', [
             'listener_my_program_id' => $this->listener_my_program->id,
             'listener_id' => $this->listener->id,
             'subject' => 'ふつおた2',
@@ -487,7 +487,7 @@ class ListenerMessageTest extends TestCase
         ]);
 
 
-        $response = $this->getJson('api/saved_messages');
+        $response = $this->getJson('api/saved-messages');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['content' => 'こんにちは1'])

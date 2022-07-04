@@ -120,18 +120,19 @@ class RequestFunctionRepository
     /**
      * リクエスト機能リスナー投票
      * 
+     * @param int $id 機能リクエストID
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
      * @param int $listener_id リスナーID
      * @return void
      */
-    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $listener_id)
+    public function submitListenerPoint(int $id, RequestFunctionListenerSubmitRequest $request, int $listener_id)
     {
         $this->request_function_listener_submit::create([
             'listener_id' => $listener_id,
-            'request_function_id' => $request->request_function_id,
+            'request_function_id' => $id,
             'point' => $request->integer('point')
         ]);
-        $request_function = $this->getSingleRequestFunction($request->integer('request_function_id'));
+        $request_function = $this->getSingleRequestFunction($id);
         if ($request_function) {
             $request_function->point = intval($request_function->point) + $request->integer('point');
             $request_function->save();

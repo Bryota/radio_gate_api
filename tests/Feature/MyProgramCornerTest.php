@@ -18,7 +18,7 @@ class MyProgramCornerTest extends TestCase
 
         $this->listener = $this->loginAsListener();
 
-        $this->postJson('api/listener_my_programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
+        $this->postJson('api/listener-my-programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
         $this->listener_my_program = ListenerMyProgram::first();
     }
 
@@ -28,7 +28,7 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナーを作成できる()
     {
-        $response = $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $response = $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -47,7 +47,7 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナー作成に失敗する（名前関連）()
     {
-        $response1 = $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => '', 'listener_id' => $this->listener->id]);
+        $response1 = $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => '', 'listener_id' => $this->listener->id]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -55,7 +55,7 @@ class MyProgramCornerTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => str_repeat('あ', 101), 'listener_id' => $this->listener->id]);
+        $response2 = $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => str_repeat('あ', 101), 'listener_id' => $this->listener->id]);
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -72,7 +72,7 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナー作成に失敗する（ログイン関連）()
     {
-        $response1 = $this->postJson('api/my_program_corners', ['listener_my_program_id' => 11111111, 'name' => 'BBSリクエスト']);
+        $response1 = $this->postJson('api/my-program-corners', ['listener_my_program_id' => 11111111, 'name' => 'BBSリクエスト']);
         $response1->assertStatus(409)
             ->assertJson([
                 'message' => 'ログインし直してください。'
@@ -87,16 +87,16 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナー一覧を取得できる()
     {
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'ザワニュー', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'ザワニュー', 'listener_id' => $this->listener->id]);
 
-        $response = $this->getJson('api/my_program_corners?listener_my_program=' . $this->listener_my_program->id);
+        $response = $this->getJson('api/my-program-corners?listener_my_program=' . $this->listener_my_program->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'BBSリクエスト'])
             ->assertJsonFragment(['name' => 'ザワニュー']);
 
-        $response = $this->getJson('api/my_program_corners?listener_my_program=' . 100000);
+        $response = $this->getJson('api/my-program-corners?listener_my_program=' . 100000);
         $response->assertStatus(409)
             ->assertJson([
                 'message' => 'ログインし直してください。'
@@ -109,10 +109,10 @@ class MyProgramCornerTest extends TestCase
      */
     public function 個別のマイラジオ番組を取得できる()
     {
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $my_program_corner = MyProgramCorner::first();
 
-        $response = $this->getJson('api/my_program_corners/' . $my_program_corner->id);
+        $response = $this->getJson('api/my-program-corners/' . $my_program_corner->id);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -128,10 +128,10 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナーを更新できる()
     {
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $my_program_corner = MyProgramCorner::first();
 
-        $response = $this->putJson('api/my_program_corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'ザワニュー', 'listener_id' => $this->listener->id]);
+        $response = $this->putJson('api/my-program-corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'ザワニュー', 'listener_id' => $this->listener->id]);
         $response->assertStatus(201)
             ->assertJson([
                 'message' => 'マイ番組コーナーが更新されました。'
@@ -147,10 +147,10 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナー更新に失敗する（名前関連）()
     {
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $my_program_corner = MyProgramCorner::first();
 
-        $response1 = $this->putJson('api/my_program_corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => '', 'listener_id' => $this->listener->id]);
+        $response1 = $this->putJson('api/my-program-corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => '', 'listener_id' => $this->listener->id]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -158,7 +158,7 @@ class MyProgramCornerTest extends TestCase
                 ]
             ]);
 
-        $response1 = $this->putJson('api/my_program_corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => str_repeat('あ', 101), 'listener_id' => $this->listener->id]);
+        $response1 = $this->putJson('api/my-program-corners/' . $my_program_corner->id, ['listener_my_program_id' => $this->listener_my_program->id, 'name' => str_repeat('あ', 101), 'listener_id' => $this->listener->id]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -176,10 +176,10 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナー更新に失敗する（ログイン関連）()
     {
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $my_program_corner = MyProgramCorner::first();
 
-        $response = $this->putJson('api/my_program_corners/' . $my_program_corner->id, ['listener_my_program_id' => 11111111, 'name' => 'ザワニュー']);
+        $response = $this->putJson('api/my-program-corners/' . $my_program_corner->id, ['listener_my_program_id' => 11111111, 'name' => 'ザワニュー']);
         $response->assertStatus(409)
             ->assertJson([
                 'message' => 'ログインし直してください。'
@@ -195,10 +195,10 @@ class MyProgramCornerTest extends TestCase
      */
     public function 番組コーナーを削除できる()
     {
-        $this->postJson('api/my_program_corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
+        $this->postJson('api/my-program-corners', ['listener_my_program_id' => $this->listener_my_program->id, 'name' => 'BBSリクエスト', 'listener_id' => $this->listener->id]);
         $program_corner = MyProgramCorner::first();
 
-        $response = $this->deleteJson('api/my_program_corners/' . $program_corner->id . '?listener_my_program=' . $this->listener_my_program->id);
+        $response = $this->deleteJson('api/my-program-corners/' . $program_corner->id . '?listener_my_program=' . $this->listener_my_program->id);
         $response->assertStatus(200)
             ->assertJson([
                 'message' => 'マイ番組コーナーが削除されました。'

@@ -92,20 +92,21 @@ class RequestFunctionController extends Controller
      * リクエスト機能リスナー投票
      * 
      * @param RequestFunctionListenerSubmitRequest $request リクエスト機能リスナー投票用のリクエストデータ
+     * @param int $id 機能リクエストID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request)
+    public function submitListenerPoint(RequestFunctionListenerSubmitRequest $request, int $id)
     {
         $listener_id = $this->checkUserId();
 
-        if ($this->request_function->isSubmittedListener($request->integer('request_function_id'), intval($listener_id))) {
+        if ($this->request_function->isSubmittedListener($id, intval($listener_id))) {
             return response()->json([
                 'message' => 'この機能には既に投票してあります。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
         };
         try {
             $this->db_connection->beginTransaction();
-            $this->request_function->submitListenerPoint($request, intval($listener_id));
+            $this->request_function->submitListenerPoint($id, $request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
                 'message' => '投票が完了しました。'
