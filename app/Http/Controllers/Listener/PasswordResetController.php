@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Listener;
 
+use App\DataProviders\Models\Listener;
 use App\Http\Requests\PasswordResetRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
@@ -25,12 +26,12 @@ class PasswordResetController extends Controller
 
         $status = Password::reset(
             $credentials,
-            function ($user, $password) {
-                $user->forceFill([
+            function (Listener $listener, $password) {
+                $listener->forceFill([
                     'password' => Hash::make($password)
                 ]);
-                $user->save();
-                event(new PasswordReset($user));
+                $listener->save();
+                event(new PasswordReset($listener));
             }
         );
 

@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\DataProviders\Models\Listener;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -462,7 +462,7 @@ class ListenerTest extends TestCase
             'password_confirmation' => $new_password
         ];
 
-        $response = $this->post('api/password/reset/' . $token, $params);
+        $response = $this->put('api/listener/password', $params);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -492,7 +492,7 @@ class ListenerTest extends TestCase
             'password' => $new_password,
             'password_confirmation' => $new_password
         ];
-        $response = $this->post('api/password/reset/' . $token, $params);
+        $response = $this->put('api/listener/password', $params);
 
         $response->assertStatus(500)
             ->assertJson([
@@ -539,7 +539,7 @@ class ListenerTest extends TestCase
 
         Notification::assertSentTo(
             $listener,
-            ResetPassword::class,
+            ResetPasswordNotification::class,
             function ($notification, $channels) use ($listener, &$token) {
                 $token = $notification->token;
                 return true;
