@@ -17,7 +17,7 @@ class RadioProgramTest extends TestCase
 
         $this->loginAsListener();
 
-        $this->postJson('api/radio_stations', ['name' => 'テスト局']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局']);
 
         $this->radio_station = RadioStation::first();
     }
@@ -28,7 +28,7 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組を追加できる()
     {
-        $response = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
+        $response = $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -48,7 +48,7 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組作成に失敗する（名前関連）()
     {
-        $response1 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => '', 'email' => 'test@example.com']);
+        $response1 = $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => '', 'email' => 'test@example.com']);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -56,7 +56,7 @@ class RadioProgramTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => str_repeat('あ', 101), 'email' => 'test@example.com']);
+        $response2 = $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => str_repeat('あ', 101), 'email' => 'test@example.com']);
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -73,7 +73,7 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組作成に失敗する（メールアドレス関連）()
     {
-        $response1 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => '']);
+        $response1 = $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => '']);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
@@ -83,8 +83,8 @@ class RadioProgramTest extends TestCase
 
         $this->assertEquals(0, RadioProgram::count());
 
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
-        $response2 = $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
+        $response2 = $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
@@ -99,16 +99,16 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組一覧を取得できる()
     {
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組2', 'email' => 'test2@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組2', 'email' => 'test2@example.com']);
 
-        $response = $this->getJson('api/radio_programs?radio_station=' . $this->radio_station->id);
+        $response = $this->getJson('api/radio-programs?radio_station=' . $this->radio_station->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
             ->assertJsonFragment(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
 
-        $response = $this->getJson('api/radio_programs?radio_station=' . 100000);
+        $response = $this->getJson('api/radio-programs?radio_station=' . 100000);
 
         $response->assertStatus(200)
             ->assertJsonMissing(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
@@ -121,10 +121,10 @@ class RadioProgramTest extends TestCase
      */
     public function 個別のラジオ番組を取得できる()
     {
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
         $radio_program = RadioProgram::first();
 
-        $response = $this->getJson('api/radio_programs/' . $radio_program->id);
+        $response = $this->getJson('api/radio-programs/' . $radio_program->id);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -141,10 +141,10 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組を更新できる()
     {
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
         $radio_program = RadioProgram::first();
 
-        $response = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => 'test1update@example.com']);
+        $response = $this->putJson('api/radio-programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => 'test1update@example.com']);
         $response->assertStatus(201)
             ->assertJson([
                 'message' => 'ラジオ番組が更新されました。'
@@ -161,10 +161,10 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組更新に失敗する（番組名）()
     {
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
         $radio_program = RadioProgram::first();
 
-        $response1 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => '', 'email' => 'testupdate@example.com']);
+        $response1 = $this->putJson('api/radio-programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => '', 'email' => 'testupdate@example.com']);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -172,7 +172,7 @@ class RadioProgramTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => str_repeat('あ', 101), 'email' => 'testupdate@example.com']);
+        $response2 = $this->putJson('api/radio-programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => str_repeat('あ', 101), 'email' => 'testupdate@example.com']);
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'name' => [
@@ -191,11 +191,11 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ番組更新に失敗する（メールアドレス）()
     {
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test2@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test2@example.com']);
         $radio_program = RadioProgram::first();
 
-        $response1 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => '']);
+        $response1 = $this->putJson('api/radio-programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => '']);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
@@ -203,7 +203,7 @@ class RadioProgramTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->putJson('api/radio_programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => 'test2@example.com']);
+        $response2 = $this->putJson('api/radio-programs/' . $radio_program->id, ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1更新', 'email' => 'test2@example.com']);
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email' => [
@@ -222,10 +222,10 @@ class RadioProgramTest extends TestCase
      */
     public function ラジオ局を削除できる()
     {
-        $this->postJson('api/radio_programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com']);
         $radio_program = RadioProgram::first();
 
-        $response = $this->deleteJson('api/radio_programs/' . $radio_program->id);
+        $response = $this->deleteJson('api/radio-programs/' . $radio_program->id);
 
         $response->assertStatus(200)
             ->assertJson([

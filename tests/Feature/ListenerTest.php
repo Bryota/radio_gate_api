@@ -389,7 +389,7 @@ class ListenerTest extends TestCase
             'password' => 'password123'
         ]);
 
-        $response = $this->postJson('api/forgot_password', [
+        $response = $this->postJson('api/forgot-password', [
             'email' => 'test@example.com'
         ]);
 
@@ -413,7 +413,7 @@ class ListenerTest extends TestCase
             'password' => 'password123'
         ]);
 
-        $response1 = $this->postJson('api/forgot_password', [
+        $response1 = $this->postJson('api/forgot-password', [
             'email' => ''
         ]);
         $response1->assertStatus(422)
@@ -423,7 +423,7 @@ class ListenerTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/forgot_password', [
+        $response2 = $this->postJson('api/forgot-password', [
             'email' => 'test'
         ]);
         $response2->assertStatus(422)
@@ -433,7 +433,7 @@ class ListenerTest extends TestCase
                 ]
             ]);
 
-        $response3 = $this->postJson('api/forgot_password', [
+        $response3 = $this->postJson('api/forgot-password', [
             'email' => 'test2@example.com'
         ]);
         $response3->assertStatus(500)
@@ -530,7 +530,7 @@ class ListenerTest extends TestCase
     private function passwordRequest(Listener $listener)
     {
         // パスワードリセットをリクエスト（トークンを作成・取得するため）
-        $this->post('api/forgot_password', [
+        $this->post('api/forgot-password', [
             'email' => $listener->email
         ]);
 
