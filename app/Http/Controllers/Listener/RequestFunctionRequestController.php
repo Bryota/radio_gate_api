@@ -6,6 +6,7 @@ use App\Services\Listener\RequestFunctionRequestService;
 use App\Http\Requests\RequestFunctionRequestRequest;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RequestFunctionRequestController extends Controller
 {
@@ -50,6 +51,7 @@ class RequestFunctionRequestController extends Controller
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('機能リクエスト申請作成エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => 'リクエスト機能申請の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

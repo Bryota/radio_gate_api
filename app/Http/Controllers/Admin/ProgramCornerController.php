@@ -7,6 +7,7 @@ use App\Http\Requests\ProgramCornerRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Log;
 
 class ProgramCornerController extends Controller
 {
@@ -41,10 +42,12 @@ class ProgramCornerController extends Controller
                 'program_corners' => $program_corners
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('【管理者】番組コーナー一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】番組コーナー一覧取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => '番組コーナー一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -65,10 +68,12 @@ class ProgramCornerController extends Controller
                 'program_corner' => $program_corner
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('【管理者】番組コーナーがありませんでした', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】番組コーナー取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => '番組コーナーの取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -92,6 +97,7 @@ class ProgramCornerController extends Controller
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('【管理者】番組コーナー作成エラー', ['error' => $th]);
             return response()->json([
                 'message' => '番組コーナーの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -115,10 +121,12 @@ class ProgramCornerController extends Controller
                 'message' => '番組コーナーが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('【管理者】番組コーナーがありませんでした（更新）', ['error' => $e, 'request' => $request]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】番組コーナー更新エラー', ['error' => $th, 'request' => $request]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => '番組コーナーの更新に失敗しました。'
@@ -140,6 +148,7 @@ class ProgramCornerController extends Controller
                 'message' => '番組コーナーが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】番組コーナー削除エラー', ['error' => $th]);
             return response()->json([
                 'message' => '番組コーナーの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

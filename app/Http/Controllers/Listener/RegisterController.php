@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Listener;
 use App\Http\Requests\ListenerRequest;
 use App\Services\Listener\ListenerService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -45,7 +46,8 @@ class RegisterController extends Controller
                     'message' => 'アカウントの作成に失敗しました。',
                 ], 400, [], JSON_UNESCAPED_UNICODE);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error('アカウント作成エラー', ['error', $th]);
             return response()->json([
                 'message' => 'アカウントの作成に失敗しました。',
             ], 400, [], JSON_UNESCAPED_UNICODE);

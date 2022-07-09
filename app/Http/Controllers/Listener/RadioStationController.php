@@ -6,6 +6,7 @@ use App\Services\Radio\RadioStationService;
 use App\Http\Requests\RadioStationRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Log;
 
 class RadioStationController extends Controller
 {
@@ -38,10 +39,12 @@ class RadioStationController extends Controller
                 'radio_stations' => $radio_staitons
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('ラジオ局一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ局一覧取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ局一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -64,6 +67,7 @@ class RadioStationController extends Controller
                 'message' => 'ラジオ局が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ局作成エラー', ['error' => $th]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ局の作成に失敗しました。'
@@ -88,11 +92,13 @@ class RadioStationController extends Controller
                 'message' => 'ラジオ局が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('ラジオ局がありませんでした。（更新）', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('ラジオ局更新エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ局の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -113,6 +119,7 @@ class RadioStationController extends Controller
                 'message' => 'ラジオ局が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ局削除エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ局の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -133,10 +140,12 @@ class RadioStationController extends Controller
                 'radio_station_name' => $radio_station_name
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('ラジオ局がありません。（ラジオ局名）', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ局削除エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ局名の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

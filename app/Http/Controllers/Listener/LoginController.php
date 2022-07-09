@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Listener;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -37,7 +38,7 @@ class LoginController extends Controller
                 'listener_info' => Auth::user()
             ], 200, [], JSON_UNESCAPED_UNICODE);
         }
-
+        Log::error('ログインエラー', ['request' => $request]);
         return response()->json([
             'message' => 'ログインに失敗しました。メールアドレスまたはパスワードが間違えていないかご確認ください。'
         ], 500, [], JSON_UNESCAPED_UNICODE);

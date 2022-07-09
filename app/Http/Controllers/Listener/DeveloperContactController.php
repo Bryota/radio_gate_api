@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Listener;
 
 use App\Services\Listener\DeveloperContactService;
 use App\Http\Requests\DeveloperContactRequest;
+use Illuminate\Support\Facades\Log;
 
 class DeveloperContactController extends Controller
 {
@@ -31,6 +32,7 @@ class DeveloperContactController extends Controller
                 'message' => '開発者コンタクトが送信されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('開発者コンタクト送信エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => '開発者コンタクトの送信に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
