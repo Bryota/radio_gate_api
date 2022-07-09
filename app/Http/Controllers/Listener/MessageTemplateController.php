@@ -7,6 +7,7 @@ use App\Http\Requests\MessageTemplateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MessageTemplateController extends Controller
 {
@@ -47,10 +48,12 @@ class MessageTemplateController extends Controller
                 'message_templates' => $message_templates
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('投稿テンプレート一覧データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('投稿テンプレート一覧取得エラー。', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '投稿テンプレート一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -73,10 +76,12 @@ class MessageTemplateController extends Controller
                 'message_template' => $message_template
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('投稿テンプレートデータがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('投稿テンプレート取得エラー。', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '投稿テンプレート個別の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -102,6 +107,7 @@ class MessageTemplateController extends Controller
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('投稿テンプレート作成エラー。', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => '投稿テンプレートの作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -127,11 +133,13 @@ class MessageTemplateController extends Controller
                 'message' => '投稿テンプレートが更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('投稿テンプレートデータがありませんでした。（更新）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('投稿テンプレート更新エラー。', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => '投稿テンプレートの更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -154,6 +162,7 @@ class MessageTemplateController extends Controller
                 'message' => '投稿テンプレートが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('投稿テンプレート削除エラー。', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '投稿テンプレートの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

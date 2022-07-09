@@ -6,6 +6,7 @@ use App\Services\Listener\RequestFunctionService;
 use App\Http\Requests\RequestFunctionRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Log;
 
 class RequestFunctionController extends Controller
 {
@@ -38,10 +39,12 @@ class RequestFunctionController extends Controller
                 'request_functions' => $request_functions
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('【管理者】リクエスト機能一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】リクエスト機能一覧取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -62,10 +65,12 @@ class RequestFunctionController extends Controller
                 'request_function' => $request_function
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('【管理者】リクエスト機能がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】リクエスト機能取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -89,6 +94,7 @@ class RequestFunctionController extends Controller
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('【管理者】リクエスト機能作成エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -112,11 +118,13 @@ class RequestFunctionController extends Controller
                 'message' => 'リクエスト機能が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('【管理者】リクエスト機能がありませんでした。（更新）', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('【管理者】リクエスト機能更新エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -137,6 +145,7 @@ class RequestFunctionController extends Controller
                 'message' => 'リクエスト機能が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('【管理者】リクエスト機能削除エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

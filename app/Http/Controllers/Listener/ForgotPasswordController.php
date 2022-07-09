@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Listener;
 
 use App\Http\Requests\ForgotPasswordRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
@@ -25,6 +26,7 @@ class ForgotPasswordController extends Controller
                 'messege' => 'パスワード再設定用のメールを送信しました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
+            Log::error('パスワード再設定用のメールの送信エラー', ['status' => $status, 'request' => $request]);
             return response()->json([
                 'messege' => 'パスワード再設定用のメールの送信に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

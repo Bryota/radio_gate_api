@@ -6,6 +6,7 @@ use App\Http\Requests\PasswordResetRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Log;
 
 class PasswordResetController extends Controller
 {
@@ -39,6 +40,7 @@ class PasswordResetController extends Controller
                 'messege' => 'パスワード変更に成功しました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
+            Log::error('【管理者】パスワード更新エラー', ['status' => $status, 'request' => $request]);
             return response()->json([
                 'messege' => 'パスワード変更に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

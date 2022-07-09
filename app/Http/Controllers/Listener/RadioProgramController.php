@@ -7,6 +7,7 @@ use App\Http\Requests\RadioProgramRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Log;
 
 class RadioProgramController extends Controller
 {
@@ -41,10 +42,12 @@ class RadioProgramController extends Controller
                 'radio_programs' => $radio_programs
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('ラジオ番組一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ番組一覧取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ番組一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -65,10 +68,12 @@ class RadioProgramController extends Controller
                 'radio_program' => $radio_program
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('ラジオ番組がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ番組取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ番組の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -91,6 +96,7 @@ class RadioProgramController extends Controller
                 'message' => 'ラジオ番組が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ番組作成エラー', ['error' => $th, 'request' => $request]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ番組の作成に失敗しました。'
@@ -115,11 +121,13 @@ class RadioProgramController extends Controller
                 'message' => 'ラジオ番組が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('ラジオ番組がありませんでした。（更新）', ['error' => $e, 'request' => $request]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('ラジオ番組更新エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => 'ラジオ番組の更新に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -140,6 +148,7 @@ class RadioProgramController extends Controller
                 'message' => 'ラジオ番組が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('ラジオ番組削除エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ番組の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

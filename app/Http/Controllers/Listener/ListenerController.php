@@ -6,6 +6,7 @@ use App\Services\Listener\ListenerService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Log;
 
 class ListenerController extends Controller
 {
@@ -44,6 +45,7 @@ class ListenerController extends Controller
                 'listeners' => $listeners
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('リスナー一覧の取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リスナー一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -65,10 +67,12 @@ class ListenerController extends Controller
                 'listener' => $listener
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('リスナーデータが見つかりませんでした。（リスナーデータ取得）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'リスナーデータがありませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('リスナーデータ取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'リスナーデータの取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -93,10 +97,12 @@ class ListenerController extends Controller
                 'message' => 'リスナーデータの更新に成功しました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('リスナーデータが見つかりませんでした。（リスナーデータ更新）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'リスナーデータがありませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('リスナーデータ更新エラー', ['error' => $th, 'listener_id' => $listener_id]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'リスナーデータの更新に失敗しました。'
@@ -119,6 +125,7 @@ class ListenerController extends Controller
                 'message' => 'アカウントが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('アカウント削除エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'アカウントの削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -140,6 +147,7 @@ class ListenerController extends Controller
                 'is_unique_email' => $is_unique_email
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('メールアドレス確認エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => 'メールアドレスの確認に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

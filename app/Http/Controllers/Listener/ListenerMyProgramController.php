@@ -7,6 +7,7 @@ use App\Http\Requests\ListenerMyProgramRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ListenerMyProgramController extends Controller
 {
@@ -47,6 +48,7 @@ class ListenerMyProgramController extends Controller
                 'listener_my_programs' => $listener_my_programs
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('マイ番組取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'マイ番組一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -69,10 +71,12 @@ class ListenerMyProgramController extends Controller
                 'listener_my_program' => $listener_my_program
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('マイ番組データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('マイ番組データ取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'マイ番組個別の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -98,6 +102,7 @@ class ListenerMyProgramController extends Controller
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('マイ番組作成エラー', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => 'マイ番組の作成に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);
@@ -123,10 +128,12 @@ class ListenerMyProgramController extends Controller
                 'message' => 'マイ番組が更新されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('マイ番組データがありませんでした。（更新）', ['error' => $e, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('マイ番組更新エラー', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組の更新に失敗しました。'
@@ -150,7 +157,7 @@ class ListenerMyProgramController extends Controller
                 'message' => 'マイ番組が削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
-            logger('err', ['err', $th]);
+            Log::error('マイ番組削除エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'マイ番組の削除に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);

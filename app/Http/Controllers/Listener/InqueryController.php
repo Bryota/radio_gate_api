@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Listener;
 
 use App\Services\Listener\InqueryService;
 use App\Http\Requests\InqueryRequest;
+use Illuminate\Support\Facades\Log;
 
 class InqueryController extends Controller
 {
@@ -31,6 +32,7 @@ class InqueryController extends Controller
                 'message' => 'お問い合わせが送信されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('お問い合わせ送信エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => 'お問い合わせの送信に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

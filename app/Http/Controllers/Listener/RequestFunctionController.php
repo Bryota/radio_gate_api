@@ -7,6 +7,7 @@ use App\Http\Requests\RequestFunctionListenerSubmitRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RequestFunctionController extends Controller
 {
@@ -47,10 +48,12 @@ class RequestFunctionController extends Controller
                 'request_functions' => $request_functions
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('機能リクエスト一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('機能リクエスト一覧取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -78,10 +81,12 @@ class RequestFunctionController extends Controller
                 ], 200, [], JSON_UNESCAPED_UNICODE);
             }
         } catch (ModelNotFoundException $e) {
+            Log::error('機能リクエストがありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('機能リクエスト取得エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'リクエスト機能の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -113,6 +118,7 @@ class RequestFunctionController extends Controller
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
+            Log::error('機能リクエスト投稿エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => '投票に失敗しました。'
             ], 409, [], JSON_UNESCAPED_UNICODE);

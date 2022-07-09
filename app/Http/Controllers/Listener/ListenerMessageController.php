@@ -7,6 +7,7 @@ use App\Services\Listener\ListenerService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ListenerMessageController extends Controller
 {
@@ -47,10 +48,12 @@ class ListenerMessageController extends Controller
                 'listener_messages' => $listener_messages
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('投稿データ一覧がありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('投稿データ一覧取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '投稿一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -73,10 +76,12 @@ class ListenerMessageController extends Controller
                 'listener_message' => $listener_message
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('投稿データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('投稿データ取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '投稿の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -98,10 +103,12 @@ class ListenerMessageController extends Controller
                 'listener_messages' => $listener_messages
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
+            Log::error('一時保存データ一覧がありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('一時保存一覧データ取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '投稿一覧の取得に失敗しました。'
             ], 500, [], JSON_UNESCAPED_UNICODE);
@@ -127,6 +134,7 @@ class ListenerMessageController extends Controller
                 'message' => 'メッセージが投稿されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('メッセージ投稿エラー', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの投稿に失敗しました。'
@@ -152,6 +160,7 @@ class ListenerMessageController extends Controller
                 'message' => 'メッセージが保存されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
+            Log::error('メッセージ一時保存エラー', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの保存に失敗しました。'
