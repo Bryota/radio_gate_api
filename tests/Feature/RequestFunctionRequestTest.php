@@ -25,6 +25,7 @@ class RequestFunctionRequestTest extends TestCase
         $this->postJson('api/request-function-requests', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true, 'listener_id' => $this->listener->id]);
         $this->postJson('api/request-function-requests', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => true, 'listener_id' => $this->listener->id]);
 
+        $this->loginAsAdmin();
         $response = $this->getJson('api/admin/request-function-requests');
 
         $response->assertStatus(200)
@@ -43,6 +44,7 @@ class RequestFunctionRequestTest extends TestCase
 
         $request_function_request = RequestFunctionRequest::first();
 
+        $this->loginAsAdmin();
         $response = $this->getJson('api/admin/request-function-requests/' . $request_function_request->id);
 
         $response->assertStatus(200)
@@ -121,6 +123,7 @@ class RequestFunctionRequestTest extends TestCase
         $this->postJson('api/request-function-requests', ['name' => 'テスト機能', 'detail' => str_repeat('いい機能ですね', 100), 'listener_id' => $this->listener->id]);
         $request_function_request = RequestFunctionRequest::first();
 
+        $this->loginAsAdmin();
         $response = $this->postJson('api/admin/request-function-requests/' . $request_function_request->id . '/close');
 
         $response->assertStatus(200)

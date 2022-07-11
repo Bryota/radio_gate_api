@@ -70,8 +70,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::post('admin/login', [AdminLoginController::class, 'login']);
 Route::post('admin/logout', [AdminLoginController::class, 'logout']);
 Route::post('admin/forgot-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('admin/password/reset/{token}', [AdminPasswordResetController::class, 'resetPassword']);
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::put('admin/password', [AdminPasswordResetController::class, 'resetPassword']);
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
+    Route::get('/authorized', [AdminLoginController::class, 'authorized']);
     Route::apiResource('radio-stations', AdminRadioStationController::class);
     Route::apiResource('radio-programs', AdminRadioProgramController::class);
     Route::apiResource('program-corners', AdminProgramCornerController::class);
