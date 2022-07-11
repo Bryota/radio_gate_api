@@ -17,7 +17,7 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(ForgotPasswordRequest $request)
     {
 
-        $status = Password::sendResetLink(
+        $status = Password::broker('admins')->sendResetLink(
             $request->only('email')
         );
 

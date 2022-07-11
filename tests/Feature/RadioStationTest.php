@@ -83,6 +83,7 @@ class RadioStationTest extends TestCase
      */
     public function 個別のラジオ番組を取得できる()
     {
+        $this->loginAsAdmin();
         $this->postJson('api/admin/radio-stations', ['name' => 'テスト局1']);
         $radio_station = RadioStation::first();
 

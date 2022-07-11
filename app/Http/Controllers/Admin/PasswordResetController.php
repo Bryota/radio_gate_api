@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PasswordResetRequest;
+use App\DataProviders\Models\Admin;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
@@ -24,14 +25,14 @@ class PasswordResetController extends Controller
             'token' => $request->token
         ];
 
-        $status = Password::reset(
+        $status = Password::broker('admins')->reset(
             $credentials,
-            function ($user, $password) {
-                $user->forceFill([
+            function (Admin $admin, $password) {
+                $admin->forceFill([
                     'password' => Hash::make($password)
                 ]);
-                $user->save();
-                event(new PasswordReset($user));
+                $admin->save();
+                event(new PasswordReset($admin));
             }
         );
 

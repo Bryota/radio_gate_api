@@ -22,6 +22,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能一覧を取得できる()
     {
+        $this->loginAsAdmin();
         $this->postJson('api/admin/request-functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
         $this->postJson('api/admin/request-functions', ['name' => 'テスト機能2', 'detail' => str_repeat('本当にいい機能ですね', 100), 'is_open' => true]);
         $this->postJson('api/admin/request-functions', ['name' => 'テスト機能3', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => false]);
@@ -43,6 +44,7 @@ class RequestFunctionTest extends TestCase
      */
     public function 個別のリクエスト機能を取得できる()
     {
+        $this->loginAsAdmin();
         $this->postJson('api/admin/request-functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $request_function = RequestFunction::first();
@@ -60,6 +62,7 @@ class RequestFunctionTest extends TestCase
      */
     public function 管理者がリクエスト機能が作成できる()
     {
+        $this->loginAsAdmin();
         $response = $this->postJson('api/admin/request-functions', ['name' => 'テスト機能', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $response->assertStatus(201)
@@ -78,6 +81,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能に失敗する（名前関連）()
     {
+        $this->loginAsAdmin();
         $response1 = $this->postJson('api/admin/request-functions', ['name' => '', 'detail' => 'テスト機能ですね', 'is_open' => true]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
@@ -103,6 +107,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リクエスト機能作成に失敗する（本文関連）()
     {
+        $this->loginAsAdmin();
         $response1 = $this->postJson('api/admin/request-functions', ['name' => 'テスト機能', 'detail' => '', 'is_open' => true]);
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
@@ -120,6 +125,7 @@ class RequestFunctionTest extends TestCase
      */
     public function リスナーがリクエスト機能に投票できる()
     {
+        $this->loginAsAdmin();
         $this->postJson('api/admin/request-functions', ['name' => 'テスト機能1', 'detail' => str_repeat('いい機能ですね', 100), 'is_open' => true]);
 
         $request_function = RequestFunction::first();

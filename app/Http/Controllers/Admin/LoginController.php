@@ -22,10 +22,10 @@ class LoginController extends Controller
             'password' => $request->password
         ];
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
             return response()->json([
-                'listener_info' => Auth::user()
+                'admin' => Auth::guard('admin')->user()
             ], 200, [], JSON_UNESCAPED_UNICODE);
         }
         Log::error('【管理者】ログインエラー', ['request' => $request]);
@@ -42,7 +42,7 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
 
@@ -51,5 +51,23 @@ class LoginController extends Controller
         return response()->json([
             'message' => 'ログアウトに成功しました。'
         ], 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * ログインチェック
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authorized()
+    {
+        if (Auth::guard('admin')->check()) {
+            return response()->json([
+                'status' => 'success'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'status' => 'failed'
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        }
     }
 }
