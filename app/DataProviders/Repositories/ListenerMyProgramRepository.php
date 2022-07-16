@@ -62,7 +62,7 @@ class ListenerMyProgramRepository
     {
         return $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
-            ->first();
+            ->firstOrFail();
     }
 
     /**
@@ -92,14 +92,10 @@ class ListenerMyProgramRepository
     {
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
-            ->first();
-        if ($listener_my_program) {
-            $listener_my_program->name = $request->string('name');
-            $listener_my_program->email = $request->string('email');
-            return $listener_my_program->save();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        $listener_my_program->name = $request->string('name');
+        $listener_my_program->email = $request->string('email');
+        return $listener_my_program->save();
     }
 
     /**
@@ -113,12 +109,8 @@ class ListenerMyProgramRepository
     {
         $listener_my_program = $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
-            ->first();
-        if ($listener_my_program) {
-            return $listener_my_program->delete();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        return $listener_my_program->delete();
     }
 
     /**
