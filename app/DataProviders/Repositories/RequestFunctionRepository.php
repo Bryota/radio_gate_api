@@ -77,7 +77,7 @@ class RequestFunctionRepository
     public function getSingleRequestFunction(int $request_function_id): RequestFunction|null
     {
         return $this->request_function::where('id', $request_function_id)
-            ->first();
+            ->firstOrFail();
     }
 
     /**
@@ -105,15 +105,11 @@ class RequestFunctionRepository
     public function updateRequestFunction(RequestFunctionRequest $request, int $request_function_id): bool
     {
         $request_function = $this->request_function::where('id', $request_function_id)
-            ->first();
-        if ($request_function) {
-            $request_function->name = $request->string('name');
-            $request_function->detail = $request->string('detail');
-            $request_function->is_open = $request->boolean('is_open');
-            return $request_function->save();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        $request_function->name = $request->string('name');
+        $request_function->detail = $request->string('detail');
+        $request_function->is_open = $request->boolean('is_open');
+        return $request_function->save();
     }
 
 
@@ -162,11 +158,7 @@ class RequestFunctionRepository
     public function deleteRequestFunction(int $request_function_id): bool|null
     {
         $request_function = $this->request_function::where('id', $request_function_id)
-            ->first();
-        if ($request_function) {
-            return $request_function->delete();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        return $request_function->delete();
     }
 }

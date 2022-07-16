@@ -62,7 +62,7 @@ class MessageTemplateRepository
     {
         return $this->message_template::where('id', $message_template_id)
             ->ListenerIdEqual($listener_id)
-            ->first();
+            ->firstOrFail();
     }
 
     /**
@@ -95,14 +95,10 @@ class MessageTemplateRepository
     {
         $message_template = $this->message_template::where('id', $message_template_id)
             ->ListenerIdEqual($listener_id)
-            ->first();
-        if ($message_template) {
-            $message_template->name = $request->string('name');
-            $message_template->content = $request->string('content');
-            return $message_template->save();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        $message_template->name = $request->string('name');
+        $message_template->content = $request->string('content');
+        return $message_template->save();
     }
 
     /**
@@ -116,11 +112,7 @@ class MessageTemplateRepository
     {
         $message_template = $this->message_template::where('id', $message_template_id)
             ->ListenerIdEqual($listener_id)
-            ->first();
-        if ($message_template) {
-            return $message_template->delete();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        return $message_template->delete();
     }
 }

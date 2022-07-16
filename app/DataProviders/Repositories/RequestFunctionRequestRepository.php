@@ -59,7 +59,7 @@ class RequestFunctionRequestRepository
     public function getSingleRequestFunctionRequest(int $request_function_request_id): RequestFunctionRequest|null
     {
         return $this->request_function_request::where('id', $request_function_request_id)
-            ->first();
+            ->firstOrFail();
     }
 
     /**
@@ -87,12 +87,8 @@ class RequestFunctionRequestRepository
     public function closeRequestFunctionRequest(int $request_function_request_id): bool
     {
         $request_function_request = $this->request_function_request::where('id', $request_function_request_id)
-            ->first();
-        if ($request_function_request) {
-            $request_function_request->is_open = false;
-            return $request_function_request->save();
-        } else {
-            return false;
-        }
+            ->firstOrFail();
+        $request_function_request->is_open = false;
+        return $request_function_request->save();
     }
 }

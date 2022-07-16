@@ -111,7 +111,7 @@ class ListenerRepository
     public function getSingleListener(int $listener_id): Listener|null
     {
         return $this->listener::ListenerIdEqual($listener_id)
-            ->first();
+            ->firstOrFail();
     }
 
     /**
@@ -187,7 +187,7 @@ class ListenerRepository
         return $this->listener_message::where('id', $listener_message_id)
             ->ListenerIdEqual($listener_id)
             ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
-            ->first();
+            ->firstOrFail();
     }
 
     /**
@@ -212,12 +212,8 @@ class ListenerRepository
      */
     public function deleteListener(int $listener_id)
     {
-        $listener = $this->listener::ListenerIdEqual($listener_id)->first();
-        if ($listener) {
-            return $listener->delete();
-        } else {
-            return false;
-        }
+        $listener = $this->listener::ListenerIdEqual($listener_id)->firstOrFail();
+        return $listener->delete();
     }
 
     /**
