@@ -106,9 +106,9 @@ class ListenerRepository
      * リスナー情報取得
      * 
      * @param int $listener_id リスナーID
-     * @return Listener|null リスナーデータ
+     * @return Listener リスナーデータ
      */
-    public function getSingleListener(int $listener_id): Listener|null
+    public function getSingleListener(int $listener_id): Listener
     {
         return $this->listener::ListenerIdEqual($listener_id)
             ->firstOrFail();
