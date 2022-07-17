@@ -129,11 +129,30 @@ class ListenerService
      * リスナー情報取得
      *
      * @param int $listener_id リスナーID
-     * @return Listener|null リスナーデータ
+     * @return array リスナーデータ
      */
-    public function getSingleListener(int $listener_id): Listener|null
+    public function getSingleListener(int $listener_id): array
     {
-        return $this->listener->getSingleListener($listener_id);
+        $listener = $this->listener->getSingleListener($listener_id);
+        return [
+            'id' => $listener->id,
+            'email' => $listener->email,
+            'full_name' => $listener->full_name,
+            'first_name' => $listener->first_name,
+            'last_name' => $listener->last_name,
+            'full_name_kana' => $listener->full_name_kana,
+            'first_name_kana' => $listener->first_name_kana,
+            'last_name_kana' => $listener->last_name_kana,
+            'radio_name' => $listener->radio_name,
+            'post_code' => $listener->post_code,
+            'address' => $listener->full_address,
+            'prefecture' => $listener->prefecture,
+            'city' => $listener->city,
+            'house_number' => $listener->house_number,
+            'building' => $listener->building,
+            'room_number' => $listener->room_number,
+            'tel' => $listener->tel,
+        ];
     }
 
     /**
@@ -161,47 +180,45 @@ class ListenerService
         $corner = $this->setCorner($request->integer('program_corner_id'), $request->integer('my_program_corner_id'), $request->string('subject'));
         $listener = $this->listener->getSingleListener($listener_id);
 
-        if ($listener) {
-            $full_name = $listener->last_name ? "{$listener->last_name}　{$listener->first_name}" : null;
-            $full_name_kana = $listener->last_name_kana ? "{$listener->last_name_kana}　{$listener->first_name_kana}" : null;
-            $post_code = $listener->post_code ? $listener->post_code : null;
-            $prefecture = $listener->prefecture ? $listener->prefecture : null;
-            $city = $listener->city ? $listener->city : null;
-            $house_number = $listener->house_number ? $listener->house_number : null;
-            $building = $listener->building ? $listener->building : null;
-            $room_number = $listener->room_number ? $listener->room_number : null;
-            $tel = $listener->tel ? $listener->tel : null;
-            $email = $listener->email;
-            $content = $request->string('content');
-            $listener_info_flag = $request->bool('listener_info_flag');
-            $tel_flag = $request->bool('tel_flag');
-            if ($request->radio_name) {
-                $radio_name = $request->string('radio_name');
-            } else if ($listener->radio_name) {
-                $radio_name = strval($listener->radio_name);
-            } else {
-                $radio_name = null;
-            }
-
-            // TODO: Mailファザードはどこかで怒られるかも
-            Mail::to($radio_email)->send($this->listener_message_mail->getSelf(
-                $corner,
-                $full_name,
-                $full_name_kana,
-                $radio_name,
-                $post_code,
-                $prefecture,
-                $city,
-                $house_number,
-                $building,
-                $room_number,
-                $tel,
-                $email,
-                $content,
-                $listener_info_flag,
-                $tel_flag
-            ));
+        $full_name = $listener->last_name ? "{$listener->last_name}　{$listener->first_name}" : null;
+        $full_name_kana = $listener->last_name_kana ? "{$listener->last_name_kana}　{$listener->first_name_kana}" : null;
+        $post_code = $listener->post_code ? $listener->post_code : null;
+        $prefecture = $listener->prefecture ? $listener->prefecture : null;
+        $city = $listener->city ? $listener->city : null;
+        $house_number = $listener->house_number ? $listener->house_number : null;
+        $building = $listener->building ? $listener->building : null;
+        $room_number = $listener->room_number ? $listener->room_number : null;
+        $tel = $listener->tel ? $listener->tel : null;
+        $email = $listener->email;
+        $content = $request->string('content');
+        $listener_info_flag = $request->bool('listener_info_flag');
+        $tel_flag = $request->bool('tel_flag');
+        if ($request->radio_name) {
+            $radio_name = $request->string('radio_name');
+        } else if ($listener->radio_name) {
+            $radio_name = strval($listener->radio_name);
+        } else {
+            $radio_name = null;
         }
+
+        // TODO: Mailファザードはどこかで怒られるかも
+        Mail::to($radio_email)->send($this->listener_message_mail->getSelf(
+            $corner,
+            $full_name,
+            $full_name_kana,
+            $radio_name,
+            $post_code,
+            $prefecture,
+            $city,
+            $house_number,
+            $building,
+            $room_number,
+            $tel,
+            $email,
+            $content,
+            $listener_info_flag,
+            $tel_flag
+        ));
     }
 
     /**

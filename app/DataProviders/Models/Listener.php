@@ -115,4 +115,34 @@ class Listener extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    /**
+     * フルネームを取得
+     *
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * フルネームかなを取得
+     *
+     * @return string
+     */
+    public function getFullNameKanaAttribute(): string
+    {
+        return $this->first_name_kana . ' ' . $this->last_name_kana;
+    }
+
+    /**
+     * 住所を取得
+     *
+     * @return string
+     */
+    public function getFullAddressAttribute(): string
+    {
+        return $this->prefecture . $this->city . $this->house_number . $this->building . $this->room_number;
+    }
 }
