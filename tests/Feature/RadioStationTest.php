@@ -32,6 +32,7 @@ class RadioStationTest extends TestCase
 
         $radio_station = RadioStation::first();
         $this->assertEquals('テスト局', $radio_station->name);
+        $this->assertEquals('AM', $radio_station->type);
     }
 
     /**
