@@ -17,7 +17,7 @@ class RadioProgramTest extends TestCase
 
         $this->loginAsListener();
 
-        $this->postJson('api/radio-stations', ['name' => 'テスト局']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局', 'type' => 'AM']);
 
         $this->radio_station = RadioStation::first();
     }

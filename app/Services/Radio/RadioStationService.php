@@ -15,6 +15,7 @@ namespace App\Services\Radio;
 use App\DataProviders\Repositories\RadioStationRepository;
 use App\DataProviders\Models\RadioStation;
 use App\Http\Requests\RadioStationRequest;
+use Illuminate\Http\Request;
 
 /**
  * ラジオ局用のサービスクラス
@@ -42,11 +43,12 @@ class RadioStationService
     /**
      * ラジオ局一覧取得
      * 
+     * @param Request $request 検索用パラメーター
      * @return object ラジオ局一覧
      */
-    public function getAllRadioStations(): object
+    public function getAllRadioStations(Request $request): object
     {
-        return $this->radio_station->getAllRadioStations();
+        return $this->radio_station->getAllRadioStations($request);
     }
 
     /**
