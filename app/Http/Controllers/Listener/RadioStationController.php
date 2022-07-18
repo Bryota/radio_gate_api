@@ -6,6 +6,7 @@ use App\Services\Radio\RadioStationService;
 use App\Http\Requests\RadioStationRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class RadioStationController extends Controller
@@ -29,12 +30,13 @@ class RadioStationController extends Controller
     /**
      * ラジオ局一覧取得
      *
+     * @param Request $request 検索用パラメーター
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $radio_staitons = $this->radio_station->getAllRadioStations();
+            $radio_staitons = $this->radio_station->getAllRadioStations($request);
             return response()->json([
                 'radio_stations' => $radio_staitons
             ], 200, [], JSON_UNESCAPED_UNICODE);
