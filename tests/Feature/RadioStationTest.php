@@ -205,12 +205,34 @@ class RadioStationTest extends TestCase
             ->assertJsonFragment(['radio_station_name' => 'テスト局1']);
     }
 
+    /**
+     * @test
+     * App\Http\Controllers\Listener\RadioStationController@index
+     */
     public function ラジオ局タイプで絞り込みができる()
     {
         $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
         $this->postJson('api/radio-stations', ['name' => 'テスト局2', 'type' => 'FM']);
 
         $response = $this->getJson('api/radio-stations?type=AM');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト局1'])
+            ->assertJsonMissing(['name' => 'テスト局2'])
+            ->assertJsonFragment(['type' => 'AM'])
+            ->assertJsonMissing(['type' => 'FM']);
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Listener\RadioStationController@index
+     */
+    public function キーワードで絞り込みができる()
+    {
+        $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局2', 'type' => 'FM']);
+
+        $response = $this->getJson('api/radio-stations?keyword=テスト局1');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テスト局1'])
