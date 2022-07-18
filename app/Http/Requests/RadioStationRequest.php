@@ -25,7 +25,8 @@ class RadioStationRequest extends TypeCastedFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max: 100'
+            'name' => 'required|max: 100',
+            'type' => 'required',
         ];
     }
 
@@ -34,6 +35,7 @@ class RadioStationRequest extends TypeCastedFormRequest
         return [
             'name.required' => 'ラジオ局名を入力してください。',
             'name.max' => 'ラジオ局名は100文字以下で入力してください。',
+            'type.required' => 'ラジオ局タイプを入力してください。',
         ];
     }
 
