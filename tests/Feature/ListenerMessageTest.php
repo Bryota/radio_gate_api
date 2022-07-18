@@ -23,7 +23,7 @@ class ListenerMessageTest extends TestCase
 
         $this->listener = $this->loginAsListener();
 
-        $this->postJson('api/radio-stations', ['name' => 'テスト局']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局', 'type' => 'AM']);
         $this->radio_station = RadioStation::first();
         $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
         $this->radio_program = RadioProgram::first();

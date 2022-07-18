@@ -83,6 +83,7 @@ class RadioStationRepository
     {
         $radio_station = $this->radio_station::find($radio_station_id);
         $radio_station->name = $request->name;
+        $radio_station->type = $request->type;
         return $radio_station->save();
     }
 

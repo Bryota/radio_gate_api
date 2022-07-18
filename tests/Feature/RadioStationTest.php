@@ -23,7 +23,7 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局を作成できる()
     {
-        $response = $this->postJson('api/radio-stations', ['name' => 'テスト局']);
+        $response = $this->postJson('api/radio-stations', ['name' => 'テスト局', 'type' => 'AM']);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -40,7 +40,7 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局作成に失敗する()
     {
-        $response1 = $this->postJson('api/radio-stations', ['name' => '']);
+        $response1 = $this->postJson('api/radio-stations', ['name' => '', 'type' => 'AM']);
 
         $response1->assertStatus(422)
             ->assertJsonValidationErrors([
@@ -49,7 +49,7 @@ class RadioStationTest extends TestCase
                 ]
             ]);
 
-        $response2 = $this->postJson('api/radio-stations', ['name' => str_repeat('あ', 101)]);
+        $response2 = $this->postJson('api/radio-stations', ['name' => str_repeat('あ', 101), 'type' => 'AM']);
 
         $response2->assertStatus(422)
             ->assertJsonValidationErrors([
@@ -67,8 +67,8 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局一覧を取得できる()
     {
-        $this->postJson('api/radio-stations', ['name' => 'テスト局1']);
-        $this->postJson('api/radio-stations', ['name' => 'テスト局2']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局2', 'type' => 'AM']);
 
         $response = $this->getJson('api/radio-stations');
 
@@ -84,7 +84,7 @@ class RadioStationTest extends TestCase
     public function 個別のラジオ番組を取得できる()
     {
         $this->loginAsAdmin();
-        $this->postJson('api/admin/radio-stations', ['name' => 'テスト局1']);
+        $this->postJson('api/admin/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
         $radio_station = RadioStation::first();
 
         $response = $this->getJson('api/admin/radio-stations/' . $radio_station->id);
@@ -103,10 +103,10 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局を更新できる()
     {
-        $this->postJson('api/radio-stations', ['name' => 'テスト局1']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
         $radio_station = RadioStation::first();
 
-        $response = $this->putJson('api/radio-stations/' . $radio_station->id, ['name' => 'テスト局1更新']);
+        $response = $this->putJson('api/radio-stations/' . $radio_station->id, ['name' => 'テスト局1更新', 'type' => 'AM']);
         $response->assertStatus(201)
             ->assertJson([
                 'message' => 'ラジオ局が更新されました。'
@@ -122,7 +122,7 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局を更新に失敗する()
     {
-        $this->postJson('api/radio-stations', ['name' => 'テスト局1']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
         $radio_station = RadioStation::first();
 
         $response1 = $this->putJson('api/radio-stations/' . $radio_station->id, ['name' => '']);
@@ -153,7 +153,7 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局を削除できる()
     {
-        $this->postJson('api/radio-stations', ['name' => 'テスト局1']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
         $radio_station = RadioStation::first();
 
         $response = $this->deleteJson('api/radio-stations/' . $radio_station->id);
@@ -172,7 +172,7 @@ class RadioStationTest extends TestCase
      */
     public function ラジオ局名を取得できる()
     {
-        $this->postJson('api/radio-stations', ['name' => 'テスト局1']);
+        $this->postJson('api/radio-stations', ['name' => 'テスト局1', 'type' => 'AM']);
         $radio_station = RadioStation::first();
 
         $response = $this->getJson('api/radio-station/' . $radio_station->id . '/name');

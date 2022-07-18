@@ -16,7 +16,8 @@ class RadioStation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name'
+        'name',
+        'type'
     ];
 
     /**
