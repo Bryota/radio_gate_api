@@ -105,8 +105,8 @@ class RadioProgramTest extends TestCase
         $response = $this->getJson('api/radio-programs?radio_station=' . $this->radio_station->id);
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
-            ->assertJsonFragment(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
+            ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com', 'day' => 'Saturday'])
+            ->assertJsonFragment(['name' => 'テスト番組2', 'email' => 'test2@example.com', 'day' => 'Saturday']);
 
         $response = $this->getJson('api/radio-programs?radio_station=' . 100000);
 
@@ -233,5 +233,21 @@ class RadioProgramTest extends TestCase
             ]);
 
         $this->assertEquals(0, RadioProgram::count());
+    }
+
+    /**
+     * @test
+     * App\Http\Controllers\Listener\RadioProgramController@index
+     */
+    public function 曜日で絞り込みができる()
+    {
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組1', 'email' => 'test1@example.com', 'day' => 'Saturday']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組2', 'email' => 'test2@example.com', 'day' => 'Sunday']);
+
+        $response = $this->getJson('api/radio-programs?radio_station=' . $this->radio_station->id . '&day=Saturday');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com', 'day' => 'Saturday'])
+            ->assertJsonMissing(['name' => 'テスト番組2', 'email' => 'test2@example.com', 'day' => 'Sunday']);
     }
 }

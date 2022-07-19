@@ -2,6 +2,7 @@
 
 namespace App\DataProviders\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,5 +49,19 @@ class RadioProgram extends Model
     public function radioStation(): BelongsTo
     {
         return $this->belongsTo(RadioStation::class);
+    }
+
+    /**
+     * 絞り込み検索
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string|null $search_params 検索パラメーター
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch(Builder $query, array|string|null $search_params): Builder
+    {
+        if (!empty($search_params['day'])) $query->where('day', $search_params['day']);
+
+        return $query;
     }
 }
