@@ -17,7 +17,7 @@ class RadioProgram extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'radio_station_id', 'name', 'email'
+        'radio_station_id', 'name', 'email', 'day'
     ];
 
     /**
