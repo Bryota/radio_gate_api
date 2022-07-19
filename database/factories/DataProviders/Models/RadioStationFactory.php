@@ -21,6 +21,7 @@ class RadioStationFactory extends Factory
     {
         return [
             'name' => $this->faker->title,
+            'type' => $this->faker->randomElement(['AM', 'FM'])
         ];
     }
 }
