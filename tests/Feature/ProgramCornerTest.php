@@ -21,7 +21,7 @@ class ProgramCornerTest extends TestCase
         $this->postJson('api/radio-stations', ['name' => 'テスト局', 'type' => 'AM']);
         $this->radio_station = RadioStation::first();
 
-        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com']);
+        $this->postJson('api/radio-programs', ['radio_station_id' => $this->radio_station->id, 'name' => 'テスト番組', 'email' => 'test@example.com', 'day' => 'Saturday']);
         $this->radio_program = RadioProgram::first();
     }
 
