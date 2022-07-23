@@ -100,9 +100,7 @@ class MessageTemplateTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'テストテンプレート1'])
-            ->assertJsonFragment(['name' => 'テストテンプレート2'])
-            ->assertJsonFragment(['content' => 'hello'])
-            ->assertJsonFragment(['content' => 'こんにちは']);
+            ->assertJsonFragment(['name' => 'テストテンプレート2']);
     }
 
     /**
@@ -118,11 +116,8 @@ class MessageTemplateTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'message_template' => [
-                    'name' => 'テストテンプレート1',
-                    'content' => 'hello',
-                    'listener_id' => $this->listener->id
-                ]
+                'name' => 'テストテンプレート1',
+                'content' => 'hello'
             ]);
     }
 

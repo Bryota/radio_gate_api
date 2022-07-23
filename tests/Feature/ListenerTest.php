@@ -323,21 +323,19 @@ class ListenerTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'listener' => [
-                    'last_name' => $listener->last_name,
-                    'first_name' => $listener->first_name,
-                    'last_name_kana' => $listener->last_name_kana,
-                    'first_name_kana' => $listener->first_name_kana,
-                    'radio_name' => $listener->radio_name,
-                    'post_code' => $listener->post_code,
-                    'prefecture' => $listener->prefecture,
-                    'city' => $listener->city,
-                    'house_number' => $listener->house_number,
-                    'building' => $listener->building,
-                    'room_number' => $listener->room_number,
-                    'tel' => $listener->tel,
-                    'email' => $listener->email,
-                ]
+                'last_name' => $listener->last_name,
+                'first_name' => $listener->first_name,
+                'last_name_kana' => $listener->last_name_kana,
+                'first_name_kana' => $listener->first_name_kana,
+                'radio_name' => $listener->radio_name,
+                'post_code' => $listener->post_code,
+                'prefecture' => $listener->prefecture,
+                'city' => $listener->city,
+                'house_number' => $listener->house_number,
+                'building' => $listener->building,
+                'room_number' => $listener->room_number,
+                'tel' => $listener->tel,
+                'email' => $listener->email,
             ]);
     }
 

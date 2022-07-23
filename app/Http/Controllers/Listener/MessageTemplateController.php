@@ -44,9 +44,12 @@ class MessageTemplateController extends Controller
 
         try {
             $message_templates = $this->message_template->getAllMessageTemplates(intval($listener_id));
-            return response()->json([
-                'message_templates' => $message_templates
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $message_templates,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('投稿テンプレート一覧データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
@@ -72,9 +75,12 @@ class MessageTemplateController extends Controller
 
         try {
             $message_template = $this->message_template->getSingleMessageTemplate(intval($listener_id), $message_template_id);
-            return response()->json([
-                'message_template' => $message_template
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $message_template,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('投稿テンプレートデータがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([

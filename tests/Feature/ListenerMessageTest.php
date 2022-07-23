@@ -388,10 +388,7 @@ class ListenerMessageTest extends TestCase
         $response = $this->getJson('api/listener-messages');
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['content' => 'こんにちは。こんばんは。'])
-            ->assertJsonFragment(['subject' => 'ふつおた'])
-            ->assertJsonFragment(['content' => 'こんにちは。'])
-            ->assertJsonFragment(['radio_name' => 'ハイキングベアー']);
+            ->assertJsonFragment(['subject' => 'ふつおた']);
     }
 
     /**
@@ -490,11 +487,7 @@ class ListenerMessageTest extends TestCase
         $response = $this->getJson('api/saved-messages');
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['content' => 'こんにちは1'])
-            ->assertJsonFragment(['content' => 'こんにちは2'])
             ->assertJsonFragment(['subject' => 'ふつおた1'])
-            ->assertJsonFragment(['subject' => 'ふつおた2'])
-            ->assertJsonFragment(['radio_name' => 'ハイキングベアー'])
-            ->assertJsonMissing(['content' => 'こんにちは。こんばんは。']);
+            ->assertJsonFragment(['subject' => 'ふつおた2']);
     }
 }

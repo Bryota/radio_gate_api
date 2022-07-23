@@ -105,14 +105,14 @@ class RadioProgramTest extends TestCase
         $response = $this->getJson('api/radio-programs?radio_station=' . $this->radio_station->id);
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com', 'day' => 'Saturday'])
-            ->assertJsonFragment(['name' => 'テスト番組2', 'email' => 'test2@example.com', 'day' => 'Saturday']);
+            ->assertJsonFragment(['name' => 'テスト番組1'])
+            ->assertJsonFragment(['name' => 'テスト番組2']);
 
         $response = $this->getJson('api/radio-programs?radio_station=' . 100000);
 
-        $response->assertStatus(200)
-            ->assertJsonMissing(['name' => 'テスト番組1', 'email' => 'test1@example.com'])
-            ->assertJsonMissing(['name' => 'テスト番組2', 'email' => 'test2@example.com']);
+        $response->assertStatus(500)
+            ->assertJsonMissing(['name' => 'テスト番組1'])
+            ->assertJsonMissing(['name' => 'テスト番組2']);
     }
 
     /**
@@ -128,10 +128,8 @@ class RadioProgramTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'radio_program' => [
-                    'name' => 'テスト番組1',
-                    'email' => 'test1@example.com'
-                ]
+                'name' => 'テスト番組1',
+                'email' => 'test1@example.com'
             ]);
     }
 
@@ -247,7 +245,7 @@ class RadioProgramTest extends TestCase
         $response = $this->getJson('api/radio-programs?radio_station=' . $this->radio_station->id . '&day=Saturday');
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'テスト番組1', 'email' => 'test1@example.com', 'day' => 'Saturday'])
-            ->assertJsonMissing(['name' => 'テスト番組2', 'email' => 'test2@example.com', 'day' => 'Sunday']);
+            ->assertJsonFragment(['name' => 'テスト番組1'])
+            ->assertJsonMissing(['name' => 'テスト番組2']);
     }
 }

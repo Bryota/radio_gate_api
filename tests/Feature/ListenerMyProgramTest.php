@@ -26,8 +26,7 @@ class ListenerMyProgramTest extends TestCase
         $response = $this->postJson('api/listener-my-programs', ['name' => 'テストマイ番組', 'email' => 'test@example.com']);
 
         $response->assertStatus(201)
-            ->assertJsonFragment(['name' => 'テストマイ番組'])
-            ->assertJsonFragment(['email' => 'test@example.com']);
+            ->assertJsonFragment(['message' => 'マイ番組が作成されました。']);
 
         $listener_my_program = ListenerMyProgram::first();
         $this->assertEquals('テストマイ番組', $listener_my_program->name);
@@ -101,7 +100,7 @@ class ListenerMyProgramTest extends TestCase
      * @test
      * App\Http\Controllers\Listener\ListenerMyProgramController@show
      */
-    public function 個別の投稿テンプレートを取得できる()
+    public function 個別のマイ番組を取得できる()
     {
         $this->postJson('api/listener-my-programs', ['name' => 'テストマイ番組1', 'email' => 'test1@example.com']);
         $listener_my_program = ListenerMyProgram::first();
@@ -110,11 +109,8 @@ class ListenerMyProgramTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'listener_my_program' => [
-                    'name' => 'テストマイ番組1',
-                    'email' => 'test1@example.com',
-                    'listener_id' => $this->listener->id
-                ]
+                'name' => 'テストマイ番組1',
+                'email' => 'test1@example.com'
             ]);
     }
 

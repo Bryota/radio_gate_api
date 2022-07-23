@@ -104,9 +104,7 @@ class ProgramCornerTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'program_corner' => [
-                    'name' => '死んでもやめんじゃねーぞ'
-                ]
+                'name' => '死んでもやめんじゃねーぞ'
             ]);
     }
 

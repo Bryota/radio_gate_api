@@ -49,7 +49,7 @@ class RadioProgramRepository
      */
     public function getAllRadioPrograms(Request $request): LengthAwarePaginator
     {
-        return $this->radio_program::where('radio_station_id', $request->radio_station)->search($request->query())->paginate(8);
+        return $this->radio_program::where('radio_station_id', $request->radio_station)->search($request->query())->paginate(8, ['id', 'name', 'email']);
     }
 
     /**
@@ -60,7 +60,7 @@ class RadioProgramRepository
      */
     public function getSingleRadioProgram(int $radio_program_id): RadioProgram
     {
-        return $this->radio_program::where('id', $radio_program_id)->with(['radioStation'])->firstOrFail();
+        return $this->radio_program::where('id', $radio_program_id)->with(['ProgramCorners'])->firstOrFail(['id', 'name', 'email']);
     }
 
     /**

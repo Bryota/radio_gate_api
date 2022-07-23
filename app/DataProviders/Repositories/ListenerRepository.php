@@ -172,7 +172,7 @@ class ListenerRepository
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->whereNotNull('posted_at')
             ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
-            ->paginate(8);
+            ->paginate(8, ['id', 'radio_program_id', 'program_corner_id', 'listener_my_program_id', 'my_program_corner_id', 'subject', 'posted_at']);
     }
 
     /**
@@ -187,7 +187,7 @@ class ListenerRepository
         return $this->listener_message::where('id', $listener_message_id)
             ->ListenerIdEqual($listener_id)
             ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
-            ->firstOrFail();
+            ->firstOrFail(['id', 'radio_program_id', 'program_corner_id', 'listener_my_program_id', 'my_program_corner_id', 'subject', 'content', 'radio_name', 'listener_info_flag', 'tel_flag', 'posted_at']);
     }
 
     /**
@@ -201,7 +201,7 @@ class ListenerRepository
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->where('posted_at', null)
             ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
-            ->paginate(8);;
+            ->paginate(8, ['id', 'radio_program_id', 'program_corner_id', 'listener_my_program_id', 'my_program_corner_id', 'subject', 'posted_at']);
     }
 
     /**

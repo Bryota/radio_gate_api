@@ -38,9 +38,12 @@ class ProgramCornerController extends Controller
         $radio_program_id = intval($request->input('radio_program'));
         try {
             $program_corners = $this->program_corner->getAllProgramCorners($radio_program_id);
-            return response()->json([
-                'program_corners' => $program_corners
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $program_corners,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('番組コーナー一覧がありませんでした。', ['error' => $e]);
             return response()->json([
@@ -64,9 +67,12 @@ class ProgramCornerController extends Controller
     {
         try {
             $program_corner = $this->program_corner->getSingleProgramCorner($program_corner_id);
-            return response()->json([
-                'program_corner' => $program_corner
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $program_corner,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('番組コーナーがありませんでした。', ['error' => $e]);
             return response()->json([

@@ -49,7 +49,7 @@ class RadioStationRepository
      */
     public function getAllRadioStations(Request $request): LengthAwarePaginator
     {
-        return $this->radio_station::search($request->query())->paginate(8);
+        return $this->radio_station::search($request->query())->paginate(8, ['id', 'name']);
     }
 
     /**

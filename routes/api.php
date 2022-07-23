@@ -50,7 +50,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/listener', [ListenerController::class, 'update']);
     Route::delete('/listener', [ListenerController::class, 'destroy']);
     Route::apiResource('radio-stations', RadioStationController::class);
-    Route::get('/radio-station/{id}/name', [RadioStationController::class, 'getRadioStationName']);
     Route::apiResource('radio-programs', RadioProgramController::class);
     Route::apiResource('program-corners', ProgramCornerController::class);
     Route::apiResource('message-templates', MessageTemplateController::class);
