@@ -44,9 +44,14 @@ class RequestFunctionController extends Controller
 
         try {
             $request_functions = $this->request_function->getAllOpenRequestFunctions(intval($listener_id));
-            return response()->json([
-                'request_functions' => $request_functions
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                [
+                    'data' => $request_functions
+                ],
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('機能リクエスト一覧がありませんでした。', ['error' => $e]);
             return response()->json([
@@ -71,10 +76,12 @@ class RequestFunctionController extends Controller
         try {
             $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
             if ($request_function && $request_function->is_open) {
-                return response()->json([
-                    'status' => 'success',
-                    'request_function' => $request_function
-                ], 200, [], JSON_UNESCAPED_UNICODE);
+                return response()->json(
+                    $request_function,
+                    200,
+                    [],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 return response()->json([
                     'status' => 'failed'

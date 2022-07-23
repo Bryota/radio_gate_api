@@ -44,9 +44,12 @@ class ListenerMyProgramController extends Controller
 
         try {
             $listener_my_programs = $this->listener_my_program->getAllListenerMyPrograms(intval($listener_id));
-            return response()->json([
-                'listener_my_programs' => $listener_my_programs
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listener_my_programs,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (\Throwable $th) {
             Log::error('マイ番組取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
@@ -67,9 +70,12 @@ class ListenerMyProgramController extends Controller
 
         try {
             $listener_my_program = $this->listener_my_program->getSingleListenerMyProgram(intval($listener_id), $listener_my_program_id);
-            return response()->json([
-                'listener_my_program' => $listener_my_program
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listener_my_program,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('マイ番組データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
@@ -95,10 +101,10 @@ class ListenerMyProgramController extends Controller
 
         try {
             $this->db_connection->beginTransaction();
-            $listener_my_program = $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
+            $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([
-                'listener_my_program' => $listener_my_program
+                'message' => 'マイ番組が作成されました。'
             ], 201, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();

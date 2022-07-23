@@ -65,7 +65,7 @@ class RequestFunctionRepository
      */
     public function getAllOpenRequestFunctions(): LengthAwarePaginator
     {
-        return $this->request_function::where('is_open', true)->paginate(8);
+        return $this->request_function::where('is_open', true)->paginate(8, ['id', 'name', 'point']);
     }
 
     /**
@@ -77,7 +77,7 @@ class RequestFunctionRepository
     public function getSingleRequestFunction(int $request_function_id): RequestFunction|null
     {
         return $this->request_function::where('id', $request_function_id)
-            ->firstOrFail();
+            ->firstOrFail(['id', 'name', 'detail', 'is_open']);
     }
 
     /**

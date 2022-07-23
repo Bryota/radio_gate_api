@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Listener;
 
+use App\Services\Radio\RadioStationService;
 use App\Services\Radio\RadioProgramService;
 use App\Http\Requests\RadioProgramRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -12,6 +13,11 @@ use Illuminate\Support\Facades\Log;
 class RadioProgramController extends Controller
 {
     /**
+     * @var RadioStationService $radio_station RadioStationServiceインスタンス
+     */
+    private $radio_station;
+
+    /**
      * @var RadioProgramService $radio_program RadioProgramServiceインスタンス
      */
     private $radio_program;
@@ -21,8 +27,9 @@ class RadioProgramController extends Controller
      */
     private $db_connection;
 
-    public function __construct(RadioProgramService $radio_program, Connection $db_connection)
+    public function __construct(RadioStationService $radio_station, RadioProgramService $radio_program, Connection $db_connection)
     {
+        $this->radio_station = $radio_station;
         $this->radio_program = $radio_program;
         $this->db_connection = $db_connection;
     }
@@ -36,8 +43,10 @@ class RadioProgramController extends Controller
     public function index(Request $request)
     {
         try {
+            $radio_station_name = $this->radio_station->getRadioStationName(intval($request->radio_station));
             $radio_programs = $this->radio_program->getAllRadioPrograms($request);
             return response()->json([
+                'radio_station_name' => $radio_station_name,
                 'radio_programs' => $radio_programs
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (ModelNotFoundException $e) {
@@ -63,9 +72,12 @@ class RadioProgramController extends Controller
     {
         try {
             $radio_program = $this->radio_program->getSingleRadioProgram($radio_program_id);
-            return response()->json([
-                'radio_program' => $radio_program
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $radio_program,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('ラジオ番組がありませんでした。', ['error' => $e]);
             return response()->json([

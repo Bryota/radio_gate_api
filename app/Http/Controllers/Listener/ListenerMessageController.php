@@ -44,9 +44,12 @@ class ListenerMessageController extends Controller
 
         try {
             $listener_messages = $this->listener->getAllListenerMessages(intval($listener_id));
-            return response()->json([
-                'listener_messages' => $listener_messages
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listener_messages,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('投稿データ一覧がありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
@@ -72,9 +75,12 @@ class ListenerMessageController extends Controller
 
         try {
             $listener_message = $this->listener->getSingleListenerMessage(intval($listener_id), $listener_message_id);
-            return response()->json([
-                'listener_message' => $listener_message
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listener_message,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('投稿データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
@@ -99,9 +105,12 @@ class ListenerMessageController extends Controller
 
         try {
             $listener_messages = $this->listener->getAllListenerSavedMessages(intval($listener_id));
-            return response()->json([
-                'listener_messages' => $listener_messages
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listener_messages,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('一時保存データ一覧がありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([

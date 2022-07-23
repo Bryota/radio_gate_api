@@ -48,7 +48,7 @@ class ListenerMyProgramRepository
      */
     public function getAllListenerMyPrograms(int $listener_id): LengthAwarePaginator
     {
-        return $this->listener_my_program::ListenerIdEqual($listener_id)->paginate(8);
+        return $this->listener_my_program::ListenerIdEqual($listener_id)->paginate(8, ['id', 'name', 'email']);
     }
 
     /**
@@ -62,7 +62,8 @@ class ListenerMyProgramRepository
     {
         return $this->listener_my_program::where('id', $listener_my_program_id)
             ->ListenerIdEqual($listener_id)
-            ->firstOrFail();
+            ->with(['MyProgramCorners'])
+            ->firstOrFail(['id', 'name', 'email']);
     }
 
     /**

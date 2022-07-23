@@ -41,9 +41,12 @@ class ListenerController extends Controller
     {
         try {
             $listeners = $this->listener->getAllListeners();
-            return response()->json([
-                'listeners' => $listeners
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listeners,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (\Throwable $th) {
             Log::error('リスナー一覧の取得エラー', ['error' => $th]);
             return response()->json([
@@ -63,9 +66,12 @@ class ListenerController extends Controller
 
         try {
             $listener = $this->listener->getSingleListener(intval($listener_id));
-            return response()->json([
-                'listener' => $listener
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json(
+                $listener,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
         } catch (ModelNotFoundException $e) {
             Log::error('リスナーデータが見つかりませんでした。（リスナーデータ取得）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
