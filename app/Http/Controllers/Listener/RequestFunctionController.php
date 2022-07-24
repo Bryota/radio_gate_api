@@ -56,7 +56,7 @@ class RequestFunctionController extends Controller
             Log::error('機能リクエスト一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('機能リクエスト一覧取得エラー', ['error' => $th]);
             return response()->json([
@@ -85,13 +85,13 @@ class RequestFunctionController extends Controller
             } else {
                 return response()->json([
                     'status' => 'failed'
-                ], 200, [], JSON_UNESCAPED_UNICODE);
+                ], 500, [], JSON_UNESCAPED_UNICODE);
             }
         } catch (ModelNotFoundException $e) {
             Log::error('機能リクエストがありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('機能リクエスト取得エラー', ['error' => $th]);
             return response()->json([
@@ -114,7 +114,7 @@ class RequestFunctionController extends Controller
         if ($this->request_function->isSubmittedListener($id, intval($listener_id))) {
             return response()->json([
                 'message' => 'この機能には既に投票してあります。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 402, [], JSON_UNESCAPED_UNICODE);
         };
         try {
             $this->db_connection->beginTransaction();
@@ -128,7 +128,7 @@ class RequestFunctionController extends Controller
             Log::error('機能リクエスト投稿エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => '投票に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 

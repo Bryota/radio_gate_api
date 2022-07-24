@@ -76,7 +76,7 @@ class ListenerController extends Controller
             Log::error('リスナーデータが見つかりませんでした。（リスナーデータ取得）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'リスナーデータがありませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('リスナーデータ取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
@@ -106,7 +106,7 @@ class ListenerController extends Controller
             Log::error('リスナーデータが見つかりませんでした。（リスナーデータ更新）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => 'リスナーデータがありませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('リスナーデータ更新エラー', ['error' => $th, 'listener_id' => $listener_id]);
             $this->db_connection->rollBack();

@@ -54,7 +54,7 @@ class RequestFunctionRequestController extends Controller
             Log::error('機能リクエスト申請作成エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => 'リクエスト機能申請の作成に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 

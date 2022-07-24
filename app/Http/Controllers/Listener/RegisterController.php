@@ -44,13 +44,13 @@ class RegisterController extends Controller
             } else {
                 return response()->json([
                     'message' => 'アカウントの作成に失敗しました。',
-                ], 400, [], JSON_UNESCAPED_UNICODE);
+                ], 500, [], JSON_UNESCAPED_UNICODE);
             }
         } catch (\Throwable $th) {
             Log::error('アカウント作成エラー', ['error', $th]);
             return response()->json([
                 'message' => 'アカウントの作成に失敗しました。',
-            ], 400, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }

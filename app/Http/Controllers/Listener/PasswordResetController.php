@@ -39,7 +39,7 @@ class PasswordResetController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return response()->json([
                 'messege' => 'パスワード変更に成功しました。'
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            ], 201, [], JSON_UNESCAPED_UNICODE);
         } else {
             Log::error('パスワード更新エラー', ['status' => $status]);
             return response()->json([

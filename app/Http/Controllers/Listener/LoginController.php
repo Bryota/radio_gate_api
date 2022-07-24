@@ -77,7 +77,7 @@ class LoginController extends Controller
         } else {
             return response()->json([
                 'status' => 'failed'
-            ], 200, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }

@@ -47,7 +47,7 @@ class RadioStationController extends Controller
             Log::error('ラジオ局一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('ラジオ局一覧取得エラー', ['error' => $th]);
             return response()->json([
@@ -76,7 +76,7 @@ class RadioStationController extends Controller
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'ラジオ局の作成に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -100,13 +100,13 @@ class RadioStationController extends Controller
             Log::error('ラジオ局がありませんでした。（更新）', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             Log::error('ラジオ局更新エラー', ['error' => $th]);
             return response()->json([
                 'message' => 'ラジオ局の更新に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 

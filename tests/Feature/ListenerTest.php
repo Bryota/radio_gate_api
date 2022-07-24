@@ -462,7 +462,7 @@ class ListenerTest extends TestCase
 
         $response = $this->put('api/listener/password', $params);
 
-        $response->assertStatus(200)
+        $response->assertStatus(201)
             ->assertJson([
                 'messege' => 'パスワード変更に成功しました。'
             ]);

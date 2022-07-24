@@ -147,7 +147,7 @@ class ListenerMessageController extends Controller
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの投稿に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -173,7 +173,7 @@ class ListenerMessageController extends Controller
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'メッセージの保存に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 

@@ -47,7 +47,7 @@ class MyProgramCornerController extends Controller
         if (!$this->my_program_corner->checkLoginListener(intval($listener_id), $listener_my_program_id)) {
             return response()->json([
                 'message' => 'ログインし直してください。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 403, [], JSON_UNESCAPED_UNICODE);
         }
 
         try {
@@ -113,7 +113,7 @@ class MyProgramCornerController extends Controller
         if (!$this->my_program_corner->checkLoginListener(intval($listener_id), $request->integer('listener_my_program_id'))) {
             return response()->json([
                 'message' => 'ログインし直してください。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 403, [], JSON_UNESCAPED_UNICODE);
         }
 
         try {
@@ -128,7 +128,7 @@ class MyProgramCornerController extends Controller
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組コーナーの作成に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -146,7 +146,7 @@ class MyProgramCornerController extends Controller
         if (!$this->my_program_corner->checkLoginListener(intval($listener_id), $request->integer('listener_my_program_id'))) {
             return response()->json([
                 'message' => 'ログインし直してください。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 403, [], JSON_UNESCAPED_UNICODE);
         }
 
         try {
@@ -160,13 +160,13 @@ class MyProgramCornerController extends Controller
             Log::error('マイ番組コーナーがありませんでした。（更新）', ['error' => $e, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('マイ番組コーナー更新エラー。', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             $this->db_connection->rollBack();
             return response()->json([
                 'message' => 'マイ番組コーナーの更新に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -184,7 +184,7 @@ class MyProgramCornerController extends Controller
         if (!$this->my_program_corner->checkLoginListener(intval($listener_id), intval($request->get('listener_my_program')))) {
             return response()->json([
                 'message' => 'ログインし直してください。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 403, [], JSON_UNESCAPED_UNICODE);
         }
 
         try {
