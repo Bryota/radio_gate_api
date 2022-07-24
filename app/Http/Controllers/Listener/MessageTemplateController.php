@@ -54,7 +54,7 @@ class MessageTemplateController extends Controller
             Log::error('投稿テンプレート一覧データがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('投稿テンプレート一覧取得エラー。', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
@@ -85,7 +85,7 @@ class MessageTemplateController extends Controller
             Log::error('投稿テンプレートデータがありませんでした。', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('投稿テンプレート取得エラー。', ['error' => $th, 'listener_id' => $listener_id]);
             return response()->json([
@@ -116,7 +116,7 @@ class MessageTemplateController extends Controller
             Log::error('投稿テンプレート作成エラー。', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => '投稿テンプレートの作成に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -142,13 +142,13 @@ class MessageTemplateController extends Controller
             Log::error('投稿テンプレートデータがありませんでした。（更新）', ['error' => $e, 'listener_id' => $listener_id]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             Log::error('投稿テンプレート更新エラー。', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
             return response()->json([
                 'message' => '投稿テンプレートの更新に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 

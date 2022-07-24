@@ -48,7 +48,7 @@ class ProgramCornerController extends Controller
             Log::error('番組コーナー一覧がありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('番組コーナー一覧取得エラー', ['error' => $th]);
             return response()->json([
@@ -77,7 +77,7 @@ class ProgramCornerController extends Controller
             Log::error('番組コーナーがありませんでした。', ['error' => $e]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             Log::error('番組コーナー取得エラー。', ['error' => $th]);
             return response()->json([
@@ -106,7 +106,7 @@ class ProgramCornerController extends Controller
             Log::error('番組コーナー作成エラー。', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => '番組コーナーの作成に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -130,13 +130,13 @@ class ProgramCornerController extends Controller
             Log::error('番組コーナーがありませんでした。（更新）', ['error' => $e, 'request' => $request]);
             return response()->json([
                 'message' => '該当のデータが見つかりませんでした。'
-            ], 500, [], JSON_UNESCAPED_UNICODE);
+            ], 404, [], JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             Log::error('番組コーナー更新エラー。', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => '番組コーナーの更新に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 

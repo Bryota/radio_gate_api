@@ -35,7 +35,7 @@ class DeveloperContactController extends Controller
             Log::error('開発者コンタクト送信エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => '開発者コンタクトの送信に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }

@@ -73,7 +73,7 @@ class MyProgramCornerTest extends TestCase
     public function 番組コーナー作成に失敗する（ログイン関連）()
     {
         $response1 = $this->postJson('api/my-program-corners', ['listener_my_program_id' => 11111111, 'name' => 'BBSリクエスト']);
-        $response1->assertStatus(409)
+        $response1->assertStatus(403)
             ->assertJson([
                 'message' => 'ログインし直してください。'
             ]);
@@ -97,7 +97,7 @@ class MyProgramCornerTest extends TestCase
             ->assertJsonFragment(['name' => 'ザワニュー']);
 
         $response = $this->getJson('api/my-program-corners?listener_my_program=' . 100000);
-        $response->assertStatus(409)
+        $response->assertStatus(403)
             ->assertJson([
                 'message' => 'ログインし直してください。'
             ]);
@@ -178,7 +178,7 @@ class MyProgramCornerTest extends TestCase
         $my_program_corner = MyProgramCorner::first();
 
         $response = $this->putJson('api/my-program-corners/' . $my_program_corner->id, ['listener_my_program_id' => 11111111, 'name' => 'ザワニュー']);
-        $response->assertStatus(409)
+        $response->assertStatus(403)
             ->assertJson([
                 'message' => 'ログインし直してください。'
             ]);

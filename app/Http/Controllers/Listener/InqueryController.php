@@ -35,7 +35,7 @@ class InqueryController extends Controller
             Log::error('お問い合わせ送信エラー', ['error' => $th, 'request' => $request]);
             return response()->json([
                 'message' => 'お問い合わせの送信に失敗しました。'
-            ], 409, [], JSON_UNESCAPED_UNICODE);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }
