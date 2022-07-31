@@ -49,9 +49,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listener', [ListenerController::class, 'show']);
     Route::put('/listener', [ListenerController::class, 'update']);
     Route::delete('/listener', [ListenerController::class, 'destroy']);
-    Route::apiResource('radio-stations', RadioStationController::class);
-    Route::apiResource('radio-programs', RadioProgramController::class);
-    Route::apiResource('program-corners', ProgramCornerController::class);
+    Route::group(['middleware' => 'cache.headers:public;max_age=6000;etag'], function () {
+        Route::apiResource('radio-stations', RadioStationController::class);
+        Route::apiResource('radio-programs', RadioProgramController::class);
+        Route::apiResource('program-corners', ProgramCornerController::class);
+    });
     Route::apiResource('message-templates', MessageTemplateController::class);
     Route::apiResource('listener-my-programs', ListenerMyProgramController::class);
     Route::apiResource('my-program-corners', MyProgramCornerController::class);
