@@ -1,7 +1,7 @@
 <p>{{ $prefecture }}</p>
 <p>RN: {{ $radio_name }}</p>
 <div>
-    {{ $content }}
+    {!! nl2br($content)!!}
 </div>
 
 <div>
