@@ -83,11 +83,20 @@ class RequestFunctionService
      * リクエスト機能個別の取得
      *
      * @param int $request_function_id リクエスト機能ID
-     * @return RequestFunction|null リクエスト機能データ
+     * @param int $listener_id リスナーID
+     * @return array リクエスト機能データ
      */
-    public function getSingleRequestFunction(int $request_function_id): RequestFunction|null
+    public function getSingleRequestFunction(int $request_function_id, int $listener_id): array
     {
-        return $this->request_function->getSingleRequestFunction($request_function_id);
+        $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
+        $request_function_array = [
+            'id' => $request_function->id,
+            'name' => $request_function->name,
+            'detail' => $request_function->detail,
+            'is_voted' => $this->request_function->isSubmittedListener($request_function->id, $listener_id)
+        ];
+
+        return $request_function_array;
     }
 
     /**

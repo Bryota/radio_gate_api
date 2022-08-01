@@ -60,7 +60,8 @@ class RequestFunctionController extends Controller
     public function show(int $request_function_id)
     {
         try {
-            $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
+            // TODO: リスナーID渡さなくても取得できるように修正
+            $request_function = $this->request_function->getSingleRequestFunction($request_function_id, 0);
             return response()->json([
                 'request_function' => $request_function
             ], 200, [], JSON_UNESCAPED_UNICODE);

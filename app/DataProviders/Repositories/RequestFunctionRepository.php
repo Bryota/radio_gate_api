@@ -72,12 +72,13 @@ class RequestFunctionRepository
      * リクエスト機能個別の取得
      * 
      * @param int $request_function_id リクエスト機能ID
-     * @return RequestFunction|null リクエスト機能データ
+     * @return RequestFunction リクエスト機能データ
      */
-    public function getSingleRequestFunction(int $request_function_id): RequestFunction|null
+    public function getSingleRequestFunction(int $request_function_id): RequestFunction
     {
         return $this->request_function::where('id', $request_function_id)
-            ->firstOrFail(['id', 'name', 'detail', 'is_open']);
+            ->where('is_open', true)
+            ->firstOrFail(['id', 'name', 'detail']);
     }
 
     /**
@@ -129,10 +130,8 @@ class RequestFunctionRepository
             'point' => $request->integer('point')
         ]);
         $request_function = $this->getSingleRequestFunction($id);
-        if ($request_function) {
-            $request_function->point = intval($request_function->point) + $request->integer('point');
-            $request_function->save();
-        }
+        $request_function->point = intval($request_function->point) + $request->integer('point');
+        $request_function->save();
     }
 
     /**
