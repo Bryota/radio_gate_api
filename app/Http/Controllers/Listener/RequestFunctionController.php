@@ -46,7 +46,8 @@ class RequestFunctionController extends Controller
             $request_functions = $this->request_function->getAllOpenRequestFunctions(intval($listener_id));
             return response()->json(
                 [
-                    'data' => $request_functions
+                    'data' => $request_functions['data'],
+                    'last_page' => $request_functions['last_page']
                 ],
                 200,
                 [],
