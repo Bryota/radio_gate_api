@@ -74,9 +74,11 @@ class RequestFunctionController extends Controller
      */
     public function show(int $request_function_id)
     {
+        $listener_id = $this->checkUserId();
+
         try {
-            $request_function = $this->request_function->getSingleRequestFunction($request_function_id);
-            if ($request_function && $request_function->is_open) {
+            $request_function = $this->request_function->getSingleRequestFunction($request_function_id, intval($listener_id));
+            if ($request_function) {
                 return response()->json(
                     $request_function,
                     200,
