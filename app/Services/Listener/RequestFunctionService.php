@@ -59,16 +59,22 @@ class RequestFunctionService
     public function getAllOpenRequestFunctions(int $listener_id = 0): array
     {
         $request_functions_array = [];
+        $data = [];
 
         $request_functions = $this->request_function->getAllOpenRequestFunctions();
-        $request_functions->each(function ($request_function) use (&$request_functions_array, $listener_id) {
-            array_push($request_functions_array, [
+        $request_functions->each(function ($request_function) use (&$data, $listener_id) {
+            array_push($data, [
                 'id' => $request_function->id,
                 'name' => $request_function->name,
                 'point' => $request_function->point,
                 'is_voted' => $this->request_function->isSubmittedListener($request_function->id, $listener_id)
             ]);
         });
+
+        $request_functions_array = [
+            'data' => $data,
+            'last_page' => $request_functions->lastPage()
+        ];
 
         return $request_functions_array;
     }
