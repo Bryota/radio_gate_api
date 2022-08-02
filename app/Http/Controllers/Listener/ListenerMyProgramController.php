@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Listener;
 
 use App\Services\Listener\ListenerMyProgramService;
 use App\Http\Requests\ListenerMyProgramRequest;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Connection;
 use Illuminate\Http\Request;
@@ -101,11 +102,16 @@ class ListenerMyProgramController extends Controller
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
+            $listener_my_program = $this->listener_my_program->storeListenerMyProgram($request, intval($listener_id));
             $this->db_connection->commit();
-            return response()->json([
-                'message' => 'マイ番組が作成されました。'
-            ], 201, [], JSON_UNESCAPED_UNICODE);
+            if ($listener_my_program) {
+                return response()->json([
+                    'message' => 'マイ番組が作成されました。',
+                    'listener_my_program_id' => $listener_my_program->id
+                ], 201, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                throw new Exception();
+            }
         } catch (\Throwable $th) {
             $this->db_connection->rollBack();
             Log::error('マイ番組作成エラー', ['error' => $th, 'listener_id' => $listener_id, 'request' => $request]);
