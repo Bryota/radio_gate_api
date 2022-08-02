@@ -188,7 +188,7 @@ class MyProgramCornerController extends Controller
         }
 
         try {
-            $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id);
+            $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id, $request->get('listener_my_program'));
             return response()->json([
                 'message' => 'マイ番組コーナーが削除されました。'
             ], 200, [], JSON_UNESCAPED_UNICODE);
