@@ -14,6 +14,7 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\MyProgramCorner;
 use App\Http\Requests\MyProgramCornerRequest;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
@@ -94,11 +95,17 @@ class MyProgramCornerRepository
      * マイ番組コーナー削除
      *
      * @param int $my_program_corner_id マイ番組コーナーID
+     * @param int $listener_my_program_id マイ番組ID
      * @return bool 削除できたかどうか
      */
-    public function deleteMyProgramCorner(int $my_program_corner_id): bool
+    public function deleteMyProgramCorner(int $my_program_corner_id, int $listener_my_program_id): bool
     {
         $my_program_corner = $this->my_program_corner::find($my_program_corner_id);
+
+        if ($my_program_corner->listener_my_program_id != $listener_my_program_id) {
+            throw new Exception();
+        };
+
         return $my_program_corner->delete();
     }
 }

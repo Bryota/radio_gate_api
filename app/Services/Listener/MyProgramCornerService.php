@@ -97,11 +97,12 @@ class MyProgramCornerService
      * マイ番組コーナー削除
      *
      * @param int $my_program_corner_id マイ番組コーナーID
+     * @param int $listener_my_program_id マイ番組ID
      * @return bool 削除できたかどうか
      */
-    public function deleteMyProgramCorner(int $my_program_corner_id): bool
+    public function deleteMyProgramCorner(int $my_program_corner_id, int $listener_my_program_id): bool
     {
-        return $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id);
+        return $this->my_program_corner->deleteMyProgramCorner($my_program_corner_id, $listener_my_program_id);
     }
 
     /** 
