@@ -74,18 +74,18 @@ class DeveloperContactMail extends Mailable
     /**
      * DeveloperContactMailインスタンスを取得
      *
-     * @param string $email メールアドレス
-     * @param string $github GitHubアカウント
-     * @param string $languages 得意な言語
-     * @param string $content ご質問
+     * @param string|null $email メールアドレス
+     * @param string|null $github GitHubアカウント
+     * @param string|null $languages 得意な言語
+     * @param string|null $content ご質問
      * 
      * @return DeveloperContactMail DeveloperContactMailインスタンス
      */
     public function getSelf(
-        string $email,
-        string $github,
-        string $languages,
-        string $content,
+        string|null $email,
+        string|null $github,
+        string|null $languages,
+        string|null $content,
     ) {
         return new DeveloperContactMail(
             $email,
