@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('request-functions', RequestFunctionController::class, ['only' => ['index', 'show']]);
     Route::apiResource('request-function-requests', RequestFunctionRequestController::class, ['only' => ['store']]);
     Route::post('/request-functions/{id}/point', [RequestFunctionController::class, 'submitListenerPoint']);
-    Route::post('/inquery', [InqueryController::class, 'send']);
+    Route::post('/inquiry', [InqueryController::class, 'send']);
     Route::post('/developer-contact', [DeveloperContactController::class, 'send']);
 });
 
