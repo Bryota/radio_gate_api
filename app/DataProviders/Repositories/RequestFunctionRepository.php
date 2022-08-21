@@ -55,7 +55,7 @@ class RequestFunctionRepository
      */
     public function getAllRequestFunctions(): LengthAwarePaginator
     {
-        return $this->request_function::paginate(8);
+        return $this->request_function::orderBy('id', 'desc')->paginate(8);
     }
 
     /**
@@ -65,7 +65,7 @@ class RequestFunctionRepository
      */
     public function getAllOpenRequestFunctions(): LengthAwarePaginator
     {
-        return $this->request_function::where('is_open', true)->paginate(8, ['id', 'name', 'point']);
+        return $this->request_function::where('is_open', true)->orderBy('id', 'desc')->paginate(8, ['id', 'name', 'point']);
     }
 
     /**
