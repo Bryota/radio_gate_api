@@ -49,6 +49,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/listener', [ListenerController::class, 'show']);
     Route::put('/listener', [ListenerController::class, 'update']);
     Route::delete('/listener', [ListenerController::class, 'destroy']);
+    Route::get('/listener/recent_post_radio_programs', [ListenerController::class, 'fetchRecentPostRadioPrograms']);
+    Route::get('/listener/most_post_radio_programs', [ListenerController::class, 'fetchMostPostRadioPrograms']);
     Route::group(['middleware' => 'cache.headers:public;max_age=6000;etag'], function () {
         Route::apiResource('radio-stations', RadioStationController::class);
         Route::apiResource('radio-programs', RadioProgramController::class);
@@ -63,7 +65,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('request-functions', RequestFunctionController::class, ['only' => ['index', 'show']]);
     Route::apiResource('request-function-requests', RequestFunctionRequestController::class, ['only' => ['store']]);
     Route::post('/request-functions/{id}/point', [RequestFunctionController::class, 'submitListenerPoint']);
-    Route::post('/inquery', [InqueryController::class, 'send']);
+    Route::post('/inquiry', [InqueryController::class, 'send']);
     Route::post('/developer-contact', [DeveloperContactController::class, 'send']);
 });
 

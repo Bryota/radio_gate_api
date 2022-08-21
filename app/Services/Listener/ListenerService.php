@@ -162,9 +162,10 @@ class ListenerService
      * @param int $listener_id リスナーID
      * @return void
      */
-    public function storeListenerMyProgram(ListenerMessageRequest $request, int $listener_id)
+    public function storeListenerMessage(ListenerMessageRequest $request, int $listener_id)
     {
-        $this->listener->storeListenerMyProgram($request, $listener_id);
+        $this->listener->storeListenerMessage($request, $listener_id);
+        $this->listener->createOrUpdatePostCounts($request, $listener_id);
     }
 
     /**
@@ -321,6 +322,46 @@ class ListenerService
     public function deleteListener(int $listener_id)
     {
         return $this->listener->deleteListener($listener_id);
+    }
+
+    /**
+     * 最近投稿した番組（最新3件）
+     *
+     * @param int $listener_id リスナーID
+     * @return array 最近投稿した番組
+     */
+    public function fetchRecentPostRadioPrograms(int $listener_id)
+    {
+        $recent_post_radio_promgrams = $this->listener->fetchRecentPostRadioPrograms($listener_id);
+
+        $recent_post_radio_promgrams_array = [];
+        foreach ($recent_post_radio_promgrams as $recent_post_radio_promgram) {
+            array_push($recent_post_radio_promgrams_array, [
+                'radio_program_id' => $recent_post_radio_promgram->radio_program_id ? $recent_post_radio_promgram->radio_program_id : $recent_post_radio_promgram->listener_my_program_id,
+                'radio_program_name' => $recent_post_radio_promgram->radio_program_id ? $recent_post_radio_promgram->RadioProgram->name : $recent_post_radio_promgram->ListenerMyProgram->name,
+            ]);
+        }
+        return $recent_post_radio_promgrams_array;
+    }
+
+    /**
+     * 投稿の多い番組（最新3件）
+     *
+     * @param int $listener_id リスナーID
+     * @return array 投稿の多い番組
+     */
+    public function fetchMostPostRadioPrograms(int $listener_id)
+    {
+        $most_post_radio_promgrams = $this->listener->fetchMostPostRadioPrograms($listener_id);
+
+        $most_post_radio_promgrams_array = [];
+        foreach ($most_post_radio_promgrams as $most_post_radio_promgram) {
+            array_push($most_post_radio_promgrams_array, [
+                'radio_program_id' => $most_post_radio_promgram->radio_program_id ? $most_post_radio_promgram->radio_program_id : $most_post_radio_promgram->listener_my_program_id,
+                'radio_program_name' => $most_post_radio_promgram->radio_program_id ? $most_post_radio_promgram->RadioProgram->name : $most_post_radio_promgram->ListenerMyProgram->name,
+            ]);
+        }
+        return $most_post_radio_promgrams_array;
     }
 
     /**

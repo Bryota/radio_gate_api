@@ -139,6 +139,56 @@ class ListenerController extends Controller
     }
 
     /**
+     * 最近投稿した番組（最新3件）
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchRecentPostRadioPrograms()
+    {
+        $listener_id = $this->checkUserId();
+
+        try {
+            $recent_post_radio_programs = $this->listener->fetchRecentPostRadioPrograms(intval($listener_id));
+            return response()->json(
+                $recent_post_radio_programs,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
+        } catch (\Throwable $th) {
+            Log::error('最近投稿した番組取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
+            return response()->json([
+                'message' => '最近投稿した番組の取得に失敗しました'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
+     * 投稿の多い番組（最新3件）
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchMostPostRadioPrograms()
+    {
+        $listener_id = $this->checkUserId();
+
+        try {
+            $most_post_radio_programs = $this->listener->fetchMostPostRadioPrograms(intval($listener_id));
+            return response()->json(
+                $most_post_radio_programs,
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
+        } catch (\Throwable $th) {
+            Log::error('投稿の多い番組取得エラー', ['error' => $th, 'listener_id' => $listener_id]);
+            return response()->json([
+                'message' => '投稿の多い番組の取得に失敗しました'
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
      * 同じメールアドレスが保存されていないかどうか
      * 
      * @param \Illuminate\Http\Request $request リクエストデータ
