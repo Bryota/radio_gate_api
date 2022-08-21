@@ -136,7 +136,7 @@ class ListenerMessageController extends Controller
 
         try {
             $this->db_connection->beginTransaction();
-            $this->listener->storeListenerMyProgram($request, intval($listener_id));
+            $this->listener->storeListenerMessage($request, intval($listener_id));
             $this->listener->sendEmailToRadioProgram($request, intval($listener_id));
             $this->db_connection->commit();
             return response()->json([

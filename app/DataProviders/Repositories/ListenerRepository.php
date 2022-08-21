@@ -14,12 +14,14 @@ namespace App\DataProviders\Repositories;
 
 use App\DataProviders\Models\Listener;
 use App\DataProviders\Models\ListenerMessage;
+use App\DataProviders\Models\PostMessageCount;
 use App\Http\Requests\ListenerRequest;
 use App\Http\Requests\ListenerMessageRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * リスナーリポジトリクラス
@@ -40,16 +42,23 @@ class ListenerRepository
     private $listener_message;
 
     /**
+     * @var PostMessageCount $post_message_count PostMessageCountインスタンス
+     */
+    private $post_message_count;
+
+    /**
      * コンストラクタ
      *
      * @param Listener $listener ListenerModel
      * @param ListenerMessage $listener_message ListenerMessageModel
+     * @param PostMessageCount $post_message_count PostMessageCountModel
      * @return void
      */
-    public function __construct(Listener $listener, ListenerMessage $listener_message)
+    public function __construct(Listener $listener, ListenerMessage $listener_message, PostMessageCount $post_message_count)
     {
         $this->listener = $listener;
         $this->listener_message = $listener_message;
+        $this->post_message_count = $post_message_count;
     }
 
     /**
@@ -121,7 +130,7 @@ class ListenerRepository
      * @param int $listener_id リスナーID
      * @return void
      */
-    public function storeListenerMyProgram(ListenerMessageRequest $request, int $listener_id)
+    public function storeListenerMessage(ListenerMessageRequest $request, int $listener_id)
     {
         $this->listener_message::create([
             'radio_program_id' => $request->radio_program_id ? $request->radio_program_id : null,
@@ -136,6 +145,34 @@ class ListenerRepository
             'tel_flag' => $request->tel_flag,
             'posted_at' => Carbon::now()
         ]);
+    }
+
+    /**
+     * 投稿数保存
+     * 
+     * @param ListenerMessageRequest $request メッセージ投稿用のリクエストデータ
+     * @param int $listener_id リスナーID
+     * @return void
+     */
+    public function createOrUpdatePostCounts(ListenerMessageRequest $request, int $listener_id)
+    {
+        $post_message_count = $this->post_message_count::where([
+            ['radio_program_id', '=', $request->radio_program_id],
+            ['listener_my_program_id', '=', $request->listener_my_program_id],
+            ['listener_id', '=', $listener_id]
+        ])->first();
+
+        if ($post_message_count) {
+            $post_message_count->post_counts = $post_message_count->post_counts + 1;
+            $post_message_count->save();
+        } else {
+            $this->post_message_count::create([
+                'radio_program_id' => $request->radio_program_id ? $request->radio_program_id : null,
+                'listener_my_program_id' => $request->listener_my_program_id ? $request->listener_my_program_id : null,
+                'listener_id' => $listener_id,
+                'post_counts' => 1
+            ]);
+        }
     }
 
     /**
@@ -214,6 +251,42 @@ class ListenerRepository
     {
         $listener = $this->listener::ListenerIdEqual($listener_id)->firstOrFail();
         return $listener->delete();
+    }
+
+    /**
+     * 最近投稿した番組（最新3件）
+     *
+     * @param int $listener_id リスナーID
+     * @return object 最近投稿した番組
+     */
+    public function fetchRecentPostRadioPrograms(int $listener_id)
+    {
+        $recent_post_radio_promgrams = $this->listener_message::ListenerIdEqual($listener_id)
+            ->groupBy('radio_program_id')
+            ->groupBy('listener_my_program_id')
+            ->orderBy('posted_at')
+            ->limit(3)
+            ->with(['radioProgram', 'listenerMyProgram'])
+            ->get();
+
+        return $recent_post_radio_promgrams;
+    }
+
+    /**
+     * 投稿の多い番組（最新3件）
+     *
+     * @param int $listener_id リスナーID
+     * @return object 投稿の多い番組
+     */
+    public function fetchMostPostRadioPrograms(int $listener_id)
+    {
+        $most_post_radio_promgrams = $this->post_message_count::ListenerIdEqual($listener_id)
+            ->orderBy('post_counts', 'desc')
+            ->limit(3)
+            ->with(['radioProgram', 'listenerMyProgram'])
+            ->get();
+
+        return $most_post_radio_promgrams;
     }
 
     /**
