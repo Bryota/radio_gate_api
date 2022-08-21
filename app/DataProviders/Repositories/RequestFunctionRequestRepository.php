@@ -47,7 +47,7 @@ class RequestFunctionRequestRepository
      */
     public function getAllRequestFunctionRequests(): LengthAwarePaginator
     {
-        return $this->request_function_request::where('is_open', true)->paginate(8);
+        return $this->request_function_request::where('is_open', true)->orderBy('id', 'desc')->paginate(8);
     }
 
     /**

@@ -208,6 +208,7 @@ class ListenerRepository
     {
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->whereNotNull('posted_at')
+            ->orderBy('posted_at', 'desc')
             ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
             ->paginate(8, ['id', 'radio_program_id', 'program_corner_id', 'listener_my_program_id', 'my_program_corner_id', 'subject', 'posted_at']);
     }
@@ -237,6 +238,7 @@ class ListenerRepository
     {
         return $this->listener_message::ListenerIdEqual($listener_id)
             ->where('posted_at', null)
+            ->orderBy('id', 'desc')
             ->with(['radioProgram', 'programCorner', 'listenerMyProgram', 'myProgramCorner'])
             ->paginate(8, ['id', 'radio_program_id', 'program_corner_id', 'listener_my_program_id', 'my_program_corner_id', 'subject', 'posted_at']);
     }

@@ -48,7 +48,7 @@ class MessageTemplateRepository
      */
     public function getAllMessageTemplates(int $listener_id): LengthAwarePaginator
     {
-        return $this->message_template::ListenerIdEqual($listener_id)->paginate(8, ['id', 'name']);
+        return $this->message_template::ListenerIdEqual($listener_id)->orderBy('id', 'desc')->paginate(8, ['id', 'name']);
     }
 
     /**
