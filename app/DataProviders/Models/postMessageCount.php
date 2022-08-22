@@ -18,7 +18,7 @@ class PostMessageCount extends Model
      */
     protected $fillable = [
         'radio_program_id',
-        'program_corner_id',
+        'listener_my_program_id',
         'listener_id',
         'post_counts'
     ];
